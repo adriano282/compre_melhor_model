@@ -1,0 +1,8 @@
+com/compremelhor/model/util/GeneratorPasswordHash.class
+com/compremelhor/model/dao/UserDao.class
+com/compremelhor/model/util/Test.class
+com/compremelhor/model/util/LoggerProducer.class
+com/compremelhor/model/service/UserService.class
+com/compremelhor/model/entity/User$DocumentType.class
+com/compremelhor/model/dao/AbstractDao.class
+com/compremelhor/model/entity/User.class
