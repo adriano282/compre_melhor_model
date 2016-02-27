@@ -27,6 +27,6 @@ public class UserDao extends AbstractDao<User> {
 			.select(usr)
 			.where(cb.equal(usr.get("document"), document));
 		
-		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
+		return getEntityManager().createQuery(criteriaQuery).getResultList().get(0);
 	}
 }

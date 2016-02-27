@@ -3,31 +3,44 @@ package com.compremelhor.model.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-@Table(name = "user")
-@Entity 
+@Entity
+@Table(
+	name = "user", 
+    uniqueConstraints = @UniqueConstraint(columnNames={"id", "document"})) 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	@Column(nullable = false)
 	private String username;
 	
+	@Column(nullable = false)
 	private String document;
 	
-	private DocumentType documentType;
+	@Column(name = "document_type", nullable = false)
+	@Enumerated(EnumType.STRING)
+	private DocumentType documentType;	
 	
+	@Column(name = "password_hash", nullable = false)
 	private String passwordHash;
 	
+	@Column(name = "date_created", nullable = false)
 	private LocalDateTime dateCreated;
 	
+	@Column(name = "last_updated", nullable = false)
 	private LocalDateTime lastUpdated;
 	
 	public int getId() {
@@ -38,12 +51,12 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setName(String name) {
-		this.username = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getDocument() {
@@ -86,7 +99,11 @@ public class User implements Serializable {
 		this.lastUpdated = lastUpdated;
 	}
 	
-	public static enum DocumentType {
+	public String toString() {
+		return "User [id: " + id + ", username: " + username + ", document: " + document 
+				+ ", documentType: " + documentType.name() + ", passwordHash: " + passwordHash;
+	}
+	public static enum DocumentType implements Serializable {
 		CNPJ, CPF;
 		
 		public String toString() {

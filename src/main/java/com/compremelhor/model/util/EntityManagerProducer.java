@@ -5,7 +5,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 public class EntityManagerProducer {
+	
 	@Produces
-	@PersistenceContext
+	@PersistenceContext(unitName = "compre_melhor")
 	private EntityManager em;
+	
 }
