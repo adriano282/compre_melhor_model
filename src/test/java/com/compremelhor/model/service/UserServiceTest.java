@@ -1,6 +1,8 @@
 package com.compremelhor.model.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
@@ -24,7 +26,6 @@ import org.junit.runners.MethodSorters;
 import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
-import com.compremelhor.model.util.ArquillianWarnUtils;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.util.LoggerProducer;
 

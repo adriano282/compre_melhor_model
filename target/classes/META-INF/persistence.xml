@@ -4,6 +4,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>java:jboss/datasources/MySqlDS</jta-data-source>
 		<class>com.compremelhor.model.entity.User</class>
+		<class>com.compremelhor.model.entity.Manufacturer</class>
 				  		  
   		<properties>
   		<!--

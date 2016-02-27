@@ -1,5 +1,7 @@
 package com.compremelhor.model.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,16 +19,19 @@ public class UserDao extends AbstractDao<User> {
 	
 	
 	public User findUserByDocument(String document) {
-		
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
 		
 		Root<User> usr = criteriaQuery.from(User.class);
-		
 		criteriaQuery
 			.select(usr)
 			.where(cb.equal(usr.get("document"), document));
 		
-		return getEntityManager().createQuery(criteriaQuery).getResultList().get(0);
+		List<User> result = getEntityManager().createQuery(criteriaQuery).getResultList();
+		
+		if (result != null && result.size() > 1) {
+			throw new RuntimeException("This query has been returned more than one result.");
+		}		
+		return result.get(0);
 	}
 }
