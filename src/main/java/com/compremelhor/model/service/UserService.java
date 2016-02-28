@@ -11,24 +11,25 @@ public class UserService {
 	@Inject
 	private UserDao userDao;
 	
-	public void createUser(User user) {
+	public void create(User user) {
 		userDao.persist(user);
 	}
 	
-	public User editUser(User user) {
+	public User edit(User user) {
 		User u = userDao.edit(user);
 		return u;
 	}
 	
-	public void removeUser(User user) {
+	public void remove(User user) {
 		userDao.remove(user);
 	}
 	
-	public User findUser(int id) {
+	public User find(int id) {
 		return userDao.find(id);
 	}
 	
 	public User findUserByDocument(String document) {
 		return userDao.findUserByDocument(document);
 	}
+	
 }

@@ -22,7 +22,7 @@ public class CategoryDao extends AbstractDao<Category> {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<Category> criteriaQuery = cb.createQuery(Category.class);
 		Root<Category> cat = criteriaQuery.from(Category.class);
-		cat.fetch("products");
+		cat.fetch("skus");
 		criteriaQuery
 			.select(cat)
 			.where(cb.equal(cat.get("id"), ob));

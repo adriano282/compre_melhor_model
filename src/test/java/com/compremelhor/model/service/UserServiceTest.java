@@ -17,6 +17,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -74,7 +75,7 @@ public class UserServiceTest {
 	@Test
 	public void createEditAndDeleteAnUser() throws NoSuchAlgorithmException {
 		logger.log(Level.INFO, "Start: Creating an user...");
-		userService.createUser(user);		
+		userService.create(user);		
 		User usrResult = userService.findUserByDocument("42.761.057-6");			
 		assertNotNull(usrResult);
 		logger.log(Level.INFO, "End: User created -- " + usrResult);
@@ -88,7 +89,7 @@ public class UserServiceTest {
 		user.setDocumentType(User.DocumentType.CNPJ);
 		
 		User userR = null;
-		userR = userService.editUser(user);
+		userR = userService.edit(user);
 		
 		logger.log(Level.INFO, "End: User edited -- " + user);
 		
@@ -97,9 +98,13 @@ public class UserServiceTest {
 		assertEquals(userR.getUsername(), "Pedro");
 		assertEquals(userR.getPasswordHash(), GeneratorPasswordHash.getHash("teste456"));
 		
-		logger.log(Level.INFO, "Start: Deleting the user -- ID: " + userR.getId());
-		userService.removeUser(user);
-		assertNull(userService.findUser(user.getId()));
+	}
+	
+	@After
+	public void clear() {
+		logger.log(Level.INFO, "Start: Deleting the user -- ID: " + user);
+		userService.remove(user);
+		assertNull(userService.find(user.getId()));
 		logger.log(Level.INFO, "End: User deleted." );
 	}
 }

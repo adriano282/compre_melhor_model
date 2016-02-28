@@ -24,14 +24,14 @@ import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Code;
 import com.compremelhor.model.entity.Code.CodeType;
 import com.compremelhor.model.entity.Manufacturer;
-import com.compremelhor.model.entity.Product;
-import com.compremelhor.model.entity.Product.UnitType;
+import com.compremelhor.model.entity.Sku;
+import com.compremelhor.model.entity.Sku.UnitType;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.util.LoggerProducer;
 
 @RunWith(Arquillian.class)
-public class ProductServiceTest {
+public class SkuServiceTest {
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
@@ -56,7 +56,7 @@ public class ProductServiceTest {
 	private CategoryService categoryService;
 	
 	@Inject
-	private ProductService productService;
+	private SkuService skuService;
 	
 	@Inject
 	private ManufacturerService manufacturerService;
@@ -66,7 +66,7 @@ public class ProductServiceTest {
 	
 	private Category category;
 	
-	private Product product;
+	private Sku sku;
 	
 	private Manufacturer manufacturer;
 	
@@ -86,13 +86,13 @@ public class ProductServiceTest {
 		code.setCode("CODE001");
 		code.setType(CodeType.OTHER);
 		
-		product = new Product();
-		product.setName("Maionese");
-		product.setDescription("Maionese Hellmans. Qualidade garantida");
-		product.setManufacturer(manufacturer);
-		product.setUnit(UnitType.UN);
-		product.setCode(code);
-		product.addCategory(category);
+		sku = new Sku();
+		sku.setName("Maionese");
+		sku.setDescription("Maionese Hellmans. Qualidade garantida");
+		sku.setManufacturer(manufacturer);
+		sku.setUnit(UnitType.UN);
+		sku.setCode(code);
+		sku.addCategory(category);
 		
 	}
 	
@@ -104,18 +104,18 @@ public class ProductServiceTest {
 	}
 	
 	private void creations() {
-		categoryService.createCategory(category);
+		/*categoryService.createCategory(category);
 		assertNotEquals(0, category.getId());
 		logger.log(Level.INFO, "Category created: " + category);
 		
 		manufacturerService.createManufacturer(manufacturer);
 		assertNotEquals(0, manufacturer.getId());
 		logger.log(Level.INFO, "ManufacturerCreated: " + manufacturer);
+		*/
 		
-		
-		productService.createProduct(product);
-		assertNotEquals(0, product.getId());
-		logger.log(Level.INFO, "Product created: " + product);
+		skuService.createProduct(sku);
+		assertNotEquals(0, sku.getId());
+		logger.log(Level.INFO, "Sku created: " + sku);
 	}
 	
 	private void alterations() {
@@ -127,9 +127,9 @@ public class ProductServiceTest {
 		manufacturerService.editManufacturer(manufacturer);
 		logger.log(Level.INFO, "Manufacturer altered: " + manufacturer);
 		
-		product.getCode().setCode("CODIGO ALTERADO");
-		productService.editProduct(product);
-		logger.log(Level.INFO, "Product altered: " + product);
+		sku.getCode().setCode("CODIGO ALTERADO");
+		skuService.editProduct(sku);
+		logger.log(Level.INFO, "Sku altered: " + sku);
 	}
 	
 	private void searching() {
@@ -139,14 +139,14 @@ public class ProductServiceTest {
 		Manufacturer m = manufacturerService.findManufacturer(manufacturer.getId());
 		logger.log(Level.INFO, "Manufacturer found: " + m);
 		
-		Product p = productService.findProduct(product.getId());
-		logger.log(Level.INFO, "Product found: " + p);
+		Sku p = skuService.findProduct(sku.getId());
+		logger.log(Level.INFO, "Sku found: " + p);
 	}
 	
 	@After
 	public void removing() {
-		productService.removeProduct(product);
-		logger.log(Level.INFO, "Product " + product + " deleted");
+		skuService.removeProduct(sku);
+		logger.log(Level.INFO, "Sku " + sku + " deleted");
 		
 		manufacturerService.removeManufacturer(manufacturer);
 		logger.log(Level.INFO, "Manufacturer " + manufacturer + " deleted");

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -20,8 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "product")
-public class Product implements Serializable{
+@Table(name = "sku")
+public class Sku implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -32,9 +33,9 @@ public class Product implements Serializable{
 	
 	private String description;
 	
-	@ManyToMany
-	@JoinTable(name = "product_category",
-			joinColumns=@JoinColumn(name="product_id"),
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "sku_category",
+			joinColumns=@JoinColumn(name="sku_id"),
 			inverseJoinColumns=@JoinColumn(name="category_id"))
 	private Set<Category> categories;
 	
@@ -51,7 +52,7 @@ public class Product implements Serializable{
 	@Column(name = "last_updated")
 	private LocalDateTime lastUpdated;
 	
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Manufacturer manufacturer;
 	
 	public void setCategory(HashSet<Category> categories) {
@@ -156,15 +157,15 @@ public class Product implements Serializable{
 		if (code == null || manufacturer == null)
 			throw new RuntimeException("Code or Manufacturer variables in this product instance are null. Code and Manufacturer mustn't be null");
 		
-		if (obj instanceof Product 
-				&& ((Product)obj).getManufacturer() != null || ((Product)obj).getCode() != null)
+		if (obj instanceof Sku 
+				&& ((Sku)obj).getManufacturer() != null || ((Sku)obj).getCode() != null)
 			throw new RuntimeException("Code or Manufacturer variables in the comparable object are null. Code and Manufacturer mustn't be null");
 			
 		
-		if (obj instanceof Product 
-				&& ((Product)obj).getName().equals(name)
-				&& ((Product)obj).getCode().equals(code)
-				&& ((Product)obj).getManufacturer().equals(manufacturer))
+		if (obj instanceof Sku 
+				&& ((Sku)obj).getName().equals(name)
+				&& ((Sku)obj).getCode().equals(code)
+				&& ((Sku)obj).getManufacturer().equals(manufacturer))
 			return true;
 		return false;
 	}

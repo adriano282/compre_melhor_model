@@ -24,7 +24,7 @@ public class Category implements Serializable{
 	private String name;
 	
 	@ManyToMany(mappedBy = "categories")
-	private Set<Product> products;
+	private Set<Sku> skus;
 	
 	public int getId() {
 		return id;
@@ -40,7 +40,7 @@ public class Category implements Serializable{
 
 	@Override
 	public String toString() {
-		return "[id: " + id + ", name: " + name + ", products: " +	products + "]";
+		return "[id: " + id + ", name: " + name + ", skus: " +	skus + "]";
 	}
 	
 	@Override
