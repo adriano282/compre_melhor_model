@@ -57,4 +57,12 @@ public class Manufacturer implements Serializable {
 	public void setLastUpdated(LocalDateTime lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
+	
+	@Override
+	public String toString() {
+		return "Manufacturer[id: " + id 
+				+ ", name: " + name 
+				+ ", dateCreated: " + dateCreated
+				+ ", lastUpdated: " + lastUpdated +"]";
+	}
 }

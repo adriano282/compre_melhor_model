@@ -43,7 +43,6 @@ public class UserServiceTest {
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-	
 		/*return ArquillianWarnUtils.getBasicWebArchive()
 				.addPackage(User.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())

@@ -5,6 +5,9 @@
 		<jta-data-source>java:jboss/datasources/MySqlDS</jta-data-source>
 		<class>com.compremelhor.model.entity.User</class>
 		<class>com.compremelhor.model.entity.Manufacturer</class>
+		<class>com.compremelhor.model.entity.Product</class>
+		<class>com.compremelhor.model.entity.Code</class>
+		<class>com.compremelhor.model.entity.Category</class>
 				  		  
   		<properties>
   		<!--
