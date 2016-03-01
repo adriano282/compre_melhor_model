@@ -8,6 +8,8 @@
 		<class>com.compremelhor.model.entity.Sku</class>
 		<class>com.compremelhor.model.entity.Code</class>
 		<class>com.compremelhor.model.entity.Category</class>
+		<class>com.compremelhor.model.entity.Partner</class>
+		<class>com.compremelhor.model.entity.Address</class>
 				  		  
   		<properties>
   		<!--

@@ -8,7 +8,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import com.compremelhor.model.entity.User;
+import javax.inject.Named;
 
+
+@Named
 @Stateless
 public class UserDao extends AbstractDao<User> {
 	private static final long serialVersionUID = 1L;

@@ -1,15 +1,16 @@
 package com.compremelhor.model.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -20,13 +21,17 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 import com.compremelhor.model.dao.UserDao;
+import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.util.LoggerProducer;
 
@@ -41,6 +46,7 @@ public class UserServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(UserService.class.getPackage())
+				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -61,6 +67,8 @@ public class UserServiceTest {
 	
 	private User user;
 	
+	private Address ad;
+	
 	@Before
 	public void config() throws NoSuchAlgorithmException {
 		user = new User();
@@ -70,17 +78,49 @@ public class UserServiceTest {
 		user.setDocumentType(User.DocumentType.CPF);
 		user.setDateCreated(LocalDateTime.now());
 		user.setLastUpdated(LocalDateTime.now());
-	}
-	
-	@Test
-	public void createEditAndDeleteAnUser() throws NoSuchAlgorithmException {
+		
+		ad = new Address();
+		ad.setCity("Mogi das Cruzes");                         
+		ad.setNumber("49");
+		ad.setQuarter("Vila Brasileira");
+		ad.setState("SP");
+		ad.setStreet("Rua Alfredo Gomes Loureiro");
+		ad.setZipcode("08738290");
+		
+		user.setAddresses(new ArrayList<Address>(Arrays.asList(ad)));
+		
 		logger.log(Level.INFO, "Start: Creating an user...");
-		userService.create(user);		
+		ad.setUser(user);
+		userService.create(user);
 		User usrResult = userService.findUserByDocument("42.761.057-6");			
 		assertNotNull(usrResult);
 		logger.log(Level.INFO, "End: User created -- " + usrResult);
-		
-		
+	}
+	
+	@Test
+	public void gettingLimitOfAddressException()  {
+		for (int i = 0; i < 4; i++) {
+			Address ad2 = new Address();
+			ad2.setCity("Mogi das Cruzes");
+			ad2.setNumber("49");
+			ad2.setQuarter("Vila Brasileira");
+			ad2.setState("SP");
+			ad2.setStreet("Rua Alfredo Gomes Loureiro");
+			ad2.setZipcode("08738290");
+			try {
+				userService.addAddress(user.getId(), ad2);
+				userService.findUserByDocument("42.761.057-6");			
+			} catch (Exception e) {
+				assertTrue(e instanceof LimitOfAddressesReachedException);
+				return;
+			}
+		}
+        fail("LimitOfAddressReachedException not thrown.");
+	}
+	
+	@Test
+	public void editAndDeleteAnUser() throws NoSuchAlgorithmException {
+				
 		logger.log(Level.INFO, "Start: Editing an user...");
 		user.setUsername("Pedro");
 		user.setDocument("42.761.057-7");
@@ -97,13 +137,14 @@ public class UserServiceTest {
 		assertEquals(userR.getDocumentType(), User.DocumentType.CNPJ);
 		assertEquals(userR.getUsername(), "Pedro");
 		assertEquals(userR.getPasswordHash(), GeneratorPasswordHash.getHash("teste456"));
+		assertEquals(1, userR.getAddresses().size());
 		
 	}
 	
 	@After
 	public void clear() {
 		logger.log(Level.INFO, "Start: Deleting the user -- ID: " + user);
-		userService.remove(user);
+		userService.remove(userService.find(user.getId()));
 		assertNull(userService.find(user.getId()));
 		logger.log(Level.INFO, "End: User deleted." );
 	}

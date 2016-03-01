@@ -2,7 +2,9 @@ package com.compremelhor.model.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -36,6 +39,9 @@ public class User implements Serializable {
 	
 	@Column(name = "password_hash", nullable = false)
 	private String passwordHash;
+	
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+	private List<Address> addresses;
 	
 	@Column(name = "date_created", nullable = false)
 	private LocalDateTime dateCreated;
@@ -109,5 +115,12 @@ public class User implements Serializable {
 		public String toString() {
 			return this.toString();
 		}
+	}
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 }

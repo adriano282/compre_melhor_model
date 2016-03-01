@@ -1,6 +1,8 @@
 package com.compremelhor.model.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.logging.Level;
@@ -14,6 +16,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +58,7 @@ public class ManufacturerServiceTest {
 	}
 	
 	@Test
-	public void test() {
+	public void createAndDeleteManufacturer() {
 		logger.log(Level.INFO, "START: Creating a Manufacturer...");
 		
 		mfrService.createManufacturer(mfr);
@@ -74,11 +77,14 @@ public class ManufacturerServiceTest {
 		logger.log(Level.INFO, "END: Manufacturer Edited");
 		assertEquals(mfrR.getName(), "Other Manufacturer");
 		
-		logger.log(Level.INFO,"Start: Deleting the manufacturer: " + mfrR);
-		mfrService.removeManufacturer(mfrR);
+	}
+	
+	@After
+	public void clean() {
+		logger.log(Level.INFO,"Start: Deleting the manufacturer: " + mfr);
+		mfrService.removeManufacturer(mfr);
 		assertNull(mfrService.findManufacturer(mfr.getId()));
 		logger.log(Level.INFO, "END: Manufacturer Deleted");
-		
 	}
 
 }

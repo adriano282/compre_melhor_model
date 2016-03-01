@@ -43,33 +43,15 @@ public class SkuServiceTest {
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-		/*return ArquillianWarnUtils.getBasicWebArchive()
-				.addPackage(User.class.getPackage())
-				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
-				.addPackage(UserDao.class.getPackage())
-				.addPackage(UserService.class.getPackage())
-				.addPackage(LoggerProducer.class.getPackage());
-				*/
 	}
 	
-	@Inject
-	private CategoryService categoryService;
-	
-	@Inject
-	private SkuService skuService;
-	
-	@Inject
-	private ManufacturerService manufacturerService;
-	
-	@Inject
-	private Logger logger;
-	
+	@Inject private CategoryService categoryService;
+	@Inject private SkuService skuService;
+	@Inject private ManufacturerService manufacturerService;
+	@Inject private Logger logger;
 	private Category category;
-	
 	private Sku sku;
-	
 	private Manufacturer manufacturer;
-	
 	private Code code;
 	
 	@Before
@@ -104,15 +86,6 @@ public class SkuServiceTest {
 	}
 	
 	private void creations() {
-		/*categoryService.createCategory(category);
-		assertNotEquals(0, category.getId());
-		logger.log(Level.INFO, "Category created: " + category);
-		
-		manufacturerService.createManufacturer(manufacturer);
-		assertNotEquals(0, manufacturer.getId());
-		logger.log(Level.INFO, "ManufacturerCreated: " + manufacturer);
-		*/
-		
 		skuService.createProduct(sku);
 		assertNotEquals(0, sku.getId());
 		logger.log(Level.INFO, "Sku created: " + sku);
@@ -154,5 +127,4 @@ public class SkuServiceTest {
 		categoryService.removeCategory(category);
 		logger.log(Level.INFO, "Category " + category + " deleted");
 	}
-
 }
