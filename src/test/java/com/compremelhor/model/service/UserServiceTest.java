@@ -1,6 +1,10 @@
 package com.compremelhor.model.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
@@ -10,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -21,9 +24,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
@@ -50,13 +51,6 @@ public class UserServiceTest {
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-		/*return ArquillianWarnUtils.getBasicWebArchive()
-				.addPackage(User.class.getPackage())
-				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
-				.addPackage(UserDao.class.getPackage())
-				.addPackage(UserService.class.getPackage())
-				.addPackage(LoggerProducer.class.getPackage());
-				*/
 	}
 
 	@Inject

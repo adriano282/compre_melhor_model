@@ -7,6 +7,7 @@ import com.compremelhor.model.dao.AddressDao;
 import com.compremelhor.model.dao.PartnerDao;
 import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.Partner;
+import com.compremelhor.model.exception.PartnerNotFoundException;
 
 @Stateless
 public class PartnerService {
@@ -30,8 +31,15 @@ public class PartnerService {
 		dao.remove(partner);
 	}
 	
-	public void addAddress(Address address) {
-		addressDao.persist(address);
+	public void addAddress(int partnerId, Address address) {
+		Partner p = dao.find(partnerId);
+		
+		if (p == null) {
+			throw new PartnerNotFoundException(partnerId);
+		}
+		address.setPartner(p);
+		p.getAddresses().add(address);
+		edit(p);
 	}
 	
 	public Address editAddress(Address address) {
@@ -40,5 +48,9 @@ public class PartnerService {
 	
 	public void removeAddress(Address address) {
 		addressDao.remove(address);
+	}
+	
+	public Partner findByAttribute(String attributeName, String attributeValue) {
+		return dao.findByAttribute(attributeName, attributeValue);
 	}
 }

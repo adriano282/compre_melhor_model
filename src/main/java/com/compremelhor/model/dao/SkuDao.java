@@ -11,6 +11,4 @@ public class SkuDao extends AbstractDao<Sku> {
 	public SkuDao() {
 		super(Sku.class);
 	}
-	
-	
 }

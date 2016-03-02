@@ -1,10 +1,12 @@
 package com.compremelhor.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ public class Partner implements Serializable {
 	
 	private String name;
 	
-	@OneToMany(mappedBy = "partner", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+	@OneToMany(mappedBy = "partner", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Address> addresses;
 
 	public int getId() {
@@ -42,6 +44,9 @@ public class Partner implements Serializable {
 	}
 
 	public List<Address> getAddresses() {
+		if (addresses == null) {
+			addresses = new ArrayList<>();
+		}
 		return addresses;
 	}
 
