@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 import com.compremelhor.model.dao.ManufacturerDao;
 import com.compremelhor.model.entity.Manufacturer;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
 
 @RunWith(Arquillian.class)
@@ -33,6 +34,7 @@ public class ManufacturerServiceTest {
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap.create(WebArchive.class)
 				.addPackage(Manufacturer.class.getPackage())
+				.addPackage(UserNotFoundException.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(ManufacturerDao.class.getPackage())
 				.addPackage(ManufacturerService.class.getPackage())

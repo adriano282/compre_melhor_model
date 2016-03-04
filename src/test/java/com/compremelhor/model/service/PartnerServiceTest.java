@@ -48,7 +48,6 @@ public class PartnerServiceTest {
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
-				.addAsResource("entity_model_attributes")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 	
@@ -77,11 +76,6 @@ public class PartnerServiceTest {
 		assertEquals("Nome Alterado", partnerService.find(partner.getId()).getName());
 		
 		logger.log(Level.INFO, "Partner altered: " + partner);
-	}
-	
-	@Test
-	public void findingPartnerByName() {
-		assertNotNull(partnerService.findByAttribute("name", "Super Mercado da Gente"));
 	}
 	
 	@Test
@@ -121,7 +115,7 @@ public class PartnerServiceTest {
 		return ad;
 	}
 	@After
-	public void clean() {
+	public void removing() {
 		
 		Partner p = partnerService.find(partner.getId());
 		assertNotNull(p);

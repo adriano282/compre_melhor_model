@@ -3,6 +3,7 @@ package com.compremelhor.model.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,8 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -45,6 +48,13 @@ public class Sku implements Serializable{
 	
 	@Embedded
 	private Code code;
+	
+	@Lob
+	@Column(name = "photo")
+	private byte[] photo;
+	
+	@OneToMany(mappedBy = "sku")
+	private List<SkuPartner> skuPartners;
 	
 	@Column(name = "date_created")
 	private LocalDateTime dateCreated;
@@ -168,6 +178,14 @@ public class Sku implements Serializable{
 				&& ((Sku)obj).getManufacturer().equals(manufacturer))
 			return true;
 		return false;
+	}
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 }
 

@@ -24,6 +24,9 @@ public class Partner implements Serializable {
 	
 	private String name;
 	
+	@OneToMany(mappedBy= "partner")
+	private List<SkuPartner> skuPartner;
+	
 	@OneToMany(mappedBy = "partner", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	private List<Address> addresses;
 

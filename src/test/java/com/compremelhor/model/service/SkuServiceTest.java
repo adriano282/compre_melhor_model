@@ -28,6 +28,7 @@ import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.Sku.UnitType;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
 
 @RunWith(Arquillian.class)
@@ -37,6 +38,7 @@ public class SkuServiceTest {
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap.create(WebArchive.class)
 				.addPackage(User.class.getPackage())
+				.addPackage(UserNotFoundException.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(CategoryService.class.getPackage())
@@ -75,12 +77,11 @@ public class SkuServiceTest {
 		sku.setUnit(UnitType.UN);
 		sku.setCode(code);
 		sku.addCategory(category);
-		
+		creations();
 	}
 	
 	@Test
-	public void createAndDeleteAProduct() {
-		creations();
+	public void createAndDeleteAProduct() {		
 		alterations();
 		searching();
 	}

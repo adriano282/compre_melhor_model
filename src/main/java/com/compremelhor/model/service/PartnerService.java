@@ -1,5 +1,7 @@
 package com.compremelhor.model.service;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -25,6 +27,10 @@ public class PartnerService {
 	
 	public Partner find(int id) {
 		return dao.find(id);
+	}
+	
+	public List<Partner> findAll() {
+		return dao.findAll();
 	}
 	
 	public void remove(Partner partner) {
