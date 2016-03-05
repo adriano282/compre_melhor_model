@@ -1,5 +1,7 @@
 package com.compremelhor.model.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 
 import com.compremelhor.model.entity.Sku;
@@ -20,12 +22,16 @@ public class SkuPartnerDao extends AbstractDao<SkuPartner>{
 			throw new IllegalArgumentException("In SkuPartnerDao.findSkuPartnerBySku(SKU): id property on sku can not be null");
 		}
 		
-		return getEntityManager().createQuery(
+		List<SkuPartner> skuPartners = getEntityManager().createQuery(
 				"select sp from SkuPartner sp "
 				+ "JOIN sp.sku s "
 				+ "JOIN sp.partner p "
 				+ "WHERE s.id = ?1 ", SkuPartner.class)
 				.setParameter(1, sku.getId())
-				.getResultList().get(0);
+				.getResultList();
+		
+		if (skuPartners == null) return null;
+		if (skuPartners.size() == 0) return null;
+		return skuPartners.get(0);
 	}
 }

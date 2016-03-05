@@ -12,6 +12,9 @@
 		<class>com.compremelhor.model.entity.Address</class>
 		<class>com.compremelhor.model.entity.Stock</class>
 		<class>com.compremelhor.model.entity.SkuPartner</class>
+		<class>com.compremelhor.model.entity.PurchaseLine</class>
+		<class>com.compremelhor.model.entity.Purchase</class>
+		<class>com.compremelhor.model.entity.Freight</class>
 		
 	
 				  		  

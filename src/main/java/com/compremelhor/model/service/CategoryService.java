@@ -23,8 +23,14 @@ public class CategoryService {
 	public Category findCategory(int id) {
 		return categoryDao.find(id);
 	}
-	
+	public Category findCategory(Object id) {
+		return categoryDao.find(id);
+	}	
 	public void removeCategory(Category category) {
 		categoryDao.remove(category);
 	}	
+	
+	public Category findCategoryBySkuId(int skuId) {
+		return categoryDao.findCategoryBySkuId(skuId);
+	}
 }

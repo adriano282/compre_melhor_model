@@ -41,52 +41,65 @@ public class ManufacturerServiceTest {
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-				
 	}
-	@Inject 
-	private ManufacturerService mfrService;
 	
-	@Inject 
-	private Logger logger;
+	@Inject	private ManufacturerService mfrService;
+	@Inject private Logger logger;
 	
 	private Manufacturer mfr;
 	
 	@Before
 	public void config() {
-		mfr = new Manufacturer();
-		mfr.setName("Lider");
-		mfr.setDateCreated(LocalDateTime.now());
-		mfr.setLastUpdated(LocalDateTime.now());
+		mfr = createManufacturer(mfrService, mfr);
 	}
 	
 	@Test
-	public void createAndDeleteManufacturer() {
-		logger.log(Level.INFO, "START: Creating a Manufacturer...");
-		
-		mfrService.createManufacturer(mfr);
-		Manufacturer mfrR = mfrService.findManufacturerByName("Lider");
-		assertNotNull(mfrR);
-		
-		logger.log(Level.INFO, "END: Manufacturer Created " + mfr);
-		
+	public void editManufacturer() {
 		logger.log(Level.INFO, "START: Editing a manufacturer");
+		
 		mfr.setName("Other Manufacturer");
 		mfr.setLastUpdated(LocalDateTime.now());
 		
-		mfrR = null;
-		mfrR = mfrService.editManufacturer(mfr);
+		Manufacturer mfrR = null;
+		mfrR = editManufacturer(mfrService, mfr);
 		
 		logger.log(Level.INFO, "END: Manufacturer Edited");
 		assertEquals(mfrR.getName(), "Other Manufacturer");
-		
 	}
 	
 	@After
 	public void clean() {
 		logger.log(Level.INFO,"Start: Deleting the manufacturer: " + mfr);
+		removeManufacturer(mfrService, mfr);
 		mfrService.removeManufacturer(mfr);
-		assertNull(mfrService.findManufacturer(mfr.getId()));
+		assertNull(findManufacturer(mfrService, mfr.getId()));
 		logger.log(Level.INFO, "END: Manufacturer Deleted");
 	}
-
+	
+	public Manufacturer editManufacturer(ManufacturerService service, Manufacturer manufacturer) {
+		assertNotNull(service);
+		return service.editManufacturer(manufacturer);
+	}
+	public void removeManufacturer(ManufacturerService service, Manufacturer manufacturer) {
+		assertNotNull(service);
+		service.removeManufacturer(findManufacturer(service, manufacturer.getId()));
+		assertNull(findManufacturer(service, manufacturer.getId()));
+	}
+	
+	public Manufacturer createManufacturer (ManufacturerService service, Manufacturer manufacturer) {
+		assertNotNull(service);
+		manufacturer = new Manufacturer();
+		manufacturer.setName("HELLMANS");
+		manufacturer.setDateCreated(LocalDateTime.now());
+		manufacturer.setLastUpdated(LocalDateTime.now());		
+		service.createManufacturer(manufacturer);
+		Manufacturer m = findManufacturer(service, manufacturer.getId());
+		assertNotNull(m);
+		return m;
+	}
+	
+	public Manufacturer findManufacturer(ManufacturerService service, int id) {
+		assertNotNull(service);
+		return service.findManufacturer(id);
+	}
 }

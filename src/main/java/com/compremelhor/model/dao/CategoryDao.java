@@ -17,6 +17,10 @@ public class CategoryDao extends AbstractDao<Category> {
 		super(Category.class);
 	}
 	
+	public Category find(int id) {
+		return getEntityManager().find(Category.class, id);
+	}
+	
 	@Override
 	public Category find(Object ob) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -28,9 +32,22 @@ public class CategoryDao extends AbstractDao<Category> {
 			.where(cb.equal(cat.get("id"), ob));
 		
 		List<Category> result = getEntityManager().createQuery(criteriaQuery).getResultList();
+		if (result == null) {
+			return null;
+		}
 		if (result != null && result.size() > 1) {
 			throw new RuntimeException("This query has been returned more than one result.");
 		}		
+
 		return result.get(0);		
+	}
+	
+	public Category findCategoryBySkuId(int skuId) {
+		return (Category) getEntityManager().createNativeQuery(
+				"select c.id, c.name from sku_category sc "
+				+ "inner join category c on c.id = sc.category_id "
+				+ "where sc.sku_id = ?1", Category.class)
+				.setParameter(1, skuId).getResultList().get(0);
+		
 	}
 }

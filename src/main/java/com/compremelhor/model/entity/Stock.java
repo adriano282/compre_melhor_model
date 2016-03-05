@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -27,7 +26,7 @@ public class Stock implements Serializable {
 	@Column(name = "unit_price")
 	private Double unitPrice;
 	
-	@OneToOne(cascade = {CascadeType.PERSIST}) @MapsId
+	@OneToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name="sku_partner_id")
 	private SkuPartner skuPartner;
 

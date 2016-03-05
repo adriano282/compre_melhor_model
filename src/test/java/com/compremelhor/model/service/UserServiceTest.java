@@ -23,10 +23,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 
 import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.Address;
@@ -36,7 +34,6 @@ import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.util.LoggerProducer;
 
-@FixMethodOrder(MethodSorters.DEFAULT)
 @RunWith(Arquillian.class)
 public class UserServiceTest {
 	
@@ -53,42 +50,13 @@ public class UserServiceTest {
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
-	@Inject
-	private UserService userService;
-	
-	@Inject
-	private Logger logger;
-	
+	@Inject	private UserService userService;
+	@Inject	private Logger logger;
 	private User user;
-	
-	private Address ad;
 	
 	@Before
 	public void config() throws NoSuchAlgorithmException {
-		user = new User();
-		user.setUsername("Adriano de Jesus");
-		user.setDocument("42.761.057-6");
-		user.setPasswordHash(GeneratorPasswordHash.getHash("teste123"));
-		user.setDocumentType(User.DocumentType.CPF);
-		user.setDateCreated(LocalDateTime.now());
-		user.setLastUpdated(LocalDateTime.now());
-		
-		ad = new Address();
-		ad.setCity("Mogi das Cruzes");                         
-		ad.setNumber("49");
-		ad.setQuarter("Vila Brasileira");
-		ad.setState("SP");
-		ad.setStreet("Rua Alfredo Gomes Loureiro");
-		ad.setZipcode("08738290");
-		
-		user.setAddresses(new ArrayList<Address>(Arrays.asList(ad)));
-		
-		logger.log(Level.INFO, "Start: Creating an user...");
-		ad.setUser(user);
-		userService.create(user);
-		User usrResult = userService.findUserByDocument("42.761.057-6");			
-		assertNotNull(usrResult);
-		logger.log(Level.INFO, "End: User created -- " + usrResult);
+		user = createUser(userService, user);
 	}
 	
 	@Test
@@ -113,7 +81,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void editAndDeleteAnUser() throws NoSuchAlgorithmException {
+	public void editUser() throws NoSuchAlgorithmException {
 				
 		logger.log(Level.INFO, "Start: Editing an user...");
 		user.setUsername("Pedro");
@@ -137,9 +105,45 @@ public class UserServiceTest {
 	
 	@After
 	public void clear() {
-		logger.log(Level.INFO, "Start: Deleting the user -- ID: " + user);
-		userService.remove(userService.find(user.getId()));
-		assertNull(userService.find(user.getId()));
-		logger.log(Level.INFO, "End: User deleted." );
+		removeUser(userService, user);
+	}
+	
+	public void removeUser(UserService service, User user) {
+		assertNotNull(service);
+		assertNotNull(user);
+		service.remove(service.find(user.getId()));
+		assertNull(service.find(user.getId()));
+	}
+	
+	public User createUser(UserService service, User user) {
+		assertNotNull(service);
+				
+		user = new User();
+		user.setUsername("Adriano de Jesus");
+		user.setDocument("42.761.057-6");
+		
+		try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
+		catch(Exception e) { throw new RuntimeException(e);}
+		
+		user.setDocumentType(User.DocumentType.CPF);
+		user.setDateCreated(LocalDateTime.now());
+		user.setLastUpdated(LocalDateTime.now());
+		
+		Address ad = new Address();
+		ad.setCity("Mogi das Cruzes");                         
+		ad.setNumber("49");
+		ad.setQuarter("Vila Brasileira");
+		ad.setState("SP");
+		ad.setStreet("Rua Alfredo Gomes Loureiro");
+		ad.setZipcode("08738290");
+		
+		user.setAddresses(new ArrayList<Address>(Arrays.asList(ad)));
+		ad.setUser(user);
+		
+		service.create(user);
+		user = service.findUserByDocument("42.761.057-6");			
+		assertNotNull(user);
+		
+		return user;
 	}
 }

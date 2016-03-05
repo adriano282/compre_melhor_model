@@ -187,5 +187,9 @@ public class Sku implements Serializable{
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
+
+	public Set<Category> getCategories() {
+		return categories;
+	}
 }
 

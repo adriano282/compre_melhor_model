@@ -53,28 +53,15 @@ public class PartnerServiceTest {
 	
 	@Before
 	public void config() {
-		partner = new Partner();
-		partner.setName("Super Mercado da Gente");
-		assertNotNull(partnerService);
-		partnerService.create(partner);
-		
-		
-		Partner par = partnerService.find(partner.getId());
-		partner = par;
-		assertNotNull(partner);
-		
+		partner = createPartner(partnerService, partner);
 		logger.log(Level.INFO, "Partner created: " + partner);
 	}
-	
-	
 	
 	@Test
 	public void editingPartner() {
 		partner.setName("Nome Alterado");
 		partnerService.edit(partner);
-		
 		assertEquals("Nome Alterado", partnerService.find(partner.getId()).getName());
-		
 		logger.log(Level.INFO, "Partner altered: " + partner);
 	}
 	
@@ -114,14 +101,29 @@ public class PartnerServiceTest {
 		ad.setPartner(partner);
 		return ad;
 	}
+	
 	@After
 	public void removing() {
-		
-		Partner p = partnerService.find(partner.getId());
-		assertNotNull(p);
-		partnerService.remove(p);
-		assertNull(partnerService.find(partner.getId()));
+		removePartner(partnerService, partner);
 		logger.log(Level.INFO, "Partner deleted. ID: " + partner.getId());
 	}
-
+	
+	public void removePartner(PartnerService service, Partner partner) {
+		assertNotNull(service);
+		service.remove(partner);
+		partner = service.find(partner.getId());
+		assertNull(partner);
+	}
+	
+	public Partner createPartner(PartnerService service, Partner partner) {
+		assertNotNull(service);
+		partner = new Partner();
+		partner.setName("Super Mercado da Gente");
+		
+		service.create(partner);
+		
+		partner = service.find(partner.getId());
+		assertNotNull(partner);
+		return partner;	
+	}
 }

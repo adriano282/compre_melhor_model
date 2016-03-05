@@ -1,6 +1,8 @@
 package com.compremelhor.model.service;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.logging.Level;
@@ -51,81 +53,100 @@ public class SkuServiceTest {
 	@Inject private SkuService skuService;
 	@Inject private ManufacturerService manufacturerService;
 	@Inject private Logger logger;
-	private Category category;
-	private Sku sku;
-	private Manufacturer manufacturer;
-	private Code code;
 	
+	private Sku sku;
+				 
 	@Before
 	public void config() {
-		category = new Category();		
-		category.setName("Alimentos Gelados");
-		
-		manufacturer = new Manufacturer();
-		manufacturer.setName("HELLMANS");
-		manufacturer.setDateCreated(LocalDateTime.now());
-		manufacturer.setLastUpdated(LocalDateTime.now());
-		
-		code = new Code();
-		code.setCode("CODE001");
-		code.setType(CodeType.OTHER);
-		
-		sku = new Sku();
-		sku.setName("Maionese");
-		sku.setDescription("Maionese Hellmans. Qualidade garantida");
-		sku.setManufacturer(manufacturer);
-		sku.setUnit(UnitType.UN);
-		sku.setCode(code);
-		sku.addCategory(category);
-		creations();
+		sku = createSkuAndCategoryAndManufacturer(skuService, sku);
 	}
 	
 	@Test
-	public void createAndDeleteAProduct() {		
+	public void searchAndEditAProduct() {		
 		alterations();
 		searching();
 	}
 	
-	private void creations() {
-		skuService.createProduct(sku);
-		assertNotEquals(0, sku.getId());
-		logger.log(Level.INFO, "Sku created: " + sku);
-	}
-	
 	private void alterations() {
-		category.setName("NOME ALTERADO da CATEGORIA");
-		categoryService.editCategory(category);
-		logger.log(Level.INFO, "Category altered: " + category);
-		
-		manufacturer.setName("NOME FABRICANTE ALTERADO");
-		manufacturerService.editManufacturer(manufacturer);
-		logger.log(Level.INFO, "Manufacturer altered: " + manufacturer);
-		
 		sku.getCode().setCode("CODIGO ALTERADO");
-		skuService.editProduct(sku);
+		sku = skuService.editProduct(sku);
 		logger.log(Level.INFO, "Sku altered: " + sku);
+		sku = findSku(skuService, sku.getId());
+		assertNotNull(sku);
 	}
 	
 	private void searching() {
-		Category c = categoryService.findCategory(category.getId());
-		logger.log(Level.INFO, "Category found: " + c);
+		logger.log(Level.INFO, "Category found: " + categoryService.findCategoryBySkuId(sku.getId()).getName());
 		
-		Manufacturer m = manufacturerService.findManufacturer(manufacturer.getId());
+		Manufacturer m = manufacturerService.findManufacturer(sku.getManufacturer().getId());
 		logger.log(Level.INFO, "Manufacturer found: " + m);
 		
-		Sku p = skuService.findProduct(sku.getId());
-		logger.log(Level.INFO, "Sku found: " + p);
+		sku = findSku(skuService, sku.getId());
+		logger.log(Level.INFO, "Sku found: " + sku);
+		
 	}
 	
 	@After
 	public void removing() {
-		skuService.removeProduct(sku);
+		removeSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);
 		logger.log(Level.INFO, "Sku " + sku + " deleted");
+	}
+	
+	public void removeSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService, CategoryService cs, Sku sku) {
+		assertNotNull(service);		
+		assertNotNull(sku);
 		
-		manufacturerService.removeManufacturer(manufacturer);
-		logger.log(Level.INFO, "Manufacturer " + manufacturer + " deleted");
+		Manufacturer m = sku.getManufacturer();
+		assertNotNull(m);
 		
-		categoryService.removeCategory(category);
-		logger.log(Level.INFO, "Category " + category + " deleted");
+		assertNotEquals(0, sku.getId());
+		Category c = cs.findCategoryBySkuId(sku.getId());
+		assertNotNull(c);
+		
+		service.removeProduct(sku);
+		assertNull(findSku(service, sku.getId()));
+		
+		cs.removeCategory(c);
+		assertNull(cs.findCategory(c.getId()));
+		
+		manufacturerService.removeManufacturer(m);
+		assertNull(manufacturerService.findManufacturer(m.getId()));
+	}
+	
+	public Sku findSku(SkuService service, int id) {
+		assertNotNull(service);
+		return service.findProduct(id);
+	}
+	
+	public Sku createSkuAndCategoryAndManufacturer(SkuService service, Sku sku) {
+		assertNotNull(service);
+				
+		Code code = new Code();
+		code.setCode("CODE001");
+		code.setType(CodeType.OTHER);
+		
+		Category category = new Category();		
+		category.setName("Alimentos Gelados");
+		
+		sku = new Sku();
+		sku.setName("Maionese");
+		sku.setDescription("Maionese Hellmans. Qualidade garantida");
+		
+		Manufacturer manufacturer = new Manufacturer();
+		manufacturer.setName("HELLMANS");
+		manufacturer.setLastUpdated(LocalDateTime.now());
+		manufacturer.setDateCreated(LocalDateTime.now());
+		
+		sku.setManufacturer(manufacturer);
+		sku.setUnit(UnitType.UN);
+		sku.setCode(code);
+		sku.addCategory(category);
+		
+			
+		service.createProduct(sku);
+		Sku s = service.findProduct(sku.getId());
+		assertNotNull(s);
+		return s;
 	}
 }
+
