@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +21,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.compremelhor.model.dao.UserDao;
+import com.compremelhor.model.entity.Address;
+import com.compremelhor.model.entity.Freight;
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
@@ -75,8 +76,7 @@ public class PurchaseServiceTest {
 	
 	private Purchase purchase;
 	private PurchaseLine purchaseLine;
-
-
+	private Freight freight;
 	
 	@Before
 	public void config() {
@@ -93,6 +93,7 @@ public class PurchaseServiceTest {
 		assertNotNull(sp);
 		
 		purchase = createPurchase(purchaseService, purchase, user);
+		freight = createFreight(purchaseService, userService, purchase, freight);
 		purchaseLine = addLine(purchaseService, purchase, purchaseLine, st);
 	}
 	
@@ -141,6 +142,34 @@ public class PurchaseServiceTest {
 		assertNull(purchase);
 	}
 	
+	public Freight createFreight(PurchaseService service, UserService userService, Purchase purchase, Freight freight) {
+		assertNotNull(service);
+		assertNotNull(purchase);
+		
+		assertNotNull(service.find(purchase.getId()));
+		
+		freight = new Freight();
+		freight.setDateCreated(LocalDateTime.now());
+		freight.setLastUpdated(LocalDateTime.now());
+		freight.setPurchase(purchase);
+		freight.setValueRide(20.00);
+		
+		User user = purchase.getUser();
+		assertNotNull(user);
+		
+		Address ad = userService
+			.findAllAddressByUser(user)
+			.orElseThrow(RuntimeException::new)
+			.get(0);
+		
+		freight.setShipAddress(ad);
+		service.addFreight(purchase, freight);
+		
+		freight = service.findFreightByPurchase(purchase);
+		assertNotNull(freight);
+		return freight;
+	}
+	
 	public Purchase createPurchase(PurchaseService service, Purchase purchase, User user) {
 		assertNotNull(service);
 		assertNotNull(user);
@@ -151,7 +180,6 @@ public class PurchaseServiceTest {
 		purchase.setLastUpdated(LocalDateTime.now());
 		purchase.setStatus(Purchase.Status.PROCESSING);
 		purchase.setTotalValue(0.0);
-		
 		service.create(purchase);
 		
 		purchase = service.find(purchase.getId());

@@ -1,6 +1,7 @@
 package com.compremelhor.model.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
@@ -39,6 +40,10 @@ public class UserService {
 	
 	public User findUserByDocument(String document) {
 		return userDao.findUserByDocument(document);
+	}
+	
+	public Optional<List<Address>> findAllAddressByUser(User user) {
+		return Optional.ofNullable(addressDao.findAllAddressByUser(user));
 	}
 	
 	public void addAddress(int userId, Address address) throws LimitOfAddressesReachedException {

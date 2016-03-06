@@ -57,6 +57,9 @@ public class PurchaseService {
 		purchaseLineDao.remove(line);
 	}
 	
+	public Freight findFreightByPurchase(Purchase purchase) {
+		return freightService.findFreightByPurchase(purchase);
+	}
 	public void addFreight(Purchase purchase, Freight freight) {
 		if (verifyIfPurchaseExist(purchase).getFreight() != null)
 			throw new RuntimeException("Exception in PurchaseService addFreight(PURCHASE, FREIGHT): this purchase already has a freight.");

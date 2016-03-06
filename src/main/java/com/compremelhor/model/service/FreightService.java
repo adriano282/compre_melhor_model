@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import com.compremelhor.model.dao.FreightDao;
 import com.compremelhor.model.entity.Freight;
+import com.compremelhor.model.entity.Purchase;
 
 @Stateless
 public class FreightService {
@@ -28,6 +29,10 @@ public class FreightService {
 	
 	public Freight find(int id) {
 		return dao.find(id);
+	}
+	
+	public Freight findFreightByPurchase(Purchase purchase) {
+		return dao.findFreightByPurchase(purchase);
 	}
 	
 }
