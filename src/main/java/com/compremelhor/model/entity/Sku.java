@@ -1,36 +1,36 @@
 package com.compremelhor.model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "sku")
-public class Sku implements Serializable{
+@SecondaryTable(name="sku_photo", pkJoinColumns = 
+		@PrimaryKeyJoinColumn(name="sku_id", 
+			referencedColumnName="id")
+)
+public class Sku extends EntityModel implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;	
 	
 	private String name;
 	
@@ -49,18 +49,13 @@ public class Sku implements Serializable{
 	@Embedded
 	private Code code;
 	
+	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	@Column(name = "photo")
+	@Column(name = "photo", table="sku_photo")
 	private byte[] photo;
 	
 	@OneToMany(mappedBy = "sku")
 	private List<SkuPartner> skuPartners;
-	
-	@Column(name = "date_created")
-	private LocalDateTime dateCreated;
-	
-	@Column(name = "last_updated")
-	private LocalDateTime lastUpdated;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	private Manufacturer manufacturer;
@@ -79,10 +74,6 @@ public class Sku implements Serializable{
 		categories.add(c);
 	}
 	
-	public int getId() {
-		return id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -114,23 +105,6 @@ public class Sku implements Serializable{
 	public void setCode(Code code) {
 		this.code = code;
 	}
-
-	public LocalDateTime getDateCreated() {
-		return dateCreated;
-	}
-
-	public void setDateCreated(LocalDateTime dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	public LocalDateTime getLastUpdated() {
-		return lastUpdated;
-	}
-
-	public void setLastUpdated(LocalDateTime lastUpdated) {
-		this.lastUpdated = lastUpdated;
-	}
-
 	public Manufacturer getManufacturer() {
 		return manufacturer;
 	}

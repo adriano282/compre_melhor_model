@@ -44,7 +44,7 @@ public class CategoryDao extends AbstractDao<Category> {
 	
 	public Category findCategoryBySkuId(int skuId) {
 		return (Category) getEntityManager().createNativeQuery(
-				"select c.id, c.name from sku_category sc "
+				"select c.id, c.name, c.date_created, c.last_updated from sku_category sc "
 				+ "inner join category c on c.id = sc.category_id "
 				+ "where sc.sku_id = ?1", Category.class)
 				.setParameter(1, skuId).getResultList().get(0);

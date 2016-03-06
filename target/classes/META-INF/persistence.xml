@@ -15,7 +15,8 @@
 		<class>com.compremelhor.model.entity.PurchaseLine</class>
 		<class>com.compremelhor.model.entity.Purchase</class>
 		<class>com.compremelhor.model.entity.Freight</class>
-		
+		<class>com.compremelhor.model.entity.EntityModel</class>
+			
 	
 				  		  
   		<properties>

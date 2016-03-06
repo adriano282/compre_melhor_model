@@ -5,21 +5,14 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "stock")
-public class Stock implements Serializable {	
+public class Stock extends EntityModel implements Serializable {	
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 	
 	private Double quantity;
 	
@@ -29,14 +22,6 @@ public class Stock implements Serializable {
 	@OneToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name="sku_partner_id")
 	private SkuPartner skuPartner;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public Double getQuantity() {
 		return quantity;
