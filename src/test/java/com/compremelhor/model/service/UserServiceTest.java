@@ -33,6 +33,7 @@ import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.util.LoggerProducer;
+import com.compremelhor.model.validation.groups.PartnerAddress;
 
 @RunWith(Arquillian.class)
 public class UserServiceTest {
@@ -44,6 +45,7 @@ public class UserServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(UserService.class.getPackage())
+				.addPackage(PartnerAddress.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
@@ -99,8 +101,8 @@ public class UserServiceTest {
 		assertEquals(userR.getDocumentType(), User.DocumentType.CNPJ);
 		assertEquals(userR.getUsername(), "Pedro");
 		assertEquals(userR.getPasswordHash(), GeneratorPasswordHash.getHash("teste456"));
-		assertEquals(1, userR.getAddresses().size());
 		
+		userService.findAllAddressByUser(userR).ifPresent(ads -> assertEquals(1, ads.size()));
 	}
 	
 	@After

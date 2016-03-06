@@ -23,6 +23,7 @@ import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.LoggerProducer;
+import com.compremelhor.model.validation.groups.PartnerAddress;
 
 @RunWith(Arquillian.class)
 public class AccountServiceTest {
@@ -36,6 +37,7 @@ public class AccountServiceTest {
 				.addPackage(PartnerService.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
+				.addPackage(PartnerAddress.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
@@ -91,6 +93,7 @@ public class AccountServiceTest {
 		account.setPartner(partner);
 		account.setPassword("teste");
 		account.setUsername("parceiro@gmail.com");
+		
 		
 		service.create(account);
 		

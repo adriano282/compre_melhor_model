@@ -5,23 +5,42 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.compremelhor.model.validation.groups.PartnerAddress;
+import com.compremelhor.model.validation.groups.UserAddress;
 
 @Entity
 @Table(name = "address")
 public class Address extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
+	@NotNull @Size(max=45)
 	private String street;
+	
+	@NotNull @Size(max= 10)
 	private String number;
+	
+	@NotNull @Pattern(regexp= "[0-9]{5}\\-?[0-9]{3}")
 	private String zipcode;
+	
+	@NotNull @Size(max= 45)
 	private String quarter;
+	
+	@NotNull @Size(max= 45)
 	private String city;
+	
+	@NotNull @Size(max= 10)
 	private String state;
 	
 	@ManyToOne
+	@NotNull(groups=PartnerAddress.class)
 	private Partner partner;
-		
+	
 	@ManyToOne
+	@NotNull(groups=UserAddress.class)
 	private User user;
 	
 	public String getStreet() {

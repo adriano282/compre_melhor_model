@@ -7,19 +7,26 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "account")
 public class Account extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@NotNull(message = "Um username precisa ser definido.")
+	@Size(max = 20)
 	@Column(name = "username")
 	private String username;
 	
+	@Size(max = 20)
+	@NotNull(message = "Senha não informada.")
 	@Column(name = "password")
 	private String password;
 	
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "partner_id")
 	private Partner partner;
 		

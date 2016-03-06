@@ -13,20 +13,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table( name = "purchase")
 public class Purchase  extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 		
+	@Version private int version;
+	
 	@Column(name = "total_value")
+	@NotNull
 	private Double totalValue;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Status status;
 	
 	@ManyToOne
 	@JoinColumn( name = "user_id")
+	@NotNull
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "purchase")
@@ -61,6 +68,10 @@ public class Purchase  extends EntityModel implements Serializable {
 
 	public void setFreight(Freight freight) {
 		this.freight = freight;
+		
+		if (freight != null) {
+			freight.setPurchase(this);
+		}
 	}
 
 	public Status getStatus() {

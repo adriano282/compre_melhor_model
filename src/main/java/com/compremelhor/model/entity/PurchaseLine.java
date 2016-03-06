@@ -7,67 +7,58 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "purchase_line")
 public class PurchaseLine extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-			
+	
+	@Version private int version;
+	
+	@NotNull
 	private Double quantity;
 	
 	@Column(name = "unit_price")
+	@NotNull
 	private Double unitPrice;
 	
 	@Column(name = "sub_total")
+	@NotNull
 	private Double subTotal;
 	
 	@ManyToOne
 	@JoinColumn(name = "stock_id")
+	@NotNull
 	private Stock stock;
 
 	@ManyToOne
 	@JoinColumn(name = "purchase_id")
+	@NotNull
 	private Purchase purchase;
 	
-	public Double getQuantity() {
-		return quantity;
-	}
-
 	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 		subTotal = quantity * (getUnitPrice() == null ? 0 : getUnitPrice());
-	}
-
-	public Double getUnitPrice() {
-		return unitPrice;
-	}
+	}	
 
 	public void setUnitPrice(Double unitPrice) {
 		this.unitPrice = unitPrice;
 		subTotal = getQuantity() * unitPrice;
 	}
+	
+	public Double getQuantity() { return quantity; }
+	
+	public Double getUnitPrice() { return unitPrice; }
+	
+	public Double getSubTotal() { return subTotal; }
 
-	public Double getSubTotal() {
-		return subTotal;
-	}
+	public Stock getStock() { return stock;	}
 
-	public Stock getStock() {
-		return stock;
-	}
+	public void setStock(Stock stock) {	this.stock = stock;	}
 
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
+	public Purchase getPurchase() { return purchase; }
 
-	public int getId() {
-		return id;
-	}
-
-	public Purchase getPurchase() {
-		return purchase;
-	}
-
-	public void setPurchase(Purchase purchase) {
-		this.purchase = purchase;
-	}
+	public void setPurchase(Purchase purchase) { this.purchase = purchase; }
 }

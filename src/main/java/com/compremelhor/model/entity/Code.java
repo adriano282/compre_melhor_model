@@ -4,13 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Embeddable
-public class Code {
+public class Code {	
 	@Column(name = "type_code")
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.STRING) @NotNull
 	private CodeType type;
+	
 	@Column(name = "code")
+	@NotNull @Size(max=20)
 	private String code;
 	
 	public CodeType getType() {

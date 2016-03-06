@@ -33,6 +33,7 @@ import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
+import com.compremelhor.model.validation.groups.PartnerAddress;
 
 @RunWith(Arquillian.class)
 public class PurchaseServiceTest {
@@ -46,6 +47,7 @@ public class PurchaseServiceTest {
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(CategoryService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
+				.addPackage(PartnerAddress.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.merge(SkuServiceTest.createTestArchive())
@@ -92,8 +94,7 @@ public class PurchaseServiceTest {
 		sp = st.getSkuPartner();
 		assertNotNull(sp);
 		
-		purchase = createPurchase(purchaseService, purchase, user);
-		freight = createFreight(purchaseService, userService, purchase, freight);
+		purchase = createPurchase(purchaseService, userService, purchase, user, freight);
 		purchaseLine = addLine(purchaseService, purchase, purchaseLine, st);
 	}
 	
@@ -118,35 +119,33 @@ public class PurchaseServiceTest {
 		purchaseService.removeItem(line2);
 		line2 = purchaseService.findLine(line2.getId());
 		
-		assertNull(line2);		
+		assertNull(line2);
+		
+		purchase = purchaseService.find(purchase.getId());
 	}
 
 	@After
 	public void removing() {
-		removePurchaseAndItens(purchaseService, purchase);
+		
+		removePurchaseAndItensAndFreight(purchaseService, purchase, freight);
 		stockServiceTest.removeStockAndSkuPartner(stockService, skuPartnerService, st, sp);	
 		sst.removeSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);
 		pst.removePartner(partnerService, partner);
 		ust.removeUser(userService, user);
 	}
 	
-	public void removePurchaseAndItens(PurchaseService service, Purchase purchase) {
+	public void removePurchaseAndItensAndFreight(PurchaseService service, Purchase purchase, Freight freight) {
 		assertNotNull(service);
 		assertNotNull(purchase);
-		
-		purchase = service.find(purchase.getId());
-		assertNotNull(purchase);
-		
+										
 		service.remove(purchase);
 		purchase = service.find(purchase.getId());
 		assertNull(purchase);
 	}
 	
-	public Freight createFreight(PurchaseService service, UserService userService, Purchase purchase, Freight freight) {
+	public Purchase createPurchase(PurchaseService service, UserService userService, Purchase purchase, User user, Freight freight) {
 		assertNotNull(service);
-		assertNotNull(purchase);
-		
-		assertNotNull(service.find(purchase.getId()));
+		assertNotNull(user);
 		
 		freight = new Freight();
 		freight.setDateCreated(LocalDateTime.now());
@@ -154,25 +153,12 @@ public class PurchaseServiceTest {
 		freight.setPurchase(purchase);
 		freight.setValueRide(20.00);
 		
-		User user = purchase.getUser();
-		assertNotNull(user);
-		
 		Address ad = userService
 			.findAllAddressByUser(user)
 			.orElseThrow(RuntimeException::new)
 			.get(0);
 		
 		freight.setShipAddress(ad);
-		service.addFreight(purchase, freight);
-		
-		freight = service.findFreightByPurchase(purchase);
-		assertNotNull(freight);
-		return freight;
-	}
-	
-	public Purchase createPurchase(PurchaseService service, Purchase purchase, User user) {
-		assertNotNull(service);
-		assertNotNull(user);
 		
 		purchase = new Purchase();
 		purchase.setUser(user);
@@ -180,6 +166,8 @@ public class PurchaseServiceTest {
 		purchase.setLastUpdated(LocalDateTime.now());
 		purchase.setStatus(Purchase.Status.PROCESSING);
 		purchase.setTotalValue(0.0);
+		purchase.setFreight(freight);
+				
 		service.create(purchase);
 		
 		purchase = service.find(purchase.getId());

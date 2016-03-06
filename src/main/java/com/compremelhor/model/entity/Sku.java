@@ -22,6 +22,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "sku")
@@ -32,8 +35,10 @@ import javax.persistence.Table;
 public class Sku extends EntityModel implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@NotNull @Size(max= 45)
 	private String name;
 	
+	@NotNull @Size(max= 45)
 	private String description;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -44,9 +49,12 @@ public class Sku extends EntityModel implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unit")
+	@NotNull
 	private UnitType unit;
 	
 	@Embedded
+	@NotNull
+	@Valid
 	private Code code;
 	
 	@Basic(fetch = FetchType.LAZY)
@@ -58,6 +66,7 @@ public class Sku extends EntityModel implements Serializable{
 	private List<SkuPartner> skuPartners;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@NotNull
 	private Manufacturer manufacturer;
 	
 	public void setCategory(HashSet<Category> categories) {
@@ -74,48 +83,24 @@ public class Sku extends EntityModel implements Serializable{
 		categories.add(c);
 	}
 	
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setName(String name) { this.name = name; }
 
-	public String getDescription() {
-		return description;
-	}
+	public String getDescription() { return description; }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public void setDescription(String description) { this.description = description; }
 
-	public UnitType getUnit() {
-		return unit;
-	}
+	public UnitType getUnit() { return unit; }
 
-	public void setUnit(UnitType unit) {
-		this.unit = unit;
-	}
+	public void setUnit(UnitType unit) { this.unit = unit; }
 
-	public Code getCode() {
-		return code;
-	}
+	public Code getCode() { return code; }
 
-	public void setCode(Code code) {
-		this.code = code;
-	}
-	public Manufacturer getManufacturer() {
-		return manufacturer;
-	}
+	public void setCode(Code code) { this.code = code; }
+	public Manufacturer getManufacturer() { return manufacturer; }
 
-	public void setManufacturer(Manufacturer manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-	
-	public enum UnitType {
-		CX, KG, M, L, SC, UN;
-	}
+	public void setManufacturer(Manufacturer manufacturer) { this.manufacturer = manufacturer; }
 	
 	@Override
 	public String toString() {
@@ -143,7 +128,7 @@ public class Sku extends EntityModel implements Serializable{
 		
 		if (obj instanceof Sku 
 				&& ((Sku)obj).getManufacturer() != null || ((Sku)obj).getCode() != null)
-			throw new RuntimeException("Code or Manufacturer variables in the comparable object are null. Code and Manufacturer mustn't be null");
+			return false;
 			
 		
 		if (obj instanceof Sku 
@@ -154,16 +139,13 @@ public class Sku extends EntityModel implements Serializable{
 		return false;
 	}
 
-	public byte[] getPhoto() {
-		return photo;
-	}
+	public byte[] getPhoto() { return photo; }
 
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
+	public void setPhoto(byte[] photo) { this.photo = photo; }
 
-	public Set<Category> getCategories() {
-		return categories;
-	}
+	public Set<Category> getCategories() { return categories; }
+	
+	public enum UnitType { CX, KG, M, L, SC, UN; }
+	
 }
 

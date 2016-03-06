@@ -8,48 +8,41 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "sku_partner")
 public class SkuPartner extends EntityModel implements Serializable {	
 	private static final long serialVersionUID = 1L;
 	
+	@Version private int version;
+	
 	@ManyToOne
 	@JoinColumn(name ="sku_id")
+	@NotNull
 	private Sku sku;
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "partner_id")
+	@NotNull
 	private Partner partner;
 	
 	@OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "skuPartner")
 	private Stock stock;
 
-	public Sku getSku() {
-		return sku;
-	}
+	public Sku getSku() { return sku; }
 
-	public void setSku(Sku sku) {
-		this.sku = sku;
-	}
+	public void setSku(Sku sku) { this.sku = sku; }
 
-	public Partner getPartner() {
-		return partner;
-	}
+	public Partner getPartner() { return partner; }
 
-	public void setPartner(Partner partner) {
-		this.partner = partner;
-	}
+	public void setPartner(Partner partner) { this.partner = partner; }
 
-	public Stock getStock() {
-		return stock;
-	}
+	public Stock getStock() { return stock; }
 
-	public void setStock(Stock stock) {
-		this.stock = stock;
-	}
+	public void setStock(Stock stock) { this.stock = stock; }
 	
-	public String toString() {
-		return "SkuPartner: [sku: " + sku + ", partner: " + partner + "]";
-	}
+	public String toString() { return "SkuPartner: [sku: " + sku + ", partner: " + partner + "]"; }
 }

@@ -2,6 +2,7 @@ package com.compremelhor.model.service;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Validator;
 
 import com.compremelhor.model.dao.FreightDao;
 import com.compremelhor.model.entity.Freight;
@@ -9,17 +10,16 @@ import com.compremelhor.model.entity.Purchase;
 
 @Stateless
 public class FreightService {
-	@Inject
-	private FreightDao dao;
+	@Inject	private FreightDao dao;
+	@Inject private Validator validator;
 	
 	public void create(Freight freight) {
-		if (freight.getPurchase() == null) {
-			throw new RuntimeException("Exception in FreightService.create(Freight): purchase can not be null");
-		}		
+		validator.validate(freight);
 		dao.persist(freight);
 	}
 	
 	public Freight edit(Freight freight) {
+		validator.validate(freight);
 		return dao.edit(freight);
 	}
 	

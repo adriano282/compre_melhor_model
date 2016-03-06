@@ -26,6 +26,7 @@ import com.compremelhor.model.entity.Manufacturer;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
+import com.compremelhor.model.validation.groups.PartnerAddress;
 
 @RunWith(Arquillian.class)
 public class ManufacturerServiceTest {
@@ -39,6 +40,7 @@ public class ManufacturerServiceTest {
 				.addPackage(ManufacturerDao.class.getPackage())
 				.addPackage(ManufacturerService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
+				.addPackage(PartnerAddress.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}

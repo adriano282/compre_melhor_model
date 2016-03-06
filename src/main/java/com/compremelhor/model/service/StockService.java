@@ -5,8 +5,8 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Validator;
 
-import com.compremelhor.model.dao.SkuPartnerDao;
 import com.compremelhor.model.dao.StockDao;
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.Sku;
@@ -15,12 +15,11 @@ import com.compremelhor.model.entity.Stock;
 
 @Stateless
 public class StockService {
-	@Inject 
-	private SkuPartnerDao spDao;
+	@Inject private StockDao stDao;
+	@Inject private SkuPartnerService skuPartnerService;
+	@Inject private Validator validator;
 	
-	@Inject 
-	private StockDao stDao;
-	
+	@Lock(LockType.WRITE)
 	public void createStock(Partner partner, Sku sku) {
 		final SkuPartner sp = new SkuPartner();
 		sp.setPartner(partner);
@@ -30,8 +29,11 @@ public class StockService {
 		st.setQuantity(0.0);
 		st.setSkuPartner(sp);
 		st.setUnitPrice(0.00);
+		
+		
 				
-		spDao.persist(sp);
+		skuPartnerService.create(sp);
+		validator.validate(st);
 		stDao.persist(st);
 	}
 	
@@ -42,6 +44,8 @@ public class StockService {
 	
 	@Lock(LockType.WRITE)
 	public Stock edit(Stock stock) {
+		validator.validate(stock);
+		validator.validate(stock.getSkuPartner());		
 		return stDao.edit(stock);
 	}
 	
@@ -49,6 +53,7 @@ public class StockService {
 	public Stock addStock(Stock stock, Double quantity) { 
 		Stock st = stDao.find(stock.getId());
 		st.setQuantity(quantity + st.getQuantity());
+		validator.validate(stock);
 		return stDao.edit(st);
 	}
 	
@@ -57,11 +62,12 @@ public class StockService {
 		if (st == null) {
 			throw new RuntimeException("In StockService.removeStockAndSkuPartner(STOCK): stock can not be null");
 		}
+		
 		SkuPartner sp = st.getSkuPartner();
 		
 		if (sp == null) {
 			throw new RuntimeException("In StockService.removeStockAndSkuPartner(STOCK): skuPartner stock attribute was not loaded");
 		}
-		spDao.remove(sp);
+		skuPartnerService.remove(sp);
 	}
 }

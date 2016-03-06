@@ -28,6 +28,7 @@ import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
+import com.compremelhor.model.validation.groups.PartnerAddress;
 
 @RunWith(Arquillian.class)
 public class StockServiceTest {
@@ -41,6 +42,7 @@ public class StockServiceTest {
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(CategoryService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
+				.addPackage(PartnerAddress.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.merge(SkuServiceTest.createTestArchive())
@@ -80,9 +82,11 @@ public class StockServiceTest {
 		logger.log(Level.WARNING, "TESTE");
 		st.setUnitPrice(20.00);
 		st = stockService.edit(st);		
-		assertEquals(Double.valueOf(20.00), stockService.find(st.getId()).getUnitPrice());		
+		assertEquals(Double.valueOf(20.00), stockService.find(st.getId()).getUnitPrice());
 		st = stockService.addStock(st, 100.00);		
 		assertEquals(Double.valueOf(100.00), stockService.find(st.getId()).getQuantity());
+		
+		
 	}
 	
 	@After
