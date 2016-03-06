@@ -16,16 +16,9 @@
 		<class>com.compremelhor.model.entity.Purchase</class>
 		<class>com.compremelhor.model.entity.Freight</class>
 		<class>com.compremelhor.model.entity.EntityModel</class>
-			
-	
-				  		  
+		<class>com.compremelhor.model.entity.Account</class>
+							  		  
   		<properties>
-  		<!--
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/compre_melhor_db" />
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="jk1994adr" />
-		-->	
 			<property name="hibernate.hbm2ddl.auto" value="update" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />

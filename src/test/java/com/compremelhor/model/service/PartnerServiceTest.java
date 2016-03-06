@@ -17,10 +17,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 
 import com.compremelhor.model.dao.PartnerDao;
 import com.compremelhor.model.entity.Address;
@@ -29,7 +27,6 @@ import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.LoggerProducer;
 
-@FixMethodOrder(MethodSorters.DEFAULT)
 @RunWith(Arquillian.class)
 public class PartnerServiceTest {
 	

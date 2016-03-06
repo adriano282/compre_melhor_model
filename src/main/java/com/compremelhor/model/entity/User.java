@@ -29,7 +29,7 @@ public class User extends EntityModel implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private DocumentType documentType;	
 	
-	@Column(name = "password_hash", nullable = false)
+	@Column(name = "password", nullable = false)
 	private String passwordHash;
 	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
