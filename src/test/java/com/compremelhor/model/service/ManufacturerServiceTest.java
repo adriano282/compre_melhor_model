@@ -3,6 +3,7 @@ package com.compremelhor.model.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotEquals;
 
 import java.time.LocalDateTime;
 import java.util.logging.Level;
@@ -67,6 +68,10 @@ public class ManufacturerServiceTest {
 		
 		logger.log(Level.INFO, "END: Manufacturer Edited");
 		assertEquals(mfrR.getName(), "Other Manufacturer");
+		assertNotEquals(0, mfrR.getId());
+		assertNotNull(mfrR.getLastUpdated());
+		assertNotNull(mfrR.getLastUpdated());
+		logger.log(Level.WARNING, "" + mfrR);
 	}
 	
 	@After

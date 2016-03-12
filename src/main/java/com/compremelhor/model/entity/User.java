@@ -23,6 +23,7 @@ import javax.validation.constraints.Size;
 public class User extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	public User() {}
 	@Column(nullable = false)
 	@NotNull @Size(max=45)
 	private String username;

@@ -22,14 +22,15 @@ public class UserService {
 	@Inject private AddressDao addressDao;
 	@Inject private Validator validator;
 	
-	public void create(User user) {
-		validator.validate(user);
+	public boolean create(User user) {
+		if (validator.validate(user).size() >0) return false;
 		user.getOptionalAddresses()
 		.ifPresent(ads -> {
 			ads.stream()
 				.forEach( ad -> { validator.validate(ad, UserAddress.class); });
 		});		
 		userDao.persist(user);
+		return true;
 	}
 	
 	public User edit(User user) {

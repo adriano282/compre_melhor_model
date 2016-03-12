@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 public class Manufacturer extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	public Manufacturer() {}
+	
 	@NotNull @Size(max = 20)
 	private String name;
 	
