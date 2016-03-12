@@ -9,12 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import com.compremelhor.model.entity.json.LocalDateTimeDeserializer;
-import com.compremelhor.model.entity.json.LocalDateTimeSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.gson.Gson;
-
 @MappedSuperclass
 public abstract class EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
