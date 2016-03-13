@@ -1,5 +1,7 @@
 package com.compremelhor.model.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.validation.Validator;
 
@@ -30,5 +32,9 @@ public class ManufacturerService {
 	
 	public Manufacturer findManufacturerByName(String name) {
 		return manufacturerDao.findManufacturerByName(name);
+	}
+	
+	public List<Manufacturer> getAll() {
+		return manufacturerDao.findAll();
 	}
 }

@@ -51,4 +51,9 @@ public class ManufacturerEJB implements EJBRemote {
 		return null;
 	}
 
+	@Override
+	public Object getAll() {
+		return manufacturerService.getAll();
+	}
+
 }
