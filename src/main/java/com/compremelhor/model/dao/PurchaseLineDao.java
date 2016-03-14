@@ -2,6 +2,7 @@ package com.compremelhor.model.dao;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -9,11 +10,11 @@ import javax.persistence.criteria.Root;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
 
+@Stateless
 public class PurchaseLineDao  extends AbstractDao<PurchaseLine> {
 	private static final long serialVersionUID = 1L;
-	public PurchaseLineDao() {
-		super(PurchaseLine.class);
-	}
+	
+	public PurchaseLineDao() { super(PurchaseLine.class); }
 	
 	public List<PurchaseLine> findAllItensByPurchase(Purchase purchase) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

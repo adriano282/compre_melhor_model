@@ -1,6 +1,5 @@
 package com.compremelhor.model.service;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 
@@ -8,8 +7,8 @@ import com.compremelhor.model.dao.FreightDao;
 import com.compremelhor.model.entity.Freight;
 import com.compremelhor.model.entity.Purchase;
 
-@Stateless
 public class FreightService {
+	
 	@Inject	private FreightDao dao;
 	@Inject private Validator validator;
 	

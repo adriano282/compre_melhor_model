@@ -2,7 +2,6 @@ package com.compremelhor.model.service;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 
@@ -12,8 +11,6 @@ import com.compremelhor.model.entity.Freight;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
 
-
-@Stateless
 public class PurchaseService {
 	
 	@Inject private PurchaseDao purchaseDao;

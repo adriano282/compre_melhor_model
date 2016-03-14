@@ -1,14 +1,13 @@
 package com.compremelhor.model.service;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 
 import com.compremelhor.model.dao.AccountDao;
 import com.compremelhor.model.entity.Account;
 
-@Stateless
 public class AccountService {	
+	
 	@Inject private AccountDao dao;
 	@Inject private Validator validator;
 		

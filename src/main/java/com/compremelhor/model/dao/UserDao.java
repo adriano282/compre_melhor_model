@@ -13,10 +13,7 @@ import com.compremelhor.model.entity.User;
 public class UserDao extends AbstractDao<User> {
 	private static final long serialVersionUID = 1L;
 		
-	public UserDao() {
-		super(User.class);
-	}
-	
+	public UserDao() { super(User.class); }	
 	
 	public User findUserByDocument(String document) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

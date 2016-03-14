@@ -8,7 +8,5 @@ import com.compremelhor.model.entity.Sku;
 public class SkuDao extends AbstractDao<Sku> {
 	private static final long serialVersionUID = 1L;
 
-	public SkuDao() {
-		super(Sku.class);
-	}
+	public SkuDao() { super(Sku.class); }
 }

@@ -1,6 +1,5 @@
 package com.compremelhor.model.service;
 
-
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Stateless;
@@ -28,9 +27,7 @@ public class StockService {
 		final Stock st = new Stock();
 		st.setQuantity(0.0);
 		st.setSkuPartner(sp);
-		st.setUnitPrice(0.00);
-		
-		
+		st.setUnitPrice(0.00);		
 				
 		skuPartnerService.create(sp);
 		validator.validate(st);

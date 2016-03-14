@@ -9,6 +9,7 @@ import com.compremelhor.model.dao.ManufacturerDao;
 import com.compremelhor.model.entity.Manufacturer;
 
 public class ManufacturerService {
+	
 	@Inject	private ManufacturerDao manufacturerDao;
 	@Inject private Validator validator;
 	

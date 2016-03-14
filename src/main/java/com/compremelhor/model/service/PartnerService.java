@@ -2,7 +2,6 @@ package com.compremelhor.model.service;
 
 import java.util.List;
 
-import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.validation.Validator;
 
@@ -13,8 +12,8 @@ import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.exception.PartnerNotFoundException;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
-@Stateless
 public class PartnerService {
+	
 	@Inject	private PartnerDao dao;	
 	@Inject private AddressDao addressDao;
 	@Inject private Validator validator;
@@ -52,14 +51,8 @@ public class PartnerService {
 		return addressDao.edit(address);
 	}
 	
-	public void removeAddress(Address address) {
-		addressDao.remove(address);
-	}
-	
-	public Partner findByAttribute(String attributeName, String attributeValue) {
-		return dao.findByAttribute(attributeName, attributeValue);
-	}
-	
+	public void removeAddress(Address address) { addressDao.remove(address); }
+		
 	private void validate(Partner partner) {
 		validator.validate(partner);
 		partner.getAddresses()

@@ -8,8 +8,6 @@ import com.compremelhor.model.entity.Stock;
 public class StockDao extends AbstractDao<Stock>{
 	private static final long serialVersionUID = 1L;
 
-	public StockDao() {
-		super(Stock.class);
-	}
+	public StockDao() { super(Stock.class); }
 
 }

@@ -14,9 +14,7 @@ import com.compremelhor.model.entity.User;
 public class AddressDao extends AbstractDao<Address> {
 	private static final long serialVersionUID = 1L;
 
-	public AddressDao() {
-		super(Address.class);
-	}
+	public AddressDao() { super(Address.class); }
 	
 	public List<Address> findAllAddressByUser(User user) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

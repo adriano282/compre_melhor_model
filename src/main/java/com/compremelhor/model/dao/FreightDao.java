@@ -11,9 +11,8 @@ import com.compremelhor.model.entity.Purchase;
 @Stateless
 public class FreightDao extends AbstractDao<Freight> {
 	private static final long serialVersionUID = 1L;
-	public FreightDao() {
-		super(Freight.class);
-	}
+	
+	public FreightDao() { super(Freight.class);	}
 	
 	public Freight findFreightByPurchase(Purchase purchase) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
@@ -27,5 +26,4 @@ public class FreightDao extends AbstractDao<Freight> {
 			
 		return getEntityManager().createQuery(criteriaQuery).getSingleResult();
 	}
-
 }

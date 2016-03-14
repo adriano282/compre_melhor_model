@@ -13,9 +13,7 @@ import com.compremelhor.model.entity.Category;
 public class CategoryDao extends AbstractDao<Category> {
 	private static final long serialVersionUID = 1L;
 
-	public CategoryDao() {
-		super(Category.class);
-	}
+	public CategoryDao() { super(Category.class); }
 	
 	public Category find(int id) {
 		return getEntityManager().find(Category.class, id);

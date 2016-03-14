@@ -8,7 +8,5 @@ import com.compremelhor.model.entity.Partner;
 public class PartnerDao extends AbstractDao<Partner>{
 	private static final long serialVersionUID = 1L;
 
-	public PartnerDao() {
-		super(Partner.class);
-	}
+	public PartnerDao() { super(Partner.class); }
 }

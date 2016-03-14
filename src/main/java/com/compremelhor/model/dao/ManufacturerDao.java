@@ -13,9 +13,7 @@ import com.compremelhor.model.entity.Manufacturer;
 public class ManufacturerDao extends AbstractDao<Manufacturer> {
 	private static final long serialVersionUID = 1L;
 
-	public ManufacturerDao() {
-		super(Manufacturer.class);
-	}
+	public ManufacturerDao() { super(Manufacturer.class); }
 	
 	public Manufacturer findManufacturerByName(String name) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();

@@ -11,9 +11,7 @@ import com.compremelhor.model.entity.SkuPartner;
 public class SkuPartnerDao extends AbstractDao<SkuPartner>{
 	private static final long serialVersionUID = 1L;
 
-	public SkuPartnerDao() {
-		super(SkuPartner.class);
-	}
+	public SkuPartnerDao() { super(SkuPartner.class); }
 
 	public SkuPartner findSkuPartnerBySku(Sku sku) {
 		if (sku == null) {

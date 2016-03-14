@@ -15,9 +15,9 @@ import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.validation.groups.UserAddress;
 
-
 @Stateless
 public class UserService {
+	
 	@Inject	private UserDao userDao;
 	@Inject private AddressDao addressDao;
 	@Inject private Validator validator;

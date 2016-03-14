@@ -1,5 +1,7 @@
 package com.compremelhor.model.remote;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -10,50 +12,41 @@ import com.compremelhor.model.service.ManufacturerService;
 
 @Stateless
 @Remote(EJBRemote.class)
-public class ManufacturerEJB implements EJBRemote {
+public class ManufacturerEJB implements EJBRemote<Manufacturer> {
 
 	@Inject private ManufacturerService manufacturerService;
 	
 	@Override
-	public Object get(int id) {
+	public Manufacturer get(int id) {
 		return manufacturerService.findManufacturer(id);
 	}
 
 	@Override
-	public Object edit(Object o) throws InvalidEntityException {
-		if (o instanceof Manufacturer) {
-			try {
-				return manufacturerService.editManufacturer((Manufacturer)o);
-			} catch (Exception e) {
-				throw new InvalidEntityException(e.getMessage());
-			}		
-		}
-		return null;
-	}
-
-	@Override
-	public void delete(Object o) {
-		if (o instanceof Manufacturer) {
-			manufacturerService.removeManufacturer((Manufacturer)o);
+	public Manufacturer edit(Manufacturer o) throws InvalidEntityException {
+		try {
+			return manufacturerService.editManufacturer(o);
+		} catch (Exception e) {
+			throw new InvalidEntityException(e.getMessage());
 		}
 	}
 
 	@Override
-	public Object create(Object o) throws InvalidEntityException {
-		if (o instanceof Manufacturer) {
-			try {
-				manufacturerService.createManufacturer((Manufacturer)o);
-			} catch (Exception e) {
-				throw new InvalidEntityException(e.getMessage());
-			}
-			return manufacturerService.findManufacturer(((Manufacturer) o).getId());			
-		}	
-		return null;
+	public void delete(Manufacturer o) {
+		manufacturerService.removeManufacturer(o);
 	}
 
 	@Override
-	public Object getAll() {
+	public Manufacturer create(Manufacturer o) throws InvalidEntityException {
+		try {
+			manufacturerService.createManufacturer(o);
+		} catch (Exception e) {
+			throw new InvalidEntityException(e.getMessage());
+		}
+		return manufacturerService.findManufacturer(o.getId());			
+	}
+
+	@Override
+	public List<Manufacturer> getAll() {
 		return manufacturerService.getAll();
 	}
-
 }

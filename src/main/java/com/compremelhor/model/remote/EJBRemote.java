@@ -1,11 +1,14 @@
 package com.compremelhor.model.remote;
 
+import java.util.List;
+
+import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.exception.InvalidEntityException;
 
-public interface EJBRemote {
-	public Object get(int id);
-	public Object edit(Object o) throws InvalidEntityException;
-	public void delete(Object o);
-	public Object create(Object o) throws InvalidEntityException;
-	public Object getAll();
+public interface EJBRemote<T extends EntityModel> {
+	public T get(int id);
+	public T edit(T o) throws InvalidEntityException;
+	public void delete(T o);
+	public T create(T o) throws InvalidEntityException;
+	public List<T> getAll();
 }
