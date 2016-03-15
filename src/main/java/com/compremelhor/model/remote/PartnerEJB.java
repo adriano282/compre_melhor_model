@@ -2,12 +2,16 @@ package com.compremelhor.model.remote;
 
 import java.util.List;
 
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.service.PartnerService;
 
+@Stateless
+@Remote(EJBRemote.class)
 public class PartnerEJB implements EJBRemote<Partner>{
 
 	@Inject private PartnerService partnerService;
@@ -46,4 +50,8 @@ public class PartnerEJB implements EJBRemote<Partner>{
 		return partnerService.findAll();
 	}
 
+	@Override
+	public List<Partner> getAll(int start, int size) {
+		return partnerService.findAll(start, size);
+	}
 }

@@ -38,4 +38,8 @@ public class ManufacturerService {
 	public List<Manufacturer> getAll() {
 		return manufacturerDao.findAll();
 	}
+	
+	public List<Manufacturer> getAll(int start, int size) {
+		return manufacturerDao.findAll(start, size);
+	}
 }

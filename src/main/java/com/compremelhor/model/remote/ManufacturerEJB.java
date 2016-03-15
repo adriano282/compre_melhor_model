@@ -49,4 +49,9 @@ public class ManufacturerEJB implements EJBRemote<Manufacturer> {
 	public List<Manufacturer> getAll() {
 		return manufacturerService.getAll();
 	}
+
+	@Override
+	public List<Manufacturer> getAll(int start, int size) {
+		return manufacturerService.getAll(start, size);
+	}
 }

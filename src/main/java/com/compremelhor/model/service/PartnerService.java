@@ -32,6 +32,10 @@ public class PartnerService {
 	
 	public List<Partner> findAll() { return dao.findAll(); }
 	
+	public List<Partner> findAll(int start, int size) {
+		return dao.findAll(start, size);
+	}
+	
 	public void remove(Partner partner) { dao.remove(partner); }
 	
 	public void addAddress(int partnerId, Address address) {

@@ -11,4 +11,5 @@ public interface EJBRemote<T extends EntityModel> {
 	public void delete(T o);
 	public T create(T o) throws InvalidEntityException;
 	public List<T> getAll();
+	public List<T> getAll(int start, int size);
 }
