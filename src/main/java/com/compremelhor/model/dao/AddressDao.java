@@ -1,6 +1,7 @@
 package com.compremelhor.model.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -8,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import com.compremelhor.model.entity.Address;
+import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.User;
 
 @Stateless

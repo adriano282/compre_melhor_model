@@ -1,6 +1,7 @@
 package com.compremelhor.model.remote;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -53,5 +54,23 @@ public class PartnerEJB implements EJBRemote<Partner>{
 	@Override
 	public List<Partner> getAll(int start, int size) {
 		return partnerService.findAll(start, size);
+	}
+
+	@Override
+	public Partner get(int id, Set<String> feches) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Partner> getAll(Set<String> feches) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Partner> getAll(int start, int size, Set<String> feches) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

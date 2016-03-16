@@ -1,6 +1,7 @@
 package com.compremelhor.model.remote;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -53,5 +54,23 @@ public class ManufacturerEJB implements EJBRemote<Manufacturer> {
 	@Override
 	public List<Manufacturer> getAll(int start, int size) {
 		return manufacturerService.getAll(start, size);
+	}
+
+	@Override
+	public Manufacturer get(int id, Set<String> feches) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Manufacturer> getAll(Set<String> feches) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Manufacturer> getAll(int start, int size, Set<String> feches) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

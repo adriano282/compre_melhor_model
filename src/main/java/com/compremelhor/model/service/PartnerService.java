@@ -1,6 +1,7 @@
 package com.compremelhor.model.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.validation.Validator;
@@ -57,6 +58,11 @@ public class PartnerService {
 	
 	public void removeAddress(Address address) { addressDao.remove(address); }
 		
+	
+	public Partner get(int id, Set<String> fetches) {
+		return dao.find(id, fetches);
+	}
+	
 	private void validate(Partner partner) {
 		validator.validate(partner);
 		partner.getAddresses()
