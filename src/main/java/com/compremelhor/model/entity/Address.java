@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 
 import com.compremelhor.model.validation.groups.PartnerAddress;
 import com.compremelhor.model.validation.groups.UserAddress;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "address")
@@ -37,10 +38,12 @@ public class Address extends EntityModel implements Serializable {
 	
 	@ManyToOne
 	@NotNull(groups=PartnerAddress.class)
+	@JsonIgnore
 	private Partner partner;
 	
 	@ManyToOne
 	@NotNull(groups=UserAddress.class)
+	@JsonIgnore
 	private User user;
 	
 	public String getStreet() {

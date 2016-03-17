@@ -4,10 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+
+import junit.framework.Assert;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -32,6 +36,7 @@ import com.compremelhor.model.validation.groups.PartnerAddress;
 public class PartnerServiceTest {
 	
 	@Inject private PartnerService partnerService;
+	@Inject private AddressService addressService;
 	@Inject private Logger logger;
 	
 	private Partner partner;
@@ -87,6 +92,18 @@ public class PartnerServiceTest {
 		logger.log(Level.INFO, "Four address added.");
 		
 	}
+	
+	@Test
+	public void removingAddresses() {
+		Set<String> fetches = new HashSet<>();
+		fetches.add("addresses");
+		partner = partnerService.find(partner.getId(), fetches);
+		partner.getAddresses().stream().forEach(a -> addressService.remove(a));
+		
+		partner = partnerService.find(partner.getId(), fetches);
+		Assert.assertEquals(0, partner.getAddresses().size());
+	}
+	
 	
 	private Address getAnAddress() {
 		Address ad = new Address();

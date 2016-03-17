@@ -7,8 +7,6 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.jboss.util.NotImplementedException;
-
 import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.service.AddressService;
@@ -35,26 +33,26 @@ public class AddressEJB implements EJBRemote<Address>{
 	}
 
 	@Override
-	public Address get(int id, Set<String> feches) { throw new NotImplementedException(); }
+	public Address get(int id, Set<String> feches) { return null; }
 	
 	@Override
 	public List<Address> getAll() {
-		throw new NotImplementedException();
+		return null;
 	}
 
 	@Override
 	public List<Address> getAll(Set<String> feches) {
-		throw new NotImplementedException();
+		return null;
 	}
 
 	@Override
 	public List<Address> getAll(int start, int size) {
-		throw new NotImplementedException();
+		return null;
 	}
 
 	@Override
 	public List<Address> getAll(int start, int size, Set<String> feches) {
-		throw new NotImplementedException();
+		return null;
 	}
 
 }

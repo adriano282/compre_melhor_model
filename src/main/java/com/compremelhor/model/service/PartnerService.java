@@ -59,7 +59,7 @@ public class PartnerService {
 	public void removeAddress(Address address) { addressDao.remove(address); }
 		
 	
-	public Partner get(int id, Set<String> fetches) {
+	public Partner find(int id, Set<String> fetches) {
 		return dao.find(id, fetches);
 	}
 	

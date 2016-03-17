@@ -57,9 +57,8 @@ public class PartnerEJB implements EJBRemote<Partner>{
 	}
 
 	@Override
-	public Partner get(int id, Set<String> feches) {
-		// TODO Auto-generated method stub
-		return null;
+	public Partner get(int id, Set<String> fetches) {
+		return partnerService.find(id, fetches);
 	}
 
 	@Override
