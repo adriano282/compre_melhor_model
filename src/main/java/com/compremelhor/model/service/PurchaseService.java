@@ -3,43 +3,28 @@ package com.compremelhor.model.service;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.validation.Validator;
 
 import com.compremelhor.model.dao.PurchaseDao;
 import com.compremelhor.model.dao.PurchaseLineDao;
 import com.compremelhor.model.entity.Freight;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
+import com.compremelhor.model.exception.InvalidEntityException;
 
-public class PurchaseService {
+public class PurchaseService extends AbstractService<Purchase> {
 	
 	@Inject private PurchaseDao purchaseDao;
 	@Inject	private PurchaseLineDao purchaseLineDao;
 	@Inject private FreightService freightService;
-	@Inject private Validator validator;
 	
-	public void remove(Purchase purchase) {
-		purchaseDao.remove(purchase);
-	}
+
+	@Override
+	protected void setDao() {super.dao = this.purchaseDao; }
 	
-	public void create(Purchase purchase) {
-		validator.validate(purchase);
-		purchaseDao.persist(purchase);
-	}
-	
-	public Purchase edit(Purchase purchase) {
-		validator.validate(purchase);
-		return purchaseDao.edit(purchase);
-	}
-	
-	public Purchase find(int id) {
-		return purchaseDao.find(id);
-	}
-	
-	public void addItem(Purchase purchase, PurchaseLine line) {
+	public void addItem(Purchase purchase, PurchaseLine line) throws InvalidEntityException {
 		verifyIfPurchaseExist(purchase);
 		line.setPurchase(purchase);
-		validator.validate(line);
+		validate(purchase);
 		purchaseLineDao.persist(line);
 	}
 		
@@ -51,8 +36,8 @@ public class PurchaseService {
 		return purchaseLineDao.find(id);
 	}
 	
-	public PurchaseLine editItem(PurchaseLine line) {
-		validator.validate(line);
+	public PurchaseLine editItem(PurchaseLine line) throws InvalidEntityException {
+		validate(line);
 		return purchaseLineDao.edit(line);
 	}
 	
@@ -72,12 +57,11 @@ public class PurchaseService {
 		return freightService.find(id);
 	}
 	
-	public void addFreight(Purchase purchase, Freight freight) {
+	public void addFreight(Purchase purchase, Freight freight) throws InvalidEntityException {
 		if (verifyIfPurchaseExist(purchase).getFreight() != null)
 			throw new RuntimeException("Exception in PurchaseService addFreight(PURCHASE, FREIGHT): this purchase already has a freight.");
 		
 		freight.setPurchase(purchase);
-		validator.validate(freight);
 		freightService.create(freight);
 	}
 	

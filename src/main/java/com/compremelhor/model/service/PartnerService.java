@@ -1,74 +1,46 @@
 package com.compremelhor.model.service;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.validation.Validator;
 
 import com.compremelhor.model.dao.AddressDao;
 import com.compremelhor.model.dao.PartnerDao;
 import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.Partner;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.PartnerNotFoundException;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
-public class PartnerService {
+public class PartnerService extends AbstractService<Partner>{
 	
 	@Inject	private PartnerDao dao;	
 	@Inject private AddressDao addressDao;
-	@Inject private Validator validator;
 	
-	public void create(Partner partner) {
-		validate(partner);
-		dao.persist(partner);
+	@Override
+	protected void setDao() { super.dao = this.dao; }
+	
+	public Partner find(int id, Set<String> fetches) {
+		return dao.find(id, fetches);
 	}
 	
-	public Partner edit(Partner partner) {
-		validate(partner);
-		return dao.edit(partner);
-	}
 	
-	public Partner find(int id) { return dao.find(id); }
-	
-	public List<Partner> findAll() { return dao.findAll(); }
-	
-	public List<Partner> findAll(int start, int size) {
-		return dao.findAll(start, size);
-	}
-	
-	public void remove(Partner partner) { dao.remove(partner); }
-	
-	public void addAddress(int partnerId, Address address) {
+	public void addAddress(int partnerId, Address address) throws InvalidEntityException {
 		Partner p = dao.find(partnerId);
 		
 		if (p == null) {
 			throw new PartnerNotFoundException(partnerId);
 		}
 		address.setPartner(p);
-		validator.validate(address, PartnerAddress.class);
+		validate(address, PartnerAddress.class);
 		p.getAddresses().add(address);
 		edit(p);
 	}
 	
-	public Address editAddress(Address address) {
-		validator.validate(address, PartnerAddress.class);
+	public Address editAddress(Address address) throws InvalidEntityException {
+		validate(address, PartnerAddress.class);
 		return addressDao.edit(address);
 	}
 	
 	public void removeAddress(Address address) { addressDao.remove(address); }
-		
-	
-	public Partner find(int id, Set<String> fetches) {
-		return dao.find(id, fetches);
-	}
-	
-	private void validate(Partner partner) {
-		validator.validate(partner);
-		partner.getAddresses()
-			.stream()
-			.forEach(ad -> {
-				validator.validate(partner, PartnerAddress.class);
-			});
-	}
 }

@@ -31,4 +31,5 @@ public class ManufacturerDao extends AbstractDao<Manufacturer> {
 		}
 		return result.get(0);
 	}
+	
 }

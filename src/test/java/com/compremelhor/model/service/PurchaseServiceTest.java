@@ -31,6 +31,7 @@ import com.compremelhor.model.entity.SkuPartner;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -45,6 +46,7 @@ public class PurchaseServiceTest {
 				.addPackage(UserNotFoundException.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(CategoryService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
@@ -81,7 +83,7 @@ public class PurchaseServiceTest {
 	private Freight freight;
 	
 	@Before
-	public void config() {
+	public void config() throws InvalidEntityException {
 		ust = new UserServiceTest();
 		sst = new SkuServiceTest();
 		pst = new PartnerServiceTest();
@@ -104,7 +106,7 @@ public class PurchaseServiceTest {
 	}
 	
 	@Test
-	public void findItens() {
+	public void findItens() throws InvalidEntityException {
 		List<PurchaseLine> itens = purchaseService.findAllItensByPurchase(purchase);
 		assertNotNull(itens);
 		assertEquals(1, itens.size());
@@ -143,7 +145,7 @@ public class PurchaseServiceTest {
 		assertNull(purchase);
 	}
 	
-	public Purchase createPurchase(PurchaseService service, UserService userService, Purchase purchase, User user, Freight freight) {
+	public Purchase createPurchase(PurchaseService service, UserService userService, Purchase purchase, User user, Freight freight) throws InvalidEntityException {
 		assertNotNull(service);
 		assertNotNull(user);
 		
@@ -175,7 +177,7 @@ public class PurchaseServiceTest {
 		return purchase;
 	}
 	
-	public PurchaseLine addLine(PurchaseService service, Purchase purchase, PurchaseLine line, Stock stock) {
+	public PurchaseLine addLine(PurchaseService service, Purchase purchase, PurchaseLine line, Stock stock) throws InvalidEntityException {
 		assertNotNull(service);
 		assertNotNull(purchase);
 		assertNotNull(stock);

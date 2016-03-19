@@ -30,6 +30,7 @@ import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.util.LoggerProducer;
@@ -45,6 +46,7 @@ public class UserServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(UserService.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
@@ -57,7 +59,7 @@ public class UserServiceTest {
 	private User user;
 	
 	@Before
-	public void config() throws NoSuchAlgorithmException {
+	public void config() throws NoSuchAlgorithmException, InvalidEntityException {
 		user = createUser(userService, user);
 	}
 	
@@ -83,7 +85,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void editUser() throws NoSuchAlgorithmException {
+	public void editUser() throws NoSuchAlgorithmException, InvalidEntityException {
 				
 		logger.log(Level.INFO, "Start: Editing an user...");
 		user.setUsername("Pedro");
@@ -117,7 +119,7 @@ public class UserServiceTest {
 		assertNull(service.find(user.getId()));
 	}
 	
-	public User createUser(UserService service, User user) {
+	public User createUser(UserService service, User user) throws InvalidEntityException {
 		assertNotNull(service);
 				
 		user = new User();

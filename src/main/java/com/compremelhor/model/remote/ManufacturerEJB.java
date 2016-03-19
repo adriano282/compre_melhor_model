@@ -19,13 +19,13 @@ public class ManufacturerEJB implements EJBRemote<Manufacturer> {
 	
 	@Override
 	public Manufacturer get(int id) {
-		return manufacturerService.findManufacturer(id);
+		return manufacturerService.find(id);
 	}
 
 	@Override
 	public Manufacturer edit(Manufacturer o) throws InvalidEntityException {
 		try {
-			return manufacturerService.editManufacturer(o);
+			return manufacturerService.edit(o);
 		} catch (Exception e) {
 			throw new InvalidEntityException(e.getMessage());
 		}
@@ -33,17 +33,17 @@ public class ManufacturerEJB implements EJBRemote<Manufacturer> {
 
 	@Override
 	public void delete(Manufacturer o) {
-		manufacturerService.removeManufacturer(o);
+		manufacturerService.remove(o);
 	}
 
 	@Override
 	public Manufacturer create(Manufacturer o) throws InvalidEntityException {
 		try {
-			manufacturerService.createManufacturer(o);
+			manufacturerService.create(o);
 		} catch (Exception e) {
 			throw new InvalidEntityException(e.getMessage());
 		}
-		return manufacturerService.findManufacturer(o.getId());			
+		return manufacturerService.find(o.getId());			
 	}
 
 	@Override

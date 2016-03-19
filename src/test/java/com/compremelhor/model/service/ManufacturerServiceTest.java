@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import com.compremelhor.model.dao.ManufacturerDao;
 import com.compremelhor.model.entity.Manufacturer;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -40,6 +41,7 @@ public class ManufacturerServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(ManufacturerDao.class.getPackage())
 				.addPackage(ManufacturerService.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
@@ -52,19 +54,19 @@ public class ManufacturerServiceTest {
 	private Manufacturer mfr;
 	
 	@Before
-	public void config() {
-		mfr = createManufacturer(mfrService, mfr);
+	public void config() throws InvalidEntityException {
+		mfr = create(mfrService, mfr);
 	}
 	
 	@Test
-	public void editManufacturer() {
+	public void edit() throws InvalidEntityException {
 		logger.log(Level.INFO, "START: Editing a manufacturer");
 		
 		mfr.setName("Other Manufacturer");
 		mfr.setLastUpdated(LocalDateTime.now());
 		
 		Manufacturer mfrR = null;
-		mfrR = editManufacturer(mfrService, mfr);
+		mfrR = edit(mfrService, mfr);
 		
 		logger.log(Level.INFO, "END: Manufacturer Edited");
 		assertEquals(mfrR.getName(), "Other Manufacturer");
@@ -77,36 +79,36 @@ public class ManufacturerServiceTest {
 	@After
 	public void clean() {
 		logger.log(Level.INFO,"Start: Deleting the manufacturer: " + mfr);
-		removeManufacturer(mfrService, mfr);
-		mfrService.removeManufacturer(mfr);
-		assertNull(findManufacturer(mfrService, mfr.getId()));
+		remove(mfrService, mfr);
+		mfrService.remove(mfr);
+		assertNull(find(mfrService, mfr.getId()));
 		logger.log(Level.INFO, "END: Manufacturer Deleted");
 	}
 	
-	public Manufacturer editManufacturer(ManufacturerService service, Manufacturer manufacturer) {
+	public Manufacturer edit(ManufacturerService service, Manufacturer manufacturer) throws InvalidEntityException {
 		assertNotNull(service);
-		return service.editManufacturer(manufacturer);
+		return service.edit(manufacturer);
 	}
-	public void removeManufacturer(ManufacturerService service, Manufacturer manufacturer) {
+	public void remove(ManufacturerService service, Manufacturer manufacturer) {
 		assertNotNull(service);
-		service.removeManufacturer(findManufacturer(service, manufacturer.getId()));
-		assertNull(findManufacturer(service, manufacturer.getId()));
+		service.remove(find(service, manufacturer.getId()));
+		assertNull(find(service, manufacturer.getId()));
 	}
 	
-	public Manufacturer createManufacturer (ManufacturerService service, Manufacturer manufacturer) {
+	public Manufacturer create (ManufacturerService service, Manufacturer manufacturer) throws InvalidEntityException {
 		assertNotNull(service);
 		manufacturer = new Manufacturer();
 		manufacturer.setName("HELLMANS");
 		manufacturer.setDateCreated(LocalDateTime.now());
 		manufacturer.setLastUpdated(LocalDateTime.now());		
-		service.createManufacturer(manufacturer);
-		Manufacturer m = findManufacturer(service, manufacturer.getId());
+		service.create(manufacturer);
+		Manufacturer m = find(service, manufacturer.getId());
 		assertNotNull(m);
 		return m;
 	}
 	
-	public Manufacturer findManufacturer(ManufacturerService service, int id) {
+	public Manufacturer find(ManufacturerService service, int id) {
 		assertNotNull(service);
-		return service.findManufacturer(id);
+		return service.find(id);
 	}
 }

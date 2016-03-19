@@ -30,6 +30,7 @@ import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.Sku.UnitType;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -44,6 +45,7 @@ public class SkuServiceTest {
 				.addPackage(UserNotFoundException.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(CategoryService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
@@ -59,19 +61,19 @@ public class SkuServiceTest {
 	private Sku sku;
 				 
 	@Before
-	public void config() {
+	public void config() throws InvalidEntityException {
 		sku = createSkuAndCategoryAndManufacturer(skuService, sku);
 	}
 	
 	@Test
-	public void searchAndEditAProduct() {		
+	public void searchAndEditAProduct() throws InvalidEntityException {		
 		alterations();
 		searching();
 	}
 	
-	private void alterations() {
+	private void alterations() throws InvalidEntityException {
 		sku.getCode().setCode("CODIGO ALTERADO");
-		sku = skuService.editProduct(sku);
+		sku = skuService.edit(sku);
 		logger.log(Level.INFO, "Sku altered: " + sku);
 		sku = findSku(skuService, sku.getId());
 		assertNotNull(sku);
@@ -80,7 +82,7 @@ public class SkuServiceTest {
 	private void searching() {
 		logger.log(Level.INFO, "Category found: " + categoryService.findCategoryBySkuId(sku.getId()).getName());
 		
-		Manufacturer m = manufacturerService.findManufacturer(sku.getManufacturer().getId());
+		Manufacturer m = manufacturerService.find(sku.getManufacturer().getId());
 		logger.log(Level.INFO, "Manufacturer found: " + m);
 		
 		sku = findSku(skuService, sku.getId());
@@ -105,22 +107,22 @@ public class SkuServiceTest {
 		Category c = cs.findCategoryBySkuId(sku.getId());
 		assertNotNull(c);
 		
-		service.removeProduct(sku);
+		service.remove(sku);
 		assertNull(findSku(service, sku.getId()));
 		
-		cs.removeCategory(c);
+		cs.remove(c);
 		assertNull(cs.findCategory(c.getId()));
 		
-		manufacturerService.removeManufacturer(m);
-		assertNull(manufacturerService.findManufacturer(m.getId()));
+		manufacturerService.remove(m);
+		assertNull(manufacturerService.find(m.getId()));
 	}
 	
 	public Sku findSku(SkuService service, int id) {
 		assertNotNull(service);
-		return service.findProduct(id);
+		return service.find(id);
 	}
 	
-	public Sku createSkuAndCategoryAndManufacturer(SkuService service, Sku sku) {
+	public Sku createSkuAndCategoryAndManufacturer(SkuService service, Sku sku) throws InvalidEntityException {
 		assertNotNull(service);
 				
 		Code code = new Code();
@@ -145,8 +147,8 @@ public class SkuServiceTest {
 		sku.addCategory(category);
 		
 			
-		service.createProduct(sku);
-		Sku s = service.findProduct(sku.getId());
+		service.create(sku);
+		Sku s = service.find(sku.getId());
 		assertNotNull(s);
 		return s;
 	}

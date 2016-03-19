@@ -3,8 +3,13 @@ package com.compremelhor.model.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
+
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -21,6 +26,7 @@ import com.compremelhor.model.dao.PartnerDao;
 import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -35,6 +41,7 @@ public class AccountServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(PartnerDao.class.getPackage())
 				.addPackage(PartnerService.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
@@ -45,6 +52,7 @@ public class AccountServiceTest {
 	
 	@Inject private AccountService accountService;
 	@Inject private PartnerService partnerService;
+	@Inject private Logger logger;
 	
 	private Account account;
 	private Partner partner;
@@ -53,14 +61,26 @@ public class AccountServiceTest {
 	
 
 	@Before
-	public void config() {
+	public void config() throws InvalidEntityException {
 		pst = new PartnerServiceTest();
 		partner = pst.createPartner(partnerService, partner);
 		account = createAccount(accountService, account, partner);
 	}
 	
 	@Test
-	public void changeUserName() {
+	public void shouldThrowAnEntityInvalidException() {
+		account.setUsername(null);
+		try {
+			accountService.edit(account);
+		} catch (Exception e) {
+			logger.log(Level.INFO, "Exception trown: " + e.getMessage());
+			assertTrue(e instanceof InvalidEntityException);
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void changeUserName() throws InvalidEntityException {
 		account.setUsername("adriano");
 		accountService.edit(account);
 		
@@ -85,7 +105,7 @@ public class AccountServiceTest {
 
 	}
 	
-	public Account createAccount(AccountService service, Account account, Partner partner) {
+	public Account createAccount(AccountService service, Account account, Partner partner) throws InvalidEntityException {
 		assertNotNull(service);
 		assertNotNull(partner);
 		

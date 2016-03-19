@@ -28,6 +28,7 @@ import com.compremelhor.model.dao.PartnerDao;
 import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -48,6 +49,7 @@ public class PartnerServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(PartnerDao.class.getPackage())
 				.addPackage(PartnerService.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
@@ -56,13 +58,13 @@ public class PartnerServiceTest {
 	}
 	
 	@Before
-	public void config() {
+	public void config() throws InvalidEntityException {
 		partner = createPartner(partnerService, partner);
 		logger.log(Level.INFO, "Partner created: " + partner);
 	}
 	
 	@Test
-	public void editingPartner() {
+	public void editingPartner() throws InvalidEntityException {
 		partner.setName("Nome Alterado");
 		partnerService.edit(partner);
 		assertEquals("Nome Alterado", partnerService.find(partner.getId()).getName());
@@ -70,7 +72,7 @@ public class PartnerServiceTest {
 	}
 	
 	@Test
-	public void additioningAnAddress() {
+	public void additioningAnAddress() throws InvalidEntityException {
 		partnerService.addAddress(partner.getId(), getAnAddress());
 		partner = partnerService.find(partner.getId());
 		assertEquals(1, partner.getAddresses().size());
@@ -131,7 +133,7 @@ public class PartnerServiceTest {
 		assertNull(partner);
 	}
 	
-	public Partner createPartner(PartnerService service, Partner partner) {
+	public Partner createPartner(PartnerService service, Partner partner) throws InvalidEntityException {
 		assertNotNull(service);
 		partner = new Partner();
 		partner.setName("Super Mercado da Gente");

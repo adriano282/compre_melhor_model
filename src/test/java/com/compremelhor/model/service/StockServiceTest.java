@@ -26,6 +26,7 @@ import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.SkuPartner;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -43,6 +44,7 @@ public class StockServiceTest {
 				.addPackage(CategoryService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
+				.addPackage(InvalidEntityException.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
 				.merge(SkuServiceTest.createTestArchive())
@@ -66,7 +68,7 @@ public class StockServiceTest {
 	private Sku sku;
 	
 	@Before
-	public void create() {
+	public void create() throws InvalidEntityException {
 		sst = new SkuServiceTest();
 		pst = new PartnerServiceTest();
 		
@@ -78,7 +80,7 @@ public class StockServiceTest {
 	}
 	
 	@Test
-	public void editStock() {
+	public void editStock() throws InvalidEntityException {
 		logger.log(Level.WARNING, "TESTE");
 		st.setUnitPrice(20.00);
 		st = stockService.edit(st);		
@@ -112,13 +114,13 @@ public class StockServiceTest {
 		assertNull(skuPartner);		
 	}
 	
-	public Stock createStock(StockService service, SkuPartnerService sps, PartnerService partnerService, SkuService skuService, Partner partner, Sku sku) {
+	public Stock createStock(StockService service, SkuPartnerService sps, PartnerService partnerService, SkuService skuService, Partner partner, Sku sku) throws InvalidEntityException {
 		assertNotNull(service);
 		assertNotNull(partner);
 		assertNotNull(sku);
 		
 		assertNotNull(partnerService.find(partner.getId()));
-		assertNotNull(skuService.findProduct(sku.getId()));
+		assertNotNull(skuService.find(sku.getId()));
 		
 		service.createStock(partner, sku);
 		

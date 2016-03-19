@@ -30,13 +30,14 @@ public class CategoryDao extends AbstractDao<Category> {
 			.where(cb.equal(cat.get("id"), ob));
 		
 		List<Category> result = getEntityManager().createQuery(criteriaQuery).getResultList();
-		if (result == null) {
-			return null;
-		}
+		
+		if (result == null) return null;
+		if (result.size() == 0) return null;
+		
 		if (result != null && result.size() > 1) {
 			throw new RuntimeException("This query has been returned more than one result.");
 		}		
-
+		
 		return result.get(0);		
 	}
 	
