@@ -39,7 +39,7 @@ public class User extends EntityModel implements Serializable {
 	
 	@Column(name = "password")
 	@NotNull
-	private String passwordHash;
+	private String password;
 	
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
 	@Valid
@@ -57,13 +57,13 @@ public class User extends EntityModel implements Serializable {
 
 	public void setDocumentType(DocumentType documentType) { this.documentType = documentType; }
 
-	public String getPasswordHash() { return passwordHash; }
+	public String getPasswordHash() { return password; }
 
-	public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+	public void setPasswordHash(String passwordHash) { this.password = passwordHash; }
 
 	public String toString() {
 		return "User [id: " + id + ", username: " + username + ", document: " + document 
-				+ ", documentType: " + documentType.name() + ", passwordHash: " + passwordHash;
+				+ ", documentType: " + documentType.name() + ", password: " + password;
 	}
 	public static enum DocumentType implements Serializable {
 		CNPJ, CPF;

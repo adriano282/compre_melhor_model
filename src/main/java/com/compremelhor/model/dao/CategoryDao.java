@@ -1,6 +1,7 @@
 package com.compremelhor.model.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,12 +20,14 @@ public class CategoryDao extends AbstractDao<Category> {
 		return getEntityManager().find(Category.class, id);
 	}
 	
-	@Override
-	public Category find(Object ob) {
+	public Category find(Object ob, Set<String> fetches) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<Category> criteriaQuery = cb.createQuery(Category.class);
 		Root<Category> cat = criteriaQuery.from(Category.class);
-		cat.fetch("skus");
+		
+		if (fetches.contains("skus"))
+			cat.fetch("skus");
+		
 		criteriaQuery
 			.select(cat)
 			.where(cb.equal(cat.get("id"), ob));
