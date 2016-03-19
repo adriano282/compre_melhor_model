@@ -1,9 +1,8 @@
 package com.compremelhor.model.dao;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -11,8 +10,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
-
-import com.compremelhor.model.exception.InvalidEntityException;
 
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public abstract class AbstractDao<T extends Serializable> implements Serializable {
@@ -63,6 +60,9 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 		em.createQuery(criteriaDelete).executeUpdate();
 	}
 	
+	public T find(int id, Set<String> fetches) {
+		throw new RuntimeException("NOT IMPLEMENT YET");
+	}
 		
 	protected EntityManager getEntityManager() { return em; }
 	

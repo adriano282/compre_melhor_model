@@ -11,6 +11,7 @@ import javax.validation.Validator;
 
 import com.compremelhor.model.dao.AbstractDao;
 import com.compremelhor.model.entity.EntityModel;
+import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.exception.InvalidEntityException;
 
 public abstract class AbstractService<T extends EntityModel> {
@@ -20,7 +21,7 @@ public abstract class AbstractService<T extends EntityModel> {
 	protected AbstractDao<T> dao;
 		
 	@PostConstruct
-	public void registerDAO() {
+	void registerDAO() {
 		setDao();
 	}
 	
@@ -44,12 +45,16 @@ public abstract class AbstractService<T extends EntityModel> {
 		return dao.find(id);
 	}
 	
-	public List<T> getAll() {
+	public List<T> findAll() {
 		return dao.findAll();
 	}
 	
-	public List<T> getAll(int start, int size) {
+	public List<T> findAll(int start, int size) {
 		return dao.findAll(start, size);
+	}
+	
+	public T find(int id, Set<String> fetches) {
+		return dao.find(id, fetches);
 	}
 	
 	protected void validate(EntityModel t) throws InvalidEntityException {

@@ -4,17 +4,16 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.compremelhor.model.entity.Address;
-import com.compremelhor.model.service.AddressService;
+import com.compremelhor.model.entity.Purchase;
+import com.compremelhor.model.service.PurchaseService;
 
 @Stateless
 @Remote(EJBRemote.class)
-public class AddressEJB extends AbstractRemote<Address>{
+public class PurchaseEJB extends AbstractRemote<Purchase>{
 
-	@Inject private AddressService service;
-
+	@Inject private PurchaseService service;
+	
 	@Override
 	void setService() { super.service = this.service;}
-	
-	
+
 }

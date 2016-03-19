@@ -29,14 +29,14 @@ public class StockService extends AbstractService<Stock>{
 	
 	@Lock(LockType.READ)
 	@Override
-	public List<Stock> getAll() {
-		return super.getAll();
+	public List<Stock> findAll() {
+		return super.findAll();
 	}
 	
 	@Lock(LockType.READ)
 	@Override
-	public List<Stock> getAll(int start, int size) {
-		return super.getAll(start, size);
+	public List<Stock> findAll(int start, int size) {
+		return super.findAll(start, size);
 	}
 	
 	@Lock(LockType.WRITE)
