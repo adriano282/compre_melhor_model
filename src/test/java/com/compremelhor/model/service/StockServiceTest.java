@@ -72,7 +72,7 @@ public class StockServiceTest {
 		sst = new SkuServiceTest();
 		pst = new PartnerServiceTest();
 		
-		sku = sst.createSkuAndCategoryAndManufacturer(skuService, sku);
+		sku = sst.createSkuAndCategoryAndManufacturer(skuService,manufacturerService, sku);
 		logger.log(Level.INFO, "Sku created: " + sku);
 
 		partner = pst.createPartner(partnerService, partner);

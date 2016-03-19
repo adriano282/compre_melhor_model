@@ -1,5 +1,7 @@
 package com.compremelhor.model.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -8,7 +10,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Embeddable
-public class Code {	
+public class Code implements Serializable {	
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "type_code")
 	@Enumerated(EnumType.STRING) @NotNull
 	private CodeType type;

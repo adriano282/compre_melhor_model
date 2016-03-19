@@ -5,6 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +21,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,7 +67,7 @@ public class SkuServiceTest {
 				 
 	@Before
 	public void config() throws InvalidEntityException {
-		sku = createSkuAndCategoryAndManufacturer(skuService, sku);
+		sku = createSkuAndCategoryAndManufacturer(skuService, manufacturerService, sku);
 	}
 	
 	@Test
@@ -72,11 +77,59 @@ public class SkuServiceTest {
 	}
 	
 	private void alterations() throws InvalidEntityException {
+		
+		sku = skuService.find(sku.getId());
+		
 		sku.getCode().setCode("CODIGO ALTERADO");
 		sku = skuService.edit(sku);
 		logger.log(Level.INFO, "Sku altered: " + sku);
 		sku = findSku(skuService, sku.getId());
 		assertNotNull(sku);
+		Assert.assertEquals(sku.getCode().getCode(), "CODIGO ALTERADO");		
+	}
+	
+	@Test
+	public void additioningCategory() throws InvalidEntityException {
+		Set<String> fetches = new HashSet<String>();
+		fetches.add("categories");
+		sku = skuService.find(sku.getId(), fetches);
+		
+		int qtdeCa = sku.getCategories().size();
+		
+		Category c = new Category();
+		c.setName("OUTRA CATEGORIA - B");
+		sku.addCategory(c);
+		
+		sku = skuService.edit(sku);
+		
+		Assert.assertEquals(qtdeCa + 1, sku.getCategories().size());
+	}
+	
+	@Test
+	public void removingCategoryFromSku() throws InvalidEntityException {
+		
+		Set<String> fetches = new HashSet<String>();
+		fetches.add("categories");
+		sku = skuService.find(sku.getId(), fetches);
+		
+		int qtdeCa = sku.getCategories().size();
+		
+		logger.log(Level.WARNING, "SIZE " + qtdeCa );
+		
+		Category category = new Category();		
+		category.setName("Alimentos Gelados");
+		
+		if (sku.getCategories().remove(category) ) {
+			logger.log(Level.WARNING, "REMOVED");
+		};
+							
+		sku = skuService.edit(sku);	
+		Assert.assertEquals(qtdeCa -1, sku.getCategories().size());
+		
+		Category cat = categoryService.findCategoryByName(category.getName());
+		
+		categoryService.remove(cat);
+		Assert.assertNull(categoryService.findCategoryByName(category.getName()));
 	}
 	
 	private void searching() {
@@ -96,7 +149,7 @@ public class SkuServiceTest {
 		logger.log(Level.INFO, "Sku " + sku + " deleted");
 	}
 	
-	public void removeSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService, CategoryService cs, Sku sku) {
+	public void removeSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService, CategoryService cs, final Sku sku) {
 		assertNotNull(service);		
 		assertNotNull(sku);
 		
@@ -104,17 +157,23 @@ public class SkuServiceTest {
 		assertNotNull(m);
 		
 		assertNotEquals(0, sku.getId());
-		Category c = cs.findCategoryBySkuId(sku.getId());
-		assertNotNull(c);
 		
+		Optional<List<Category>> categories = Optional.ofNullable(cs.findCategoriesBySkuId(sku.getId()));
+		categories.ifPresent(list -> {
+				list.stream().forEach(c -> {
+					service.removeSkuCategory(sku.getId(), c.getId());
+				});
+			});
+			
+				
 		service.remove(sku);
 		assertNull(findSku(service, sku.getId()));
 		
-		cs.remove(c);
-		assertNull(cs.findCategory(c.getId()));
-		
 		manufacturerService.remove(m);
 		assertNull(manufacturerService.find(m.getId()));
+		
+		categories.ifPresent(list -> list.stream().forEach(c -> cs.remove(c)));
+
 	}
 	
 	public Sku findSku(SkuService service, int id) {
@@ -122,7 +181,7 @@ public class SkuServiceTest {
 		return service.find(id);
 	}
 	
-	public Sku createSkuAndCategoryAndManufacturer(SkuService service, Sku sku) throws InvalidEntityException {
+	public Sku createSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService, Sku sku) throws InvalidEntityException {
 		assertNotNull(service);
 				
 		Code code = new Code();
@@ -141,9 +200,14 @@ public class SkuServiceTest {
 		manufacturer.setLastUpdated(LocalDateTime.now());
 		manufacturer.setDateCreated(LocalDateTime.now());
 		
+		manufacturerService.create(manufacturer);
+		manufacturer = manufacturerService.find(manufacturer.getId());
+		
+		
 		sku.setManufacturer(manufacturer);
 		sku.setUnit(UnitType.UN);
 		sku.setCode(code);
+		
 		sku.addCategory(category);
 		
 			

@@ -44,12 +44,46 @@ public class CategoryDao extends AbstractDao<Category> {
 		return result.get(0);		
 	}
 	
+	public Category findCategoryByName(String name) {
+		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		final CriteriaQuery<Category> criteriaQuery = cb.createQuery(Category.class);
+		
+		Root<Category> mfr = criteriaQuery.from(Category.class);
+		criteriaQuery
+			.select(mfr)
+			.where(cb.equal(mfr.get("name"), name));
+		
+		List<Category> result = getEntityManager().createQuery(criteriaQuery).getResultList();
+		
+		if (result != null && result.size() > 1) {
+			throw new RuntimeException("This query has been returned more than one result");
+		}
+		
+		if (result != null && result.size() == 0) return null;
+		return result.get(0);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Category> findCategoriesBySkuId(int skuId) {
+		return (List<Category>) getEntityManager().createNativeQuery(
+				"select c.id, c.name, c.date_created, c.last_updated from sku_category sc "
+						+ "inner join category c on c.id = sc.category_id "
+						+ "where sc.sku_id = ?1", Category.class)
+						.setParameter(1, skuId).getResultList();
+	}
+	
 	public Category findCategoryBySkuId(int skuId) {
-		return (Category) getEntityManager().createNativeQuery(
+		@SuppressWarnings("unchecked")
+		List<Category> result = (List<Category>) getEntityManager().createNativeQuery(
 				"select c.id, c.name, c.date_created, c.last_updated from sku_category sc "
 				+ "inner join category c on c.id = sc.category_id "
 				+ "where sc.sku_id = ?1", Category.class)
-				.setParameter(1, skuId).getResultList().get(0);
+				.setParameter(1, skuId).getResultList();
+		
+		if (result != null && result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
 		
 	}
 }

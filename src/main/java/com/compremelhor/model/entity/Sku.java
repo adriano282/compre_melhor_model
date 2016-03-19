@@ -41,7 +41,7 @@ public class Sku extends EntityModel implements Serializable{
 	@NotNull @Size(max= 45)
 	private String description;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany(cascade = {CascadeType.PERSIST})
 	@JoinTable(name = "sku_category",
 			joinColumns=@JoinColumn(name="sku_id"),
 			inverseJoinColumns=@JoinColumn(name="category_id"))
@@ -65,15 +65,19 @@ public class Sku extends EntityModel implements Serializable{
 	@OneToMany(mappedBy = "sku")
 	private List<SkuPartner> skuPartners;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne
 	@NotNull
 	private Manufacturer manufacturer;
 	
 	public void setCategory(HashSet<Category> categories) {
-		if (categories == null)
+		if (this.categories == null) {
 			this.categories = categories;
+		} else if (categories != null) {
+			this.categories.addAll(categories);
+		} else {
+			this.categories = null;
+		}
 		
-		this.categories.addAll(categories);
 	}
 	
 	public void addCategory(Category c) {
@@ -116,7 +120,7 @@ public class Sku extends EntityModel implements Serializable{
 	@Override
 	public int hashCode() {
 		if (code == null || manufacturer == null)
-			throw new RuntimeException("Code or Manufacturer variables in this product instance are null. Code and Manufacturer mustn't be null");
+			return -1;
 		
 		return (name + code.getCode() + manufacturer.getName()).hashCode();
 	}
@@ -124,7 +128,7 @@ public class Sku extends EntityModel implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 		if (code == null || manufacturer == null)
-			throw new RuntimeException("Code or Manufacturer variables in this product instance are null. Code and Manufacturer mustn't be null");
+			return false;
 		
 		if (obj instanceof Sku 
 				&& ((Sku)obj).getManufacturer() != null || ((Sku)obj).getCode() != null)

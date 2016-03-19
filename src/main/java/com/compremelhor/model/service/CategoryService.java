@@ -1,5 +1,7 @@
 package com.compremelhor.model.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.CategoryDao;
@@ -18,6 +20,14 @@ public class CategoryService extends AbstractService<Category>{
 		
 	public Category findCategoryBySkuId(int skuId) {
 		return categoryDao.findCategoryBySkuId(skuId);
+	}
+	
+	public List<Category> findCategoriesBySkuId(int skuId) {
+		return categoryDao.findCategoriesBySkuId(skuId);
+	}
+	
+	public Category findCategoryByName(String name) {
+		return categoryDao.findCategoryByName(name);
 	}
 
 }
