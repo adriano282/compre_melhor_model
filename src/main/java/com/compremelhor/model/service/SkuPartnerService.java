@@ -16,4 +16,8 @@ public class SkuPartnerService extends AbstractService<SkuPartner>{
 	public SkuPartner findSkuPartnerBySku(Sku sku) {
 		return dao.findSkuPartnerBySku(sku);
 	}
+	
+	public SkuPartner findSkuPartnerBySkuIdAndPartnerId(int skuId, int partnerId) {
+		return dao.findSKuPartnerBySkuIdAndPartnerId(skuId, partnerId);
+	}
 }

@@ -39,7 +39,11 @@ public class SkuService extends AbstractService<Sku>{
 		
 		dao.persist(s);
 	}
-	
+
+	@Override
+	public void remove(Sku t) {
+		super.remove(t);
+	}
 	
 	public Sku edit(Sku sku) throws InvalidEntityException {
 		validate(sku);

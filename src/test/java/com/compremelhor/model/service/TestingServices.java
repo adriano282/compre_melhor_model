@@ -6,8 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /*@RunWith(Suite.class)
 @SuiteClasses({ ManufacturerServiceTest.class, CategoryServiceTest.class, SkuServiceTest.class,
-		UserServiceTest.class, PartnerServiceTest.class, StockServiceTest.class, PurchaseServiceTest.class, AccountServiceTest.class })
-		*/
+		UserServiceTest.class, PartnerServiceTest.class, StockServiceTest.class, PurchaseServiceTest.class, AccountServiceTest.class })*/
 public class TestingServices {
 
 }

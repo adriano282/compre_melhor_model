@@ -2,30 +2,30 @@ package com.compremelhor.model.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "stock", uniqueConstraints = @UniqueConstraint(columnNames = {"id", "sku_partner_id"}))
 public class Stock extends EntityModel implements Serializable {	
 	private static final long serialVersionUID = 1L;
 	
-	@NotNull
+	@NotNull(message = "stock.quantity.is.null.message.error")
 	private Double quantity;
 	
 	@Column(name = "unit_price")
-	@NotNull
+	@NotNull(message = "stock.unitprice.is.null.message.error")
 	private Double unitPrice;
 	
-	@OneToOne(cascade = {CascadeType.PERSIST})
+	@OneToOne
 	@JoinColumn(name="sku_partner_id")
-	@NotNull
+	@NotNull(message = "stock.skupartner.is.null.message.error")
 	private SkuPartner skuPartner;
 
 	@Version private int version;

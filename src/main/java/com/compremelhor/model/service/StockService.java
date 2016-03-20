@@ -24,6 +24,31 @@ public class StockService extends AbstractService<Stock>{
 	
 	@Lock(LockType.WRITE)
 	public void create(Stock st) throws InvalidEntityException {
+		if (st.getSkuPartner() != null) {
+			SkuPartner sp = st.getSkuPartner();
+			
+			if (sp.getId() != 0) {
+				sp = skuPartnerService.find(sp.getId());
+				if (sp == null) throw new InvalidEntityException("stock.skupartner.not.found");
+			}
+			
+			Sku s = sp.getSku();
+			Partner p = sp.getPartner();
+			
+			if (s == null) {
+				throw new InvalidEntityException("skupartner.sku.is.null.message.error");
+			} else if (p == null){
+				throw new InvalidEntityException("skupartner.partner.is.null.message.error");
+			}
+			
+			if (skuPartnerService.findSkuPartnerBySkuIdAndPartnerId(s.getId(), p.getId()) == null) {
+				skuPartnerService.create(sp);
+			}
+			
+			if (stDao.findStockBySkuPartnerId(sp.getId()) != null) {
+				throw new InvalidEntityException("stock.skupartner.duplicate.message.error");
+			}
+		}
 		super.create(st);
 	}
 	
@@ -73,8 +98,7 @@ public class StockService extends AbstractService<Stock>{
 		return edit(st);
 	}
 	
-	@Lock(LockType.WRITE)
-	public void removeStockAndSkuPartner(Stock st) {
+	private void removeStockAndSkuPartner(Stock st) {
 		if (st == null) {
 			throw new RuntimeException("In StockService.removeStockAndSkuPartner(STOCK): stock can not be null");
 		}
@@ -84,7 +108,7 @@ public class StockService extends AbstractService<Stock>{
 		if (sp == null) {
 			throw new RuntimeException("In StockService.removeStockAndSkuPartner(STOCK): skuPartner stock attribute was not loaded");
 		}
-		remove(st);
+		stDao.remove(st);
 		skuPartnerService.remove(sp);
 		
 	}
@@ -92,6 +116,6 @@ public class StockService extends AbstractService<Stock>{
 	@Lock(LockType.WRITE)
 	@Override
 	public void remove(Stock st) {
-		super.remove(st);
+		removeStockAndSkuPartner(st);
 	}
 }

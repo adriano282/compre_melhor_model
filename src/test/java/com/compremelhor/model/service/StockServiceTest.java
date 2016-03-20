@@ -108,7 +108,7 @@ public class StockServiceTest {
 		assertNotNull(skuPartner);
 		assertNotNull(skuPartner.getSku());
 		
-		service.removeStockAndSkuPartner(stock);
+		service.remove(stock);
 		
 		skuPartner = skuPartnerService.findSkuPartnerBySku(skuPartner.getSku());
 		assertNull(skuPartner);		

@@ -11,12 +11,9 @@ import com.compremelhor.model.entity.Sku;
 public class SkuDao extends AbstractDao<Sku> {
 	@Override
 	public Sku find(int id, Set<String> fetches) {
-		
-		Sku s = super.find(id);
-		
-		if (fetches.contains("categories"))
-			s.getCategories().size();
-		
+		Sku s = super.find(id);		
+		if (fetches.contains("categories") && s.getCategories() != null)
+			s.getCategories().size();		
 		return s;
 	}
 	
