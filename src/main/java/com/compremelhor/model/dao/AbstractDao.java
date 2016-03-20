@@ -33,7 +33,9 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 		return t;
 	}
 	
-	public void persist(final T entity) { em.persist(entity); }
+	public void persist(final T entity) { 
+		em.persist(entity);
+	}
 	
 	public List<T> findAll() {
 		final CriteriaQuery<T> criteriaQuery = 

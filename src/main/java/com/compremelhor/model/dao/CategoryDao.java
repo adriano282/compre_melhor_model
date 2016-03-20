@@ -83,7 +83,6 @@ public class CategoryDao extends AbstractDao<Category> {
 		if (result != null && result.size() > 0) {
 			return result.get(0);
 		}
-		return null;
-		
+		return null;		
 	}
 }

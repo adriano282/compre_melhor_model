@@ -19,6 +19,23 @@ public class SkuDao extends AbstractDao<Sku> {
 		
 		return s;
 	}
+	
+	
+
+	@Override
+	public Sku edit(Sku entity) {
+		Sku s = super.edit(entity);
+		getEntityManager().flush();
+		return s;
+	}
+
+	@Override
+	public void persist(Sku entity) {
+		super.persist(entity);
+		getEntityManager().flush();
+	}
+
+
 
 	private static final long serialVersionUID = 1L;
 

@@ -11,7 +11,6 @@ import javax.validation.Validator;
 
 import com.compremelhor.model.dao.AbstractDao;
 import com.compremelhor.model.entity.EntityModel;
-import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.exception.InvalidEntityException;
 
 public abstract class AbstractService<T extends EntityModel> {

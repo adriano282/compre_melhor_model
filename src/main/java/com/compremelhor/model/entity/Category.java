@@ -36,11 +36,13 @@ public class Category extends EntityModel implements Serializable{
 	
 	@Override
 	public int hashCode() {
-		return name.hashCode();
+		return name != null ? name.hashCode() : -1;
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
+		if (name == null || obj == null || ((Category)obj).getName() == null) return false;
+		
 		if (obj instanceof Category	&& ((Category)obj).getName().equals(name))
 			return true;
 		

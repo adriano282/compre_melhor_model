@@ -1,87 +1,59 @@
 package com.compremelhor.model.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.Lock;
-import javax.ejb.LockType;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.dao.SkuDao;
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.exception.InvalidEntityException;
 
+@Stateless
 public class SkuService extends AbstractService<Sku>{
 	
 	@Inject	private SkuDao skuDao;
 	@Inject private CategoryService categoryService; 
+	@Inject private CategoryDao categoryDao;
 	@Inject private Logger logger;
 	
 	@Override
 	protected void setDao() { super.dao = this.skuDao;}
 	
-	@Lock(LockType.WRITE)
-	@Override
-	public void remove(Sku t) {
-		super.remove(t);
-	}
-	
-	@Lock(LockType.READ)
-	@Override
-	public Sku find(int id) {
-		return super.find(id);
-	}
-	
-	@Lock(LockType.READ)
-	@Override
-	public List<Sku> findAll() {
-		// TODO Auto-generated method stub
-		return super.findAll();
-	}
-
-	@Lock(LockType.READ)
-	@Override
-	public List<Sku> findAll(int start, int size) {
-		// TODO Auto-generated method stub
-		return super.findAll(start, size);
-	}
-
-	@Lock(LockType.READ)
-	@Override
-	public Sku find(int id, Set<String> fetches) {
-		// TODO Auto-generated method stub
-		return super.find(id, fetches);
-	}
-
-	
-	@Lock(LockType.WRITE)
 	public void create(Sku s) throws InvalidEntityException {
 		validate(s);
 		
 		if (s.getCategories() != null)
-			s.getCategories().stream().forEach(c -> resolveCategory(s, c));
+			s.getCategories().stream().forEach(c -> {
+				c.setDateCreated(LocalDateTime.now());
+				c.setLastUpdated(LocalDateTime.now());
+				resolveCategory(s, c);
+			});
 		
 		
 		dao.persist(s);
 	}
 	
-	@Lock(LockType.WRITE)
+	
 	public Sku edit(Sku sku) throws InvalidEntityException {
 		validate(sku);
 		syncCategoriesFromSku(sku);
 		return dao.edit(sku);
 	}
 	
-	@Lock(LockType.WRITE)
+	
 	public void addCategory(Sku s, Category c) {
 		resolveCategory(s, c);
 		dao.edit(s);
 	}
 	
-	@Lock(LockType.WRITE)
+	
 	public void removeSkuCategory(int skuId, int categoryId) {
 		skuDao.removeSkuCategory(skuId, categoryId);
 	}
@@ -98,24 +70,30 @@ public class SkuService extends AbstractService<Sku>{
 			logger.log(Level.WARNING, "skuId" + sku.getId());
 			skuDao.removeAllSkuCategory(sku.getId());
 			return;
-		}
+		} 
 		
 		for (Category c : categories) {
 			Category ca = categoryService.find(c.getId());
 			
-			if (ca != null && !ca.getName().equals(c.getName()) || (ca = categoryService.findCategoryByName(c.getName())) == null) {
+			if ((ca != null && !ca.getName().equals(c.getName()) ) || (ca = categoryService.findCategoryByName(c.getName())) == null) {
+				logger.log(Level.WARNING, "Categoria criada: " + c.getName());
 				logger.log(Level.WARNING, "Categoria criada: " + c);
-				categoryService.create(c);
+				c.setDateCreated(LocalDateTime.now());
+				c.setLastUpdated(LocalDateTime.now());
+				categoryDao.persist(c);
+				c = categoryDao.edit(c);
+				logger.log(Level.WARNING, "Categoria criada: (ID) " + c.getId());
 			} else {
 				c = ca;
 			}
-			
-			final int id = c.getId();
-			if (!categoriesDB.stream().anyMatch( category -> category.getId() == id)) {
-				logger.log(Level.WARNING, "Categoria removida: " + id);
-				removeSkuCategory(sku.getId(), id);
-			}
 		}
+		
+		categoriesDB.stream().forEach(cat -> {
+			if (!categories.contains(cat)) {
+				logger.log(Level.WARNING, "Categoria removida: " + cat.getId());
+				removeSkuCategory(sku.getId(), cat.getId());
+			}
+		});
 	}
 	
 	private void resolveCategory(Sku sku, Category c) {
