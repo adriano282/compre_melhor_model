@@ -1,7 +1,7 @@
 package com.compremelhor.model.entity;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,10 +37,26 @@ public class Purchase  extends EntityModel implements Serializable {
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "purchase")
-	private List<PurchaseLine> lines;
+	private Set<PurchaseLine> lines;
 	
 	@OneToOne(mappedBy = "purchase", cascade = {CascadeType.ALL})
 	private Freight freight;
+	
+	public Set<PurchaseLine> getLines() {
+		return lines;
+	}
+	
+	public void setLines(Set<PurchaseLine> lines) {
+		this.lines = lines;
+	}
+	
+	public boolean removeLine(PurchaseLine line) {
+		return lines.remove(line);
+	}
+	
+	public boolean addLine(PurchaseLine line) {
+		return lines.add(line);
+	}
 	
 	public Double getTotalValue() {
 		return totalValue;
@@ -59,7 +75,7 @@ public class Purchase  extends EntityModel implements Serializable {
 	}
 
 	public enum Status {
-		PROCESSING, PENDING, READY, SHIPPED, CONCLUDED;
+		OPENED, PENDING, READY, SHIPPED, CONCLUDED;
 	}
 
 	public Freight getFreight() {

@@ -61,4 +61,36 @@ public class PurchaseLine extends EntityModel implements Serializable {
 	public Purchase getPurchase() { return purchase; }
 
 	public void setPurchase(Purchase purchase) { this.purchase = purchase; }
+	
+	@Override
+	public int hashCode() {
+		if (stock == null || 
+				stock.getId() == 0 ||
+				purchase == null ||
+				purchase.getUser() == null)
+			return -1;
+		
+		return stock.getId() * purchase.getUser().getId() / 10000;		
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		
+		if (stock == null || 
+				stock.getId() == 0 ||
+				purchase == null ||
+				purchase.getUser() == null)
+			return false;
+		
+		if (o instanceof PurchaseLine &&
+				((PurchaseLine)o).getStock() != null &&
+				((PurchaseLine)o).getStock().getId() != 0 &&
+				((PurchaseLine)o).getStock().getId() == stock.getId() &&
+				((PurchaseLine)o).getPurchase() != null &&
+				((PurchaseLine)o).getPurchase().getUser() != null &&
+				((PurchaseLine)o).getPurchase().getUser().getId() == purchase.getUser().getId()) {
+			return true;
+		}
+		return false;
+	}
 }
