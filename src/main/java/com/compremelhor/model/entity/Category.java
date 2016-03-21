@@ -31,7 +31,7 @@ public class Category extends EntityModel implements Serializable{
 
 	@Override
 	public String toString() {
-		return "[id: " + id + ", name: " + name + ", skus: " +	skus + "]";
+		return "[id: " + id + ", name: " + name +"]";
 	}
 	
 	@Override

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -41,7 +40,7 @@ public class Sku extends EntityModel implements Serializable{
 	@NotNull @Size(max= 45)
 	private String description;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST})
+	@ManyToMany
 	@JoinTable(name = "sku_category",
 			joinColumns=@JoinColumn(name="sku_id"),
 			inverseJoinColumns=@JoinColumn(name="category_id"))

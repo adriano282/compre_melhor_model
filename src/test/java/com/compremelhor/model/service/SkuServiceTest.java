@@ -67,7 +67,7 @@ public class SkuServiceTest {
 				 
 	@Before
 	public void config() throws InvalidEntityException {
-		sku = createSkuAndCategoryAndManufacturer(skuService, manufacturerService, sku);
+		sku = createSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);
 	}
 	
 	@Test
@@ -110,19 +110,24 @@ public class SkuServiceTest {
 		
 		Set<String> fetches = new HashSet<String>();
 		fetches.add("categories");
+		
 		sku = skuService.find(sku.getId(), fetches);
 		
 		int qtdeCa = sku.getCategories().size();
 		
-		logger.log(Level.WARNING, "SIZE " + qtdeCa );
+		logger.log(Level.WARNING, "SIZE " + qtdeCa);
 		
 		Category category = new Category();		
 		category.setName("Alimentos Gelados");
 		
+		
+				
 		if (sku.getCategories().remove(category) ) {
 			logger.log(Level.WARNING, "REMOVED");
-		};
-							
+		}
+		
+		sku.getCategories().stream().forEach(s -> System.out.println(s));
+		
 		sku = skuService.edit(sku);	
 		Assert.assertEquals(qtdeCa -1, sku.getCategories().size());
 		
@@ -130,6 +135,7 @@ public class SkuServiceTest {
 		
 		categoryService.remove(cat);
 		Assert.assertNull(categoryService.findCategoryByName(category.getName()));
+		
 	}
 	
 	private void searching() {
@@ -181,7 +187,7 @@ public class SkuServiceTest {
 		return service.find(id);
 	}
 	
-	public Sku createSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService, Sku sku) throws InvalidEntityException {
+	public Sku createSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService,CategoryService categoryService, Sku sku) throws InvalidEntityException {
 		assertNotNull(service);
 				
 		Code code = new Code();
@@ -190,6 +196,8 @@ public class SkuServiceTest {
 		
 		Category category = new Category();		
 		category.setName("Alimentos Gelados");
+		
+		categoryService.create(category);
 		
 		sku = new Sku();
 		sku.setName("Maionese");
@@ -202,8 +210,7 @@ public class SkuServiceTest {
 		
 		manufacturerService.create(manufacturer);
 		manufacturer = manufacturerService.find(manufacturer.getId());
-		
-		
+				
 		sku.setManufacturer(manufacturer);
 		sku.setUnit(UnitType.UN);
 		sku.setCode(code);

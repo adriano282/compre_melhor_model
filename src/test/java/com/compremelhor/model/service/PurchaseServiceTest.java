@@ -90,7 +90,7 @@ public class PurchaseServiceTest {
 		stockServiceTest = new StockServiceTest();
 		
 		user = ust.createUser(userService, user);
-		sku = sst.createSkuAndCategoryAndManufacturer(skuService, manufacturerService, sku);	
+		sku = sst.createSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);	
 		partner = pst.createPartner(partnerService, partner);
 		st = stockServiceTest.createStock(stockService, skuPartnerService, partnerService, skuService, partner, sku);
 		sp = st.getSkuPartner();

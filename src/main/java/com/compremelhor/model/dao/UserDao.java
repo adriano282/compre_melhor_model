@@ -11,6 +11,19 @@ import com.compremelhor.model.entity.User;
 
 @Stateless
 public class UserDao extends AbstractDao<User> {
+	@Override
+	public User find(Object id) {
+		User u = super.find(id);
+		
+		if (u != null) {
+			if (u.getAddresses() != null) {
+				u.getAddresses().size();
+			}
+		}
+		
+		return u;
+	}
+
 	private static final long serialVersionUID = 1L;
 		
 	public UserDao() { super(User.class); }	

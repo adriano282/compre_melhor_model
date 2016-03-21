@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user", 
     uniqueConstraints = @UniqueConstraint(columnNames={"id", "document"})) 
@@ -76,6 +78,7 @@ public class User extends EntityModel implements Serializable {
 		return addresses;
 	}
 	
+	@JsonIgnore
 	public Optional<List<Address>> getOptionalAddresses() {
 		return Optional.ofNullable(addresses);
 	}
