@@ -11,8 +11,11 @@ import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "stock", uniqueConstraints = @UniqueConstraint(columnNames = {"id", "sku_partner_id"}))
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Stock extends EntityModel implements Serializable {	
 	private static final long serialVersionUID = 1L;
 	

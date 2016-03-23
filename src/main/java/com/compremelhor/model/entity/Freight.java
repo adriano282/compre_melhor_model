@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 public class Freight extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 		
+	public Freight () {}
+	
 	@Column(name = "value_ride")
 	@NotNull
 	private Double valueRide;

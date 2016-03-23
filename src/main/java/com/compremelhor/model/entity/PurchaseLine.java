@@ -10,11 +10,16 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "purchase_line")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class PurchaseLine extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore 
 	@Version private int version;
 	
 	@NotNull

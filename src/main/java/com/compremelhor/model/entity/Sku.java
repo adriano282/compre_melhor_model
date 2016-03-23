@@ -25,6 +25,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "sku")
 @SecondaryTable(name="sku_photo", pkJoinColumns = 
@@ -44,6 +46,7 @@ public class Sku extends EntityModel implements Serializable{
 	@JoinTable(name = "sku_category",
 			joinColumns=@JoinColumn(name="sku_id"),
 			inverseJoinColumns=@JoinColumn(name="category_id"))
+	@JsonIgnore
 	private Set<Category> categories;
 	
 	@Enumerated(EnumType.STRING)

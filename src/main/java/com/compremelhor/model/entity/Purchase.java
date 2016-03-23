@@ -16,11 +16,14 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table( name = "purchase")
 public class Purchase  extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 		
+	@JsonIgnore
 	@Version private int version;
 	
 	@Column(name = "total_value")
@@ -37,9 +40,11 @@ public class Purchase  extends EntityModel implements Serializable {
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "purchase")
+	@JsonIgnore
 	private Set<PurchaseLine> lines;
 	
-	@OneToOne(mappedBy = "purchase", cascade = {CascadeType.ALL})
+	@OneToOne(mappedBy = "purchase")
+	@JsonIgnore
 	private Freight freight;
 	
 	public Set<PurchaseLine> getLines() {

@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Address extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	public Address() {}
+	
 	@NotNull @Size(max=45)
 	private String street;
 	

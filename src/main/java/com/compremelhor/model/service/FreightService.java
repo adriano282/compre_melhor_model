@@ -8,13 +8,13 @@ import com.compremelhor.model.entity.Purchase;
 
 public class FreightService extends AbstractService<Freight>{
 	
-	@Inject	private FreightDao dao;
+	@Inject	private FreightDao freightDao;
 	
 	@Override
-	protected void setDao() { super.dao = this.dao; }
+	protected void setDao() { super.dao = freightDao; }
 	
 	public Freight findFreightByPurchase(Purchase purchase) {
-		return dao.findFreightByPurchase(purchase);
+		return freightDao.findFreightByPurchase(purchase);
 	}
 
 }

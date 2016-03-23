@@ -72,6 +72,7 @@ public class PurchaseServiceTest {
 	@Inject private ManufacturerService manufacturerService;
 	@Inject private PurchaseService purchaseService;
 	@Inject private UserService userService;
+	@Inject private FreightService freightService;
 	
 	private UserServiceTest ust;
 	private SkuServiceTest sst;
@@ -96,7 +97,8 @@ public class PurchaseServiceTest {
 		sp = st.getSkuPartner();
 		assertNotNull(sp);
 		
-		purchase = createPurchase(purchaseService, userService, purchase, user, freight);
+		purchase = createPurchase(purchaseService, freightService, userService, purchase, user, freight);
+		freight = purchase.getFreight();
 		purchaseLine = addLine(purchaseService, purchase, purchaseLine, st);
 	}
 	
@@ -124,35 +126,42 @@ public class PurchaseServiceTest {
 		assertNull(line2);
 		
 		purchase = purchaseService.find(purchase.getId());
+		freight = purchase.getFreight();
 	}
 
 	@After
 	public void removing() {
 		
-		removePurchaseAndItensAndFreight(purchaseService, purchase, freight);
+		removePurchaseAndItensAndFreight(purchaseService, freightService, purchase, freight);
 		stockServiceTest.removeStockAndSkuPartner(stockService, skuPartnerService, st, sp);	
 		sst.removeSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);
 		pst.removePartner(partnerService, partner);
 		ust.removeUser(userService, user);
 	}
 	
-	public void removePurchaseAndItensAndFreight(PurchaseService service, Purchase purchase, Freight freight) {
+	public void removePurchaseAndItensAndFreight(PurchaseService service, FreightService freightService, Purchase purchase, Freight freight) {
 		assertNotNull(service);
 		assertNotNull(purchase);
-										
+		assertNotNull(freight);
+		
+								
+		freightService.remove(freight);
+		
+		freight = freightService.find(freight.getId());
+		assertNull(freight);
+		
 		service.remove(purchase);
 		purchase = service.find(purchase.getId());
 		assertNull(purchase);
 	}
 	
-	public Purchase createPurchase(PurchaseService service, UserService userService, Purchase purchase, User user, Freight freight) throws InvalidEntityException {
+	public Purchase createPurchase(PurchaseService service, FreightService freightService, UserService userService, Purchase purchase, User user, Freight freight) throws InvalidEntityException {
 		assertNotNull(service);
 		assertNotNull(user);
 		
 		freight = new Freight();
 		freight.setDateCreated(LocalDateTime.now());
 		freight.setLastUpdated(LocalDateTime.now());
-		freight.setPurchase(purchase);
 		freight.setValueRide(20.00);
 		
 		Address ad = userService
@@ -166,11 +175,15 @@ public class PurchaseServiceTest {
 		purchase.setUser(user);
 		purchase.setDateCreated(LocalDateTime.now());
 		purchase.setLastUpdated(LocalDateTime.now());
-		purchase.setStatus(Purchase.Status.PROCESSING);
+		purchase.setStatus(Purchase.Status.OPENED);
 		purchase.setTotalValue(0.0);
-		purchase.setFreight(freight);
-				
+			
+		
 		service.create(purchase);
+		
+		freight.setPurchase(purchase);
+		freightService.create(freight);
+		purchase.setFreight(freight);
 		
 		purchase = service.find(purchase.getId());
 		assertNotNull(purchase);

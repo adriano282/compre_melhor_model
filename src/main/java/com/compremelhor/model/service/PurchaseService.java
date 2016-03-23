@@ -1,7 +1,9 @@
 package com.compremelhor.model.service;
 
+import java.io.Serializable;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.PurchaseDao;
@@ -11,8 +13,9 @@ import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
 import com.compremelhor.model.exception.InvalidEntityException;
 
-public class PurchaseService extends AbstractService<Purchase> {
-	
+@Stateless
+public class PurchaseService extends AbstractService<Purchase> implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Inject private PurchaseDao purchaseDao;
 	@Inject	private PurchaseLineDao purchaseLineDao;
 	@Inject private FreightService freightService;

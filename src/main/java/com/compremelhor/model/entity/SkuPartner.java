@@ -11,11 +11,16 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "sku_partner")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class SkuPartner extends EntityModel implements Serializable {	
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@Version private int version;
 	
 	@ManyToOne
@@ -30,6 +35,7 @@ public class SkuPartner extends EntityModel implements Serializable {
 	private Partner partner;
 	
 	@OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "skuPartner")
+	@JsonIgnore
 	private Stock stock;
 
 	public Sku getSku() { return sku; }

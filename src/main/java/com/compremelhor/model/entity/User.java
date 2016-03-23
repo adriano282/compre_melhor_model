@@ -26,6 +26,7 @@ public class User extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public User() {}
+	
 	@Column(nullable = false)
 	@NotNull @Size(max=45)
 	private String username;
@@ -74,6 +75,7 @@ public class User extends EntityModel implements Serializable {
 			return this.toString();
 		}
 	}
+	@JsonIgnore
 	public List<Address> getAddresses() {
 		return addresses;
 	}
