@@ -16,4 +16,5 @@ public interface EJBRemote<T extends EntityModel> {
 	public List<T> findAll(Set<String> feches);
 	public List<T> findAll(int start, int size);
 	public List<T> findAll(int start, int size, Set<String> fetches);
+	public T find(String attributeName, String attributeValue);
 }

@@ -1,5 +1,6 @@
 package com.compremelhor.model.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,16 +13,36 @@ import com.compremelhor.model.entity.User;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.exception.UserNotFoundException;
+import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.validation.groups.UserAddress;
 
 @Stateless
 public class UserService extends AbstractService<User>{
 	
+	@Override
+	public void create(User t) throws InvalidEntityException {
+		try {
+			if (t.getPasswordHash() != null)
+				t.setPasswordHash(GeneratorPasswordHash.getHash(t.getPasswordHash()));
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Error on hashing password");
+		}
+		super.create(t);
+	}
+
+
+
 	@Inject	private UserDao userDao;
 	@Inject private AddressService addressService;
-		
+	
+	
 	@Override
 	protected void setDao() { super.dao = this.userDao;}
+	
+	@Override
+	public User find(String attributeName, String attributeValue) {
+		return userDao.findByAttribute(attributeName, attributeValue);
+	}
 	
 	public User findUserByDocument(String document) {
 		return userDao.findUserByDocument(document);

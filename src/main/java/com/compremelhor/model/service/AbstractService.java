@@ -12,6 +12,7 @@ import javax.validation.Validator;
 import com.compremelhor.model.dao.AbstractDao;
 import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.exception.NotImplementedException;
 
 public abstract class AbstractService<T extends EntityModel> {
 	@Inject 
@@ -25,6 +26,10 @@ public abstract class AbstractService<T extends EntityModel> {
 	}
 	
 	protected abstract void setDao();
+	
+	public T find(String attributeName, String attributeValue) {
+		throw new NotImplementedException();
+	}
 	
 	public void create(T t) throws InvalidEntityException {
 		validate(t);

@@ -28,6 +28,28 @@ public class UserDao extends AbstractDao<User> {
 		
 	public UserDao() { super(User.class); }	
 	
+	public User findByAttribute(String attributeName, String attributeValue) {
+		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		final CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+		
+		Root<User> usr = criteriaQuery.from(User.class);
+		criteriaQuery
+			.select(usr)
+			.where(cb.equal(usr.get(attributeName.trim()), attributeValue.trim()));
+		
+		List<User> result = getEntityManager().createQuery(criteriaQuery).getResultList();
+		
+		if (result != null && result.size() > 1) {
+			throw new RuntimeException("This query has been returned more than one result.");
+		}
+		
+		if (result == null || result.size() == 0) {
+			return null;
+		}
+		
+		return result.get(0);
+	}
+	
 	public User findUserByDocument(String document) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);

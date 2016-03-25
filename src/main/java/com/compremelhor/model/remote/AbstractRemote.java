@@ -21,6 +21,11 @@ public abstract class AbstractRemote<T extends EntityModel> implements EJBRemote
 	abstract void setService();
 	
 	@Override
+	public T find(String attributeName, String attributeValue) {
+		return service.find(attributeName, attributeValue);
+	}
+
+	@Override
 	public T find(int id) {
 		return service.find(id);
 	}
