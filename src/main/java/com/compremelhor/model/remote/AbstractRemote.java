@@ -1,16 +1,17 @@
 package com.compremelhor.model.remote;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
 import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.service.AbstractService;
 
 public abstract class AbstractRemote<T extends EntityModel> implements EJBRemote<T> {
-	
 	AbstractService<T> service;
 	
 	@PostConstruct
@@ -19,6 +20,11 @@ public abstract class AbstractRemote<T extends EntityModel> implements EJBRemote
 	}
 	
 	abstract void setService();
+
+	@Override
+	public T find(Map<String, String> params) throws UnknownAttributeException {
+		return service.find(params);
+	}
 	
 	@Override
 	public T find(String attributeName, String attributeValue) {

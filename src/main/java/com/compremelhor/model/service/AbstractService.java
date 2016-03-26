@@ -1,6 +1,7 @@
 package com.compremelhor.model.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import com.compremelhor.model.dao.AbstractDao;
 import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.NotImplementedException;
+import com.compremelhor.model.exception.UnknownAttributeException;
 
 public abstract class AbstractService<T extends EntityModel> {
 	@Inject 
@@ -26,6 +28,10 @@ public abstract class AbstractService<T extends EntityModel> {
 	}
 	
 	protected abstract void setDao();
+	
+	public T find(Map<String, String> params) throws UnknownAttributeException {
+		throw new NotImplementedException();
+	}
 	
 	public T find(String attributeName, String attributeValue) {
 		throw new NotImplementedException();

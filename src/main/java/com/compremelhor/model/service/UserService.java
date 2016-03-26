@@ -1,8 +1,14 @@
 package com.compremelhor.model.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -12,32 +18,43 @@ import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
+import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.validation.groups.UserAddress;
 
 @Stateless
 public class UserService extends AbstractService<User>{
-	
-	@Override
-	public void create(User t) throws InvalidEntityException {
-		try {
-			if (t.getPasswordHash() != null)
-				t.setPasswordHash(GeneratorPasswordHash.getHash(t.getPasswordHash()));
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Error on hashing password");
-		}
-		super.create(t);
-	}
-
-
-
 	@Inject	private UserDao userDao;
 	@Inject private AddressService addressService;
 	
 	
 	@Override
 	protected void setDao() { super.dao = this.userDao;}
+	
+	@Override
+	public User find(Map<String, String> params) throws UnknownAttributeException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties props = new Properties();
+		try {
+			props.load(classLoader.getResourceAsStream("entity_properties.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String attrs = (String) props.get("user");
+		
+		Set<Map.Entry<String, String>> entries = params.entrySet();
+		
+		for (Map.Entry<String, String> pair : entries) {
+			if (!Arrays.asList(attrs.split("#")).contains(pair.getKey().trim())) {
+				throw new UnknownAttributeException("Unknown user attribute: " + pair.getValue());
+			}
+		}
+		return userDao.find(params);
+	}
 	
 	@Override
 	public User find(String attributeName, String attributeValue) {
@@ -50,6 +67,17 @@ public class UserService extends AbstractService<User>{
 	
 	public Optional<List<Address>> findAllAddressByUser(User user) {
 		return Optional.ofNullable(addressService.findAllAddressByUser(user));
+	}
+	
+	@Override
+	public void create(User t) throws InvalidEntityException {
+		try {
+			if (t.getPasswordHash() != null)
+				t.setPasswordHash(GeneratorPasswordHash.getHash(t.getPasswordHash()));
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Error on hashing password");
+		}
+		super.create(t);
 	}
 	
 	public void addAddress(int userId, Address address) throws LimitOfAddressesReachedException, InvalidEntityException {
