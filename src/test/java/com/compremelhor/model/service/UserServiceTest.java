@@ -3,7 +3,6 @@ package com.compremelhor.model.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.security.NoSuchAlgorithmException;
@@ -22,6 +21,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +32,8 @@ import com.compremelhor.model.entity.User;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -46,6 +48,8 @@ public class UserServiceTest {
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(UserService.class.getPackage())
+				.addPackage(Strategy.class.getPackage())
+				.addPackage(UniqueUsernameStrategy.class.getPackage())
 				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())
@@ -77,11 +81,30 @@ public class UserServiceTest {
 				userService.addAddress(user.getId(), ad2);
 				userService.findUserByDocument("42.761.057-6");			
 			} catch (Exception e) {
-				assertTrue(e instanceof LimitOfAddressesReachedException);
+				Assert.assertTrue(e.getMessage().equals("user.addresses.max.number.excedded.error.message#"));
 				return;
 			}
 		}
-        fail("LimitOfAddressReachedException not thrown.");
+	}
+	
+	@Test
+	public void gettingUniqueUsernameError() {
+		User user = new User();
+		user.setUsername("Adriano de Jesus");
+		user.setDocument("42.761.057-6");
+		
+		try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
+		catch(Exception e) { throw new RuntimeException(e);}
+		
+		user.setDocumentType(User.DocumentType.CPF);
+		user.setDateCreated(LocalDateTime.now());
+		user.setLastUpdated(LocalDateTime.now());
+		
+		try {
+			createUser(userService, user);
+		} catch (Exception e) {
+			Assert.assertTrue(e.getMessage().equals("user.username.already.registered.error.message#"));
+		}
 	}
 	
 	@Test

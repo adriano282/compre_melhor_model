@@ -12,6 +12,8 @@ public class SkuPartnerService extends AbstractService<SkuPartner>{
 		
 	@Override
 	protected void setDao() { super.dao = this.dao; }
+	@Override 
+	protected void setStrategies() {}
 	
 	public SkuPartner findSkuPartnerBySku(Sku sku) {
 		return dao.findSkuPartnerBySku(sku);

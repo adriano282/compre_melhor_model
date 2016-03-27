@@ -30,6 +30,8 @@ import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
@@ -48,6 +50,8 @@ public class PartnerServiceTest {
 				.addPackage(Partner.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(PartnerDao.class.getPackage())
+				.addPackage(Strategy.class.getPackage())
+				.addPackage(UniqueUsernameStrategy.class.getPackage())
 				.addPackage(PartnerService.class.getPackage())
 				.addPackage(InvalidEntityException.class.getPackage())
 				.addPackage(LimitOfAddressesReachedException.class.getPackage())

@@ -19,6 +19,8 @@ public class PartnerService extends AbstractService<Partner>{
 	
 	@Override
 	protected void setDao() { super.dao = this.dao; }
+	@Override 
+	protected void setStrategies() {}
 	
 	public Partner find(int id, Set<String> fetches) {
 		return dao.find(id, fetches);

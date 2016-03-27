@@ -10,6 +10,8 @@ public class ManufacturerService extends AbstractService<Manufacturer>{
 	@Inject	private ManufacturerDao manufacturerDao;
 	
 	protected void setDao() { super.dao = manufacturerDao; }
+	@Override 
+	protected void setStrategies() {}
 
 	public Manufacturer findManufacturerByName(String name) {
 		return manufacturerDao.findManufacturerByName(name);

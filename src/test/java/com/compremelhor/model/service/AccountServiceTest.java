@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import javax.inject.Inject;
 
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -28,6 +27,8 @@ import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
@@ -38,6 +39,8 @@ public class AccountServiceTest {
 	public static Archive<?> createTestArchive() {
 		return ShrinkWrap.create(WebArchive.class)
 				.addPackage(Partner.class.getPackage())
+				.addPackage(Strategy.class.getPackage())
+				.addPackage(UniqueUsernameStrategy.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(PartnerDao.class.getPackage())
 				.addPackage(PartnerService.class.getPackage())

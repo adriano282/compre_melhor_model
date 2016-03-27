@@ -22,6 +22,9 @@ public class StockService extends AbstractService<Stock>{
 	@Override
 	protected void setDao() {super.dao = this.stDao;}
 	
+	@Override 
+	protected void setStrategies() {}
+	
 	@Lock(LockType.WRITE)
 	public void create(Stock st) throws InvalidEntityException {
 		if (st.getSkuPartner() != null) {

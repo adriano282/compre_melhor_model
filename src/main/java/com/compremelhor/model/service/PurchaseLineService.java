@@ -11,4 +11,6 @@ public class PurchaseLineService extends AbstractService<PurchaseLine>{
 	
 	@Override
 	protected void setDao() {super.dao = this.dao;}
+	@Override 
+	protected void setStrategies() {}
 }

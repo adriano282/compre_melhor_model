@@ -13,6 +13,8 @@ public class CategoryService extends AbstractService<Category>{
 	
 	@Override
 	protected void setDao() { super.dao = categoryDao; }
+	@Override 
+	protected void setStrategies() {}
 	
 	public Category findCategory(Object id) {
 		return categoryDao.find(id);

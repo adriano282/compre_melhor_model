@@ -3,5 +3,6 @@
 *.zip
 *.rar
 *.gzip
+*.properties
 
 /target/

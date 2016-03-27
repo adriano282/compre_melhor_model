@@ -12,6 +12,8 @@ public class FreightService extends AbstractService<Freight>{
 	
 	@Override
 	protected void setDao() { super.dao = freightDao; }
+	@Override 
+	protected void setStrategies() {}
 	
 	public Freight findFreightByPurchase(Purchase purchase) {
 		return freightDao.findFreightByPurchase(purchase);

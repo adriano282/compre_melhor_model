@@ -1,6 +1,6 @@
 package com.compremelhor.model.exception;
 
-public class LimitOfAddressesReachedException extends Exception {
+public class LimitOfAddressesReachedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public LimitOfAddressesReachedException() {

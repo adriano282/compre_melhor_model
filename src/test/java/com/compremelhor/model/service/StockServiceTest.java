@@ -28,6 +28,8 @@ import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
@@ -43,6 +45,8 @@ public class StockServiceTest {
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(CategoryService.class.getPackage())
 				.addPackage(LoggerProducer.class.getPackage())
+				.addPackage(Strategy.class.getPackage())
+				.addPackage(UniqueUsernameStrategy.class.getPackage())
 				.addPackage(PartnerAddress.class.getPackage())
 				.addPackage(InvalidEntityException.class.getPackage())
 				.addAsResource("META-INF/persistence.xml")

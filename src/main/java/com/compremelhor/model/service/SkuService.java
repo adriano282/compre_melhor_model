@@ -25,6 +25,8 @@ public class SkuService extends AbstractService<Sku>{
 	
 	@Override
 	protected void setDao() { super.dao = this.skuDao;}
+	@Override 
+	protected void setStrategies() {}
 	
 	public void create(Sku s) throws InvalidEntityException {
 		validate(s);

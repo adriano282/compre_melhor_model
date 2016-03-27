@@ -23,6 +23,8 @@ public class PurchaseService extends AbstractService<Purchase> implements Serial
 
 	@Override
 	protected void setDao() {super.dao = this.purchaseDao; }
+	@Override 
+	protected void setStrategies() {}
 	
 	public void addItem(Purchase purchase, PurchaseLine line) throws InvalidEntityException {
 		verifyIfPurchaseExist(purchase);

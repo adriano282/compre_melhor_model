@@ -3,6 +3,7 @@ package com.compremelhor.model.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,9 @@ import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.exception.UserNotFoundException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.user.LimitAddressesByAnUserStrategy;
+import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.validation.groups.UserAddress;
 
@@ -31,6 +35,14 @@ public class UserService extends AbstractService<User>{
 	
 	@Override
 	protected void setDao() { super.dao = this.userDao;}
+	
+	@Override 
+	protected void setStrategies() {
+		List<Strategy<User>> strategies = new ArrayList<>();
+		strategies.add(new UniqueUsernameStrategy(userDao));
+		strategies.add(new LimitAddressesByAnUserStrategy(userDao));
+		super.strategies = strategies;
+	}
 	
 	@Override
 	public User find(Map<String, String> params) throws UnknownAttributeException {
@@ -85,12 +97,8 @@ public class UserService extends AbstractService<User>{
 		if (u == null) {
 			throw new UserNotFoundException(userId);
 		}
-				
-		Optional<List<Address>> optAds = u.getOptionalAddresses();
 		
-		if (optAds.isPresent() && optAds.get().size() == 3) {
-			throw new LimitOfAddressesReachedException(); 
-		}
+		validate(u);
 		
 		address.setUser(u);
 		validate(address, UserAddress.class);

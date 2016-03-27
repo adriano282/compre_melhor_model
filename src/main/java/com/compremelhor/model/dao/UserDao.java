@@ -10,8 +10,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.fest.util.Arrays;
-
 import com.compremelhor.model.entity.User;
 
 @Stateless
@@ -25,7 +23,6 @@ public class UserDao extends AbstractDao<User> {
 				u.getAddresses().size();
 			}
 		}
-		
 		return u;
 	}
 
@@ -42,18 +39,12 @@ public class UserDao extends AbstractDao<User> {
 		
 		params.forEach((k, v) -> {
 			predicates.add(cb.equal(usr.get(k), v));
-			System.out.println("K: " +k);
-			System.out.println("V: " +v);
 		});
-		
 		
 		criteriaQuery
 			.select(usr)
 			.where(predicates
 					.toArray(new Predicate[predicates.size()]));
-		
-		System.out.println("LENGHT: " + predicates
-					.toArray(new Predicate[predicates.size()]).length);
 		
 		List<User> result = getEntityManager().createQuery(criteriaQuery).getResultList();
 		
@@ -65,8 +56,6 @@ public class UserDao extends AbstractDao<User> {
 			return null;
 		}
 		 User u =result.get(0);
-		 System.out.println(u.getUsername());
-		 System.out.println("ENDEAVOR");
 		 return u;
 	}
 		

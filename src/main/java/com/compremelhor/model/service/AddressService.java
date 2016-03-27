@@ -11,10 +11,13 @@ import com.compremelhor.model.entity.User;
 
 public class AddressService extends AbstractService<Address>{
 	
+	
 	@Inject private AddressDao dao;
 
 	@Override
 	protected void setDao() { super.dao = this.dao;}
+	@Override 
+	protected void setStrategies() {}
 
 	public List<Address> findAllAddressByUser(User user) {
 		return dao.findAllAddressByUser(user);
