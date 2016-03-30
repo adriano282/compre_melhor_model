@@ -78,7 +78,7 @@ public abstract class AbstractService<T extends EntityModel> {
 		if (errors.size() > 0) {
 			throw new InvalidEntityException(
 					errors.stream()
-						.map(c -> c.getPropertyPath().toString().concat(": ").concat(c.getMessage().toString()).concat("#"))
+						.map(c -> c.getMessage().toString().concat("#"))
 						.collect(Collectors.joining()));
 		}
 	}
@@ -88,7 +88,7 @@ public abstract class AbstractService<T extends EntityModel> {
 		if (errors.size() > 0) {
 			throw new InvalidEntityException(
 					errors.stream()
-						.map(c -> c.getPropertyPath().toString().concat(": ").concat(c.getMessage().toString()).concat("#"))
+						.map(c -> c.getMessage().toString().concat("#"))
 						.collect(Collectors.joining()));
 		}
 		
@@ -101,7 +101,7 @@ public abstract class AbstractService<T extends EntityModel> {
 		if (errors.size() > 0) {
 			throw new InvalidEntityException(
 					errors.stream()
-						.map(c -> c.getPropertyPath().toString().concat(": ").concat(c.getMessage().toString()).concat("#"))
+						.map(c -> c.getMessage().toString().concat("#"))
 						.collect(Collectors.joining()));
 		}
 		
@@ -114,7 +114,7 @@ public abstract class AbstractService<T extends EntityModel> {
 		if (errors.size() > 0) {
 			throw new InvalidEntityException(
 					errors.stream()
-						.map(c -> c.getPropertyPath().toString().concat(": ").concat(c.getMessage().toString()).concat("#"))
+						.map(c -> c.getMessage().toString().concat("#"))
 						.collect(Collectors.joining()));
 		}
 		

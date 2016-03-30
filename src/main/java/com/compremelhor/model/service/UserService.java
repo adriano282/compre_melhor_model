@@ -23,6 +23,7 @@ import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.strategy.Strategy;
 import com.compremelhor.model.strategy.user.LimitAddressesByAnUserStrategy;
+import com.compremelhor.model.strategy.user.UniqueDocumentStrategy;
 import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.GeneratorPasswordHash;
 import com.compremelhor.model.validation.groups.UserAddress;
@@ -39,6 +40,7 @@ public class UserService extends AbstractService<User>{
 	@Override 
 	protected void setStrategies() {
 		List<Strategy<User>> strategies = new ArrayList<>();
+		strategies.add(new UniqueDocumentStrategy(userDao));
 		strategies.add(new UniqueUsernameStrategy(userDao));
 		strategies.add(new LimitAddressesByAnUserStrategy(userDao));
 		super.strategies = strategies;

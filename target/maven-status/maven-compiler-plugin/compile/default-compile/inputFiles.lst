@@ -2,6 +2,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/EntityModel.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/PurchaseDao.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/PurchaseService.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/Status.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/AccountService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/StockService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/FreightEJB.java
@@ -20,13 +21,16 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/PurchaseLineService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/exception/UnknownAttributeException.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/CategoryDao.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/user/UniqueUsernameStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/exception/InvalidFieldNameException.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/StockEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Sku.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/AddressDao.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/UserEJB.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/Strategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Category.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/CategoryEJB.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/user/LimitAddressesByAnUserStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/UserDao.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/SkuPartnerService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/ManufacturerEJB.java
@@ -42,6 +46,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/UserService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AccountEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Address.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/user/UniqueDocumentStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/SkuEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Stock.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/PurchaseLineDao.java

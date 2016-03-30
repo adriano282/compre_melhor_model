@@ -32,7 +32,7 @@ public class User extends EntityModel implements Serializable {
 	private String username;
 	
 	@Column(nullable = false)
-	@Pattern(message = "user.document.invalid.format.message.error", regexp= "([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\-]?[0-9])|([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})")
+	@Pattern(message = "user.document.invalid.format.error.message", regexp= "([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})")
 	private String document;
 	
 	@Column(name = "document_type")

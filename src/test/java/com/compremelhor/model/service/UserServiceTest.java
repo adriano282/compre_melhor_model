@@ -68,7 +68,7 @@ public class UserServiceTest {
 	}
 	
 	@Test
-	public void gettingLimitOfAddressException()  {
+	public void gettingLimitOfAddressError()  {
 		for (int i = 0; i < 4; i++) {
 			Address ad2 = new Address();
 			ad2.setCity("Mogi das Cruzes");
@@ -79,19 +79,60 @@ public class UserServiceTest {
 			ad2.setZipcode("08738290");
 			try {
 				userService.addAddress(user.getId(), ad2);
-				userService.findUserByDocument("42.761.057-6");			
 			} catch (Exception e) {
 				Assert.assertTrue(e.getMessage().equals("user.addresses.max.number.excedded.error.message#"));
 				return;
 			}
 		}
 	}
+
+	@Test
+	public void gettingUniqueDocumentAndUsernameError() {
+		User user = new User();
+		user.setUsername("Adriano de Jesus");
+		user.setDocument("41831058898");
+		
+		try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
+		catch(Exception e) { throw new RuntimeException(e);}
+		
+		user.setDocumentType(User.DocumentType.CPF);
+		user.setDateCreated(LocalDateTime.now());
+		user.setLastUpdated(LocalDateTime.now());
+		
+		try {
+			createUser(userService, user);
+		} catch (Exception e) {
+			Assert.assertTrue(e.getMessage()
+					.equals("user.document.already.registered.error.message#user.username.already.registered.error.message#"));
+		}
+	}
 	
+	@Test
+	public void gettingInvalidDocumentError() {
+		User user = new User();
+		user.setUsername("Adriano de JesusS");
+		user.setDocument("42/761.057-6");
+		
+		try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
+		catch(Exception e) { throw new RuntimeException(e);}
+		
+		user.setDocumentType(User.DocumentType.CPF);
+		user.setDateCreated(LocalDateTime.now());
+		user.setLastUpdated(LocalDateTime.now());
+		
+		try {
+			createUser(userService, user);
+		} catch (Exception e) {
+			logger.log(Level.WARNING, e.getMessage());
+			Assert.assertTrue(e.getMessage().equals("user.document.invalid.format.error.message#"));
+		}
+	}
+
 	@Test
 	public void gettingUniqueUsernameError() {
 		User user = new User();
 		user.setUsername("Adriano de Jesus");
-		user.setDocument("42.761.057-6");
+		user.setDocument("999.999.99977");
 		
 		try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
 		catch(Exception e) { throw new RuntimeException(e);}
@@ -112,7 +153,7 @@ public class UserServiceTest {
 				
 		logger.log(Level.INFO, "Start: Editing an user...");
 		user.setUsername("Pedro");
-		user.setDocument("42.761.057-7");
+		user.setDocument("41831058898");
 		user.setLastUpdated(LocalDateTime.now());
 		user.setPasswordHash(GeneratorPasswordHash.getHash("teste456"));
 		user.setDocumentType(User.DocumentType.CNPJ);
@@ -122,7 +163,7 @@ public class UserServiceTest {
 		
 		logger.log(Level.INFO, "End: User edited -- " + user);
 		
-		assertEquals(userR.getDocument(), "42.761.057-7");
+		assertEquals(userR.getDocument(), "41831058898");
 		assertEquals(userR.getDocumentType(), User.DocumentType.CNPJ);
 		assertEquals(userR.getUsername(), "Pedro");
 		assertEquals(userR.getPasswordHash(), GeneratorPasswordHash.getHash("teste456"));
@@ -145,17 +186,19 @@ public class UserServiceTest {
 	public User createUser(UserService service, User user) throws InvalidEntityException {
 		assertNotNull(service);
 				
-		user = new User();
-		user.setUsername("Adriano de Jesus");
-		user.setDocument("42.761.057-6");
-		
-		try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
-		catch(Exception e) { throw new RuntimeException(e);}
-		
-		user.setDocumentType(User.DocumentType.CPF);
-		user.setDateCreated(LocalDateTime.now());
-		user.setLastUpdated(LocalDateTime.now());
-		
+		if (user == null) {
+			user = new User();
+			user.setUsername("Adriano de Jesus");
+			user.setDocument("41831058898");
+			
+			try {user.setPasswordHash(GeneratorPasswordHash.getHash("teste123")); } 
+			catch(Exception e) { throw new RuntimeException(e);}
+			
+			user.setDocumentType(User.DocumentType.CPF);
+			user.setDateCreated(LocalDateTime.now());
+			user.setLastUpdated(LocalDateTime.now());
+		}
+				
 		Address ad = new Address();
 		ad.setCity("Mogi das Cruzes");                         
 		ad.setNumber("49");
@@ -168,7 +211,7 @@ public class UserServiceTest {
 		ad.setUser(user);
 		
 		service.create(user);
-		user = service.findUserByDocument("42.761.057-6");			
+		user = service.findUserByDocument("41831058898");			
 		assertNotNull(user);
 		
 		return user;

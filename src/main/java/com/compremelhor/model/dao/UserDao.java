@@ -94,7 +94,12 @@ public class UserDao extends AbstractDao<User> {
 		
 		if (result != null && result.size() > 1) {
 			throw new RuntimeException("This query has been returned more than one result.");
-		}		
+		}
+		
+		if (result == null || result.size() == 0) {
+			return null;
+		}
+		
 		return result.get(0);
 	}
 }
