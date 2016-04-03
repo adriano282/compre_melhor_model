@@ -43,8 +43,7 @@ public class User extends EntityModel implements Serializable {
 	@NotNull
 	private String password;
 	
-	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-	@Valid
+	@OneToMany(mappedBy = "user")
 	private List<Address> addresses;
 	
 	public String getUsername() { return username; }

@@ -22,4 +22,10 @@ public class AddressService extends AbstractService<Address>{
 	public List<Address> findAllAddressByUser(User user) {
 		return dao.findAllAddressByUser(user);
 	}
+	
+	public void removeAllAddressesByUser(int userId) {
+		if (userId == 0) throw new IllegalArgumentException("For delete query, userId can not be null");
+		dao.removeAllAddressByUser(userId);
+	}
+
 }

@@ -69,6 +69,7 @@ public class PurchaseServiceTest {
 	@Inject private SkuService skuService;
 	@Inject private StockService stockService;
 	@Inject private SkuPartnerService skuPartnerService;
+	@Inject private AddressService addressService;
 		
 	private Partner partner;
 	private Stock st;
@@ -98,7 +99,7 @@ public class PurchaseServiceTest {
 		pst = new PartnerServiceTest();
 		stockServiceTest = new StockServiceTest();
 		
-		user = ust.createUser(userService, user);
+		user = ust.createUser(userService, addressService, user);
 		sku = sst.createSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);	
 		partner = pst.createPartner(partnerService, partner);
 		st = stockServiceTest.createStock(stockService, skuPartnerService, partnerService, skuService, partner, sku);
@@ -144,7 +145,7 @@ public class PurchaseServiceTest {
 		stockServiceTest.removeStockAndSkuPartner(stockService, skuPartnerService, st, sp);	
 		sst.removeSkuAndCategoryAndManufacturer(skuService, manufacturerService, categoryService, sku);
 		pst.removePartner(partnerService, partner);
-		ust.removeUser(userService, user);
+		ust.removeUser(userService, addressService, user);
 	}
 	
 	public void removePurchaseAndItensAndFreight(PurchaseService service, FreightService freightService, Purchase purchase, Freight freight) {

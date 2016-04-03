@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -28,5 +29,12 @@ public class AddressDao extends AbstractDao<Address> {
 		return getEntityManager()
 				.createQuery(criteriaQuery)
 				.getResultList();		
+	}
+	
+	public void removeAllAddressByUser(int userId) {
+		if (userId == 0) throw new IllegalArgumentException("For delete query, userId can not be null");
+		getEntityManager()
+		.createQuery("DELETE FROM Address a WHERE a.user = " + userId)
+		.executeUpdate();
 	}
 }

@@ -3,12 +3,9 @@ package com.compremelhor.model.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,13 +55,14 @@ public class UserServiceTest {
 				.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
 	}
 
+	@Inject private AddressService addressService;
 	@Inject	private UserService userService;
 	@Inject	private Logger logger;
 	private User user;
 	
 	@Before
 	public void config() throws NoSuchAlgorithmException, InvalidEntityException {
-		user = createUser(userService, user);
+		user = createUser(userService,addressService, user);
 	}
 	
 	@Test
@@ -100,7 +98,7 @@ public class UserServiceTest {
 		user.setLastUpdated(LocalDateTime.now());
 		
 		try {
-			createUser(userService, user);
+			createUser(userService, addressService, user);
 		} catch (Exception e) {
 			Assert.assertTrue(e.getMessage()
 					.equals("user.document.already.registered.error.message#user.username.already.registered.error.message#"));
@@ -121,7 +119,7 @@ public class UserServiceTest {
 		user.setLastUpdated(LocalDateTime.now());
 		
 		try {
-			createUser(userService, user);
+			createUser(userService,addressService, user);
 		} catch (Exception e) {
 			logger.log(Level.WARNING, e.getMessage());
 			Assert.assertTrue(e.getMessage().equals("user.document.invalid.format.error.message#"));
@@ -142,7 +140,7 @@ public class UserServiceTest {
 		user.setLastUpdated(LocalDateTime.now());
 		
 		try {
-			createUser(userService, user);
+			user = createUser(userService, addressService, user);
 		} catch (Exception e) {
 			Assert.assertTrue(e.getMessage().equals("user.username.already.registered.error.message#"));
 		}
@@ -173,17 +171,19 @@ public class UserServiceTest {
 	
 	@After
 	public void clear() {
-		removeUser(userService, user);
+		removeUser(userService, addressService, user);
 	}
 	
-	public void removeUser(UserService service, User user) {
+	public void removeUser(UserService service,AddressService addressService, User user) {
 		assertNotNull(service);
 		assertNotNull(user);
+		addressService.removeAllAddressesByUser(user.getId());
 		service.remove(service.find(user.getId()));
+		
 		assertNull(service.find(user.getId()));
 	}
 	
-	public User createUser(UserService service, User user) throws InvalidEntityException {
+	public User createUser(UserService service, AddressService addressService, User user) throws InvalidEntityException {
 		assertNotNull(service);
 				
 		if (user == null) {
@@ -207,10 +207,11 @@ public class UserServiceTest {
 		ad.setStreet("Rua Alfredo Gomes Loureiro");
 		ad.setZipcode("08738290");
 		
-		user.setAddresses(new ArrayList<Address>(Arrays.asList(ad)));
 		ad.setUser(user);
 		
 		service.create(user);
+		addressService.create(ad);
+		
 		user = service.findUserByDocument("41831058898");			
 		assertNotNull(user);
 		

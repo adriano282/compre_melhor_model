@@ -46,6 +46,12 @@ public class UserService extends AbstractService<User>{
 		super.strategies = strategies;
 	}
 	
+	
+	@Override
+	public void remove(User t) {
+		super.remove(t);
+	}
+
 	@Override
 	public User find(Map<String, String> params) throws UnknownAttributeException {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

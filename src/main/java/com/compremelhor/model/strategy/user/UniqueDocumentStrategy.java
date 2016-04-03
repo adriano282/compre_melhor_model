@@ -1,8 +1,6 @@
 package com.compremelhor.model.strategy.user;
 
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.User;
@@ -21,8 +19,7 @@ public class UniqueDocumentStrategy implements Strategy<User> {
 		if (t == null ||
 				t.getDocument() == null || 
 				t.getDocument().isEmpty()) {
-			errors.put("document", "user.document.is.null.error.message");
-			return new Status(errors);
+			return new Status();
 		}
 		
 		HashMap<String, String> params = new HashMap<>();
