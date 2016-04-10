@@ -1,6 +1,12 @@
 package com.compremelhor.model.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
@@ -13,6 +19,7 @@ import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.SkuPartner;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.exception.UnknownAttributeException;
 
 @Stateless
 public class StockService extends AbstractService<Stock>{
@@ -121,4 +128,30 @@ public class StockService extends AbstractService<Stock>{
 	public void remove(Stock st) {
 		removeStockAndSkuPartner(st);
 	}
+	
+	@Lock(LockType.READ)
+	@Override
+	public Stock find(Map<String, String> params) throws UnknownAttributeException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties props = new Properties();
+		try {
+			props.load(classLoader.getResourceAsStream("entity_properties.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String attrs = (String) props.get("stock");
+		
+		Set<Map.Entry<String, String>> entries = params.entrySet();
+		
+		for (Map.Entry<String, String> pair : entries) {
+			if (!Arrays.asList(attrs.split("#")).contains(pair.getKey().trim())) {
+				throw new UnknownAttributeException("Unknown stock attribute: " + pair.getValue());
+			}
+		}
+		return stDao.find(params);
+	}
+
 }

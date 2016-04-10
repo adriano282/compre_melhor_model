@@ -140,7 +140,7 @@ public class PartnerServiceTest {
 	public Partner createPartner(PartnerService service, Partner partner) throws InvalidEntityException {
 		assertNotNull(service);
 		partner = new Partner();
-		partner.setName("Super Mercado da Gente");
+		partner.setName("Supermercado da Gente");
 		
 		service.create(partner);
 		

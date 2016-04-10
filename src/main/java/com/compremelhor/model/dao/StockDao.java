@@ -1,6 +1,7 @@
 package com.compremelhor.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,6 +12,21 @@ import com.compremelhor.model.entity.Stock;
 
 @Stateless
 public class StockDao extends AbstractDao<Stock>{
+	@Override
+	public Stock find(Map<String, String> params) {
+		Stock st = super.find(params);
+		
+		if (st != null) {
+			st.getSkuPartner().getPartner().getName();
+			st.getSkuPartner().getSku().getName();
+			if (st.getSkuPartner().getSku().getCategories() != null) {
+				st.getSkuPartner().getSku().getCategories().size();
+			}
+		}
+		
+		return st;
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	public StockDao() { super(Stock.class); }

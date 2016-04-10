@@ -1,9 +1,16 @@
 package com.compremelhor.model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceUnitUtil;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import com.compremelhor.model.entity.Sku;
 
@@ -58,4 +65,22 @@ public class SkuDao extends AbstractDao<Sku> {
 				.setParameter(2, categoryId).executeUpdate();
 		getEntityManager().flush();
 	}
+	
+	@Override
+	public Sku find(Map<String, String> params) {
+		Sku u = super.find(params);
+		
+		if (u.getCode() != null) {
+			System.out.println("CODE : " +u.getCode());
+		}
+		
+		if (u.getCategories() != null)
+			u.getCategories().size();		
+		
+		if (u.getManufacturer() != null)
+			System.out.println("Manufacturer : " +u.getManufacturer());
+		
+		return u;
+	}
+
 }

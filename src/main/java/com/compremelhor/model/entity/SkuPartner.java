@@ -2,8 +2,10 @@ package com.compremelhor.model.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -29,7 +31,7 @@ public class SkuPartner extends EntityModel implements Serializable {
 	private Sku sku;
 	
 	
-	@ManyToOne
+	@ManyToOne	
 	@JoinColumn(name = "partner_id")
 	@NotNull
 	private Partner partner;

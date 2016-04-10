@@ -1,7 +1,12 @@
 package com.compremelhor.model.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +18,9 @@ import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.dao.SkuDao;
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Sku;
+import com.compremelhor.model.entity.User;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.exception.UnknownAttributeException;
 
 @Stateless
 public class SkuService extends AbstractService<Sku>{
@@ -119,5 +126,29 @@ public class SkuService extends AbstractService<Sku>{
 			}
 			
 		}
+	}
+	
+	@Override
+	public Sku find(Map<String, String> params) throws UnknownAttributeException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties props = new Properties();
+		try {
+			props.load(classLoader.getResourceAsStream("entity_properties.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String attrs = (String) props.get("sku");
+		
+		Set<Map.Entry<String, String>> entries = params.entrySet();
+		
+		for (Map.Entry<String, String> pair : entries) {
+			if (!Arrays.asList(attrs.split("#")).contains(pair.getKey().trim())) {
+				throw new UnknownAttributeException("Unknown sku attribute: " + pair.getValue());
+			}
+		}
+		return skuDao.find(params);
 	}
 }

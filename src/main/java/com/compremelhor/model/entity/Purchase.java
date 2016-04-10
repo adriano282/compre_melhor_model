@@ -44,7 +44,6 @@ public class Purchase  extends EntityModel implements Serializable {
 	private Set<PurchaseLine> lines;
 	
 	@OneToOne(mappedBy = "purchase")
-	@JsonIgnore
 	private Freight freight;
 	
 	public Set<PurchaseLine> getLines() {

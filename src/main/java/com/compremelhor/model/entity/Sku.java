@@ -46,17 +46,18 @@ public class Sku extends EntityModel implements Serializable{
 	@JoinTable(name = "sku_category",
 			joinColumns=@JoinColumn(name="sku_id"),
 			inverseJoinColumns=@JoinColumn(name="category_id"))
-	@JsonIgnore
 	private Set<Category> categories;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unit")
 	@NotNull
+	@Basic(fetch = FetchType.EAGER)
 	private UnitType unit;
 	
 	@Embedded
 	@NotNull
 	@Valid
+	@Basic(fetch = FetchType.EAGER)
 	private Code code;
 	
 	@Basic(fetch = FetchType.LAZY)
@@ -69,6 +70,7 @@ public class Sku extends EntityModel implements Serializable{
 	
 	@ManyToOne
 	@NotNull
+	@Basic(fetch = FetchType.EAGER)
 	private Manufacturer manufacturer;
 	
 	public void setCategory(HashSet<Category> categories) {
