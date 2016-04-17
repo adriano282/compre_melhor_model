@@ -13,7 +13,7 @@ import com.compremelhor.model.entity.Stock;
 @Stateless
 public class StockDao extends AbstractDao<Stock>{
 	@Override
-	public Stock find(Map<String, String> params) {
+	public Stock find(Map<String, Object> params) {
 		Stock st = super.find(params);
 		
 		if (st != null) {

@@ -35,7 +35,7 @@ public abstract class AbstractService<T extends EntityModel> {
 	protected abstract void setStrategies();
 	
 	
-	public T find(Map<String, String> params) throws UnknownAttributeException {
+	public T find(Map<String, Object> params) throws UnknownAttributeException {
 		throw new NotImplementedException();
 	}
 	

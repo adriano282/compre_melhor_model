@@ -53,7 +53,7 @@ public class PartnerService extends AbstractService<Partner>{
 	public void removeAddress(Address address) { addressDao.remove(address); }
 	
 	@Override
-	public Partner find(Map<String, String> params) throws UnknownAttributeException {
+	public Partner find(Map<String, Object> params) throws UnknownAttributeException {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		Properties props = new Properties();
 		try {
@@ -66,9 +66,9 @@ public class PartnerService extends AbstractService<Partner>{
 		
 		String attrs = (String) props.get("partner");
 		
-		Set<Map.Entry<String, String>> entries = params.entrySet();
+		Set<Map.Entry<String, Object>> entries = params.entrySet();
 		
-		for (Map.Entry<String, String> pair : entries) {
+		for (Map.Entry<String, Object> pair : entries) {
 			if (!Arrays.asList(attrs.split("#")).contains(pair.getKey().trim())) {
 				throw new UnknownAttributeException("Unknown partner attribute: " + pair.getValue());
 			}

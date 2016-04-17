@@ -85,13 +85,13 @@ public class StockServiceTest {
 	
 	@Test
 	public void editStock() throws InvalidEntityException {
-	/*	logger.log(Level.WARNING, "TESTE");
-		st.setUnitPrice(20.00);
+		logger.log(Level.WARNING, "TESTE");
+		st.setUnitPrice(5.00);
 		st = stockService.edit(st);		
-		assertEquals(Double.valueOf(20.00), stockService.find(st.getId()).getUnitPrice());
+		assertEquals(Double.valueOf(5.00), stockService.find(st.getId()).getUnitPrice());
 		st = stockService.addStock(st, 100.00);		
 		assertEquals(Double.valueOf(100.00), stockService.find(st.getId()).getQuantity());
-		*/
+		
 		
 	}
 	

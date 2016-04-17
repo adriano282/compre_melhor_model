@@ -22,7 +22,7 @@ public abstract class AbstractRemote<T extends EntityModel> implements EJBRemote
 	abstract void setService();
 
 	@Override
-	public T find(Map<String, String> params) throws UnknownAttributeException {
+	public T find(Map<String, Object> params) throws UnknownAttributeException {
 		return service.find(params);
 	}
 	

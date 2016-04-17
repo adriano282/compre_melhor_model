@@ -1,5 +1,7 @@
 package com.compremelhor.model.dao;
 
+import java.util.Map;
+
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,6 +12,31 @@ import com.compremelhor.model.entity.Purchase;
 
 @Stateless
 public class FreightDao extends AbstractDao<Freight> {
+	@Override
+	public Freight find(Map<String, Object> params) {
+		params.compute("type", (k, v) -> {
+			if (v == null) return null;
+			
+			boolean valid = false;
+			for (Freight.FreightType type : Freight.FreightType.values()) {
+				if (type.toString().equals(v.toString().trim().toUpperCase()));
+					valid = true;
+			}
+			
+			if (!valid) return null;
+			return Freight.FreightType.valueOf(v.toString().trim().toUpperCase());
+		});
+		
+		Freight freight = super.find(params);
+		
+		if (freight != null) {
+			if (freight.getShipAddress() != null) {
+				freight.getShipAddress().getNumber();
+			}
+		}
+		return freight;
+	}
+
 	private static final long serialVersionUID = 1L;
 	
 	public FreightDao() { super(Freight.class);	}

@@ -18,10 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class PurchaseLine extends EntityModel implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@JsonIgnore 
-	@Version private int version;
-	
+		
 	@NotNull
 	private Double quantity;
 	

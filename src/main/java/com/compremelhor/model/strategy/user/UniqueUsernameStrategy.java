@@ -23,7 +23,7 @@ public class UniqueUsernameStrategy implements Strategy<User> {
 			return new Status(errors);
 		}
 		
-		HashMap<String, String> params = new HashMap<>();
+		HashMap<String, Object> params = new HashMap<>();
 		params.put("username", t.getUsername().trim());
 		
 		User u;

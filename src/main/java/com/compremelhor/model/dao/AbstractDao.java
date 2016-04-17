@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
@@ -44,7 +46,7 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 		em.persist(entity);
 	}
 	
-	public T find(Map<String, String> params) {
+	public T find(Map<String, Object> params) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<T> criteriaQuery = cb.createQuery(clazz);
 		
@@ -103,9 +105,15 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 				em.getCriteriaBuilder().createQuery(clazz);
 		
 		criteriaQuery.select(criteriaQuery.from(clazz));
-		return em.createQuery(criteriaQuery)
-				.getResultList()
-				.subList(start, start + size);
+		List<T> result = em.createQuery(criteriaQuery).getResultList();
+		
+		if (result == null) {
+			return null;
+		} else if (result.size() < size){
+			return new ArrayList<>(result.subList(start,result.size()));
+		} else {
+			return new ArrayList<>(result.subList(start, size));
+		}
 	}
 	
 	public void deleteAll() {

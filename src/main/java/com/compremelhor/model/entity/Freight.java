@@ -16,6 +16,8 @@ import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "freight")
 @SecondaryTable(name = "freight_setup",
@@ -26,17 +28,18 @@ public class Freight extends EntityModel implements Serializable {
 	public Freight () {}
 	
 	@Column(name = "value_ride")
-	@NotNull
+	@NotNull(message = "freight.valueride.is.null.message.error")
 	private Double valueRide;
 	
 	@ManyToOne
 	@JoinColumn(name = "address_id") 
-	@NotNull
+	@NotNull(message = "freight.shipaddress.is.null.message.error")
 	private Address shipAddress;
 
 	@OneToOne
 	@JoinColumn(name = "purchase_id") 
-	@NotNull
+	@NotNull(message = "freight.purchase.is.null.message.error")
+	@JsonIgnore
 	private Purchase purchase;
 	
 	@Enumerated(EnumType.STRING)

@@ -1,7 +1,13 @@
 package com.compremelhor.model.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -12,6 +18,7 @@ import com.compremelhor.model.entity.Freight;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
 import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.exception.UnknownAttributeException;
 
 @Stateless
 public class PurchaseService extends AbstractService<Purchase> implements Serializable {
@@ -77,4 +84,28 @@ public class PurchaseService extends AbstractService<Purchase> implements Serial
 		}
 		return p;
 	}
+	@Override
+	public Purchase find(Map<String, Object> params) throws UnknownAttributeException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		Properties props = new Properties();
+		try {
+			props.load(classLoader.getResourceAsStream("entity_properties.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String attrs = (String) props.get("purchase");
+		
+		Set<Map.Entry<String, Object>> entries = params.entrySet();
+		
+		for (Map.Entry<String, Object> pair : entries) {
+			if (!Arrays.asList(attrs.split("#")).contains(pair.getKey().trim())) {
+				throw new UnknownAttributeException("Unknown purchase attribute: " + pair.getValue());
+			}
+		}
+		return purchaseDao.find(params);
+	}
+
 }

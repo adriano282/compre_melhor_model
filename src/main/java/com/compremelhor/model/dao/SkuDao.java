@@ -67,7 +67,7 @@ public class SkuDao extends AbstractDao<Sku> {
 	}
 	
 	@Override
-	public Sku find(Map<String, String> params) {
+	public Sku find(Map<String, Object> params) {
 		Sku u = super.find(params);
 		
 		if (u.getCode() != null) {

@@ -22,7 +22,7 @@ public class UniqueDocumentStrategy implements Strategy<User> {
 			return new Status();
 		}
 		
-		HashMap<String, String> params = new HashMap<>();
+		HashMap<String, Object> params = new HashMap<>();
 		params.put("document", t.getDocument().trim());
 		
 		User u;
