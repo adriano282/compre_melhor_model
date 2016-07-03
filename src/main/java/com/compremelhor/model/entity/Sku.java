@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,11 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "sku")
@@ -54,11 +50,7 @@ public class Sku extends EntityModel implements Serializable{
 	@Basic(fetch = FetchType.EAGER)
 	private UnitType unit;
 	
-	@Embedded
-	@NotNull
-	@Valid
-	@Basic(fetch = FetchType.EAGER)
-	private Code code;
+	private String code;
 	
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
@@ -103,9 +95,9 @@ public class Sku extends EntityModel implements Serializable{
 
 	public void setUnit(UnitType unit) { this.unit = unit; }
 
-	public Code getCode() { return code; }
+	public String getCode() { return code; }
 
-	public void setCode(Code code) { this.code = code; }
+	public void setCode(String code) { this.code = code; }
 	public Manufacturer getManufacturer() { return manufacturer; }
 
 	public void setManufacturer(Manufacturer manufacturer) { this.manufacturer = manufacturer; }
@@ -121,12 +113,13 @@ public class Sku extends EntityModel implements Serializable{
 				+ ", lastUpdated: " + lastUpdated
 				+ " ]";
 	}
+	
 	@Override
 	public int hashCode() {
 		if (code == null || manufacturer == null)
 			return -1;
 		
-		return (name + code.getCode() + manufacturer.getName()).hashCode();
+		return (name + code + manufacturer.getName()).hashCode();
 	}
 
 	@Override

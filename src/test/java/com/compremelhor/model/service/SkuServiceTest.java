@@ -28,8 +28,6 @@ import org.junit.runner.RunWith;
 
 import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.Category;
-import com.compremelhor.model.entity.Code;
-import com.compremelhor.model.entity.Code.CodeType;
 import com.compremelhor.model.entity.Manufacturer;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.Sku.UnitType;
@@ -76,7 +74,7 @@ public class SkuServiceTest {
 	
 	@Test
 	public void searchAndEditAProduct() throws InvalidEntityException {		
-		//alterations();
+		alterations();
 		searching();
 	}
 	
@@ -84,15 +82,15 @@ public class SkuServiceTest {
 		
 		sku = skuService.find(sku.getId());
 		
-		sku.getCode().setCode("CODIGO ALTERADO");
+		sku.setCode("CODIGO ALTERADO");
 		sku = skuService.edit(sku);
 		logger.log(Level.INFO, "Sku altered: " + sku);
 		sku = findSku(skuService, sku.getId());
 		assertNotNull(sku);
-		Assert.assertEquals(sku.getCode().getCode(), "CODIGO ALTERADO");		
+		Assert.assertEquals(sku.getCode(), "CODIGO ALTERADO");		
 	}
 	
-	//@Test
+	@Test
 	public void additioningCategory() throws InvalidEntityException {
 		Set<String> fetches = new HashSet<String>();
 		fetches.add("categories");
@@ -109,7 +107,7 @@ public class SkuServiceTest {
 		Assert.assertEquals(qtdeCa + 1, sku.getCategories().size());
 	}
 	
-	//@Test
+	@Test
 	public void removingCategoryFromSku() throws InvalidEntityException {
 		
 		Set<String> fetches = new HashSet<String>();
@@ -193,11 +191,7 @@ public class SkuServiceTest {
 	
 	public Sku createSkuAndCategoryAndManufacturer(SkuService service, ManufacturerService manufacturerService,CategoryService categoryService, Sku sku) throws InvalidEntityException {
 		assertNotNull(service);
-				
-		Code code = new Code();
-		code.setCode("138055651547");
-		code.setType(CodeType.BARCODE);
-		
+						
 		Category category = new Category();		
 		category.setName("Alimentos Gelados");
 		
@@ -205,6 +199,7 @@ public class SkuServiceTest {
 		
 		sku = new Sku();
 		sku.setName("Maionese");
+		sku.setCode("138055651547");
 		sku.setDescription("Maionese Hellmans. Qualidade garantida");
 		
 		Manufacturer manufacturer = new Manufacturer();
@@ -217,7 +212,6 @@ public class SkuServiceTest {
 				
 		sku.setManufacturer(manufacturer);
 		sku.setUnit(UnitType.UN);
-		sku.setCode(code);
 		
 		sku.addCategory(category);
 		
