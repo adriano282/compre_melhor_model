@@ -95,7 +95,7 @@ public class StockServiceTest {
 		
 	}
 	
-	//@After
+	@After
 	public void removing() {
 		assertNotNull(st);
 		sp = st.getSkuPartner();

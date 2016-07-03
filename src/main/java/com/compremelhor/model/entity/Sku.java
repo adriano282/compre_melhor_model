@@ -153,7 +153,7 @@ public class Sku extends EntityModel implements Serializable{
 
 	public Set<Category> getCategories() { return categories; }
 	
-	public enum UnitType { CX, KG, M, L, SC, UN; }
+	public enum UnitType { CX, KG, M, L, SC, UN, PCT; }
 	
 }
 
