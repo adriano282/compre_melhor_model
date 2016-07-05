@@ -82,12 +82,12 @@ public class SkuServiceTest {
 		
 		sku = skuService.find(sku.getId());
 		
-		sku.setCode("CODIGO ALTERADO");
+		sku.setCode("1234567891111");
 		sku = skuService.edit(sku);
 		logger.log(Level.INFO, "Sku altered: " + sku);
 		sku = findSku(skuService, sku.getId());
 		assertNotNull(sku);
-		Assert.assertEquals(sku.getCode(), "CODIGO ALTERADO");		
+		Assert.assertEquals(sku.getCode(), "1234567891111");		
 	}
 	
 	@Test
@@ -199,7 +199,7 @@ public class SkuServiceTest {
 		
 		sku = new Sku();
 		sku.setName("Maionese");
-		sku.setCode("138055651547");
+		sku.setCode("1234567890000");
 		sku.setDescription("Maionese Hellmans. Qualidade garantida");
 		
 		Manufacturer manufacturer = new Manufacturer();

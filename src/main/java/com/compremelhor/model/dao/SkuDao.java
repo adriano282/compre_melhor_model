@@ -24,8 +24,6 @@ public class SkuDao extends AbstractDao<Sku> {
 		return s;
 	}
 	
-	
-
 	@Override
 	public Sku edit(Sku entity) {
 		Sku s = super.edit(entity);
@@ -38,8 +36,6 @@ public class SkuDao extends AbstractDao<Sku> {
 		super.persist(entity);
 		getEntityManager().flush();
 	}
-
-
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,6 +62,7 @@ public class SkuDao extends AbstractDao<Sku> {
 		getEntityManager().flush();
 	}
 	
+	
 	@Override
 	public Sku find(Map<String, Object> params) {
 		Sku u = super.find(params);
@@ -82,5 +79,4 @@ public class SkuDao extends AbstractDao<Sku> {
 		
 		return u;
 	}
-
 }

@@ -35,7 +35,8 @@ public class Sku extends EntityModel implements Serializable{
 	@NotNull @Size(max= 45)
 	private String name;
 	
-	@NotNull @Size(max= 45)
+	@NotNull @Size(max= 250, 
+			message="O número de caracteres não deve ultrapassar 250")
 	private String description;
 	
 	@ManyToMany
@@ -50,7 +51,12 @@ public class Sku extends EntityModel implements Serializable{
 	@Basic(fetch = FetchType.EAGER)
 	private UnitType unit;
 	
+	@Size(min= 13, max = 13, 
+			message = "O código de barras deve conter 13 dígitos")
 	private String code;
+	
+	@Enumerated(EnumType.STRING)
+	private Status status = Status.PUBLICADO;
 	
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
@@ -96,8 +102,8 @@ public class Sku extends EntityModel implements Serializable{
 	public void setUnit(UnitType unit) { this.unit = unit; }
 
 	public String getCode() { return code; }
-
 	public void setCode(String code) { this.code = code; }
+	
 	public Manufacturer getManufacturer() { return manufacturer; }
 
 	public void setManufacturer(Manufacturer manufacturer) { this.manufacturer = manufacturer; }
@@ -147,6 +153,13 @@ public class Sku extends EntityModel implements Serializable{
 	public Set<Category> getCategories() { return categories; }
 	
 	public enum UnitType { CX, KG, M, L, SC, UN, PCT; }
-	
+	public enum Status { PUBLICADO, DESATIVADO }
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	};
 }
 

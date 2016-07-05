@@ -18,6 +18,7 @@ import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.dao.SkuDao;
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Sku;
+import com.compremelhor.model.entity.Sku.Status;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 
@@ -48,11 +49,6 @@ public class SkuService extends AbstractService<Sku>{
 		dao.persist(s);
 	}
 
-	@Override
-	public void remove(Sku t) {
-		super.remove(t);
-	}
-	
 	public Sku edit(Sku sku) throws InvalidEntityException {
 		validate(sku);
 		syncCategoriesFromSku(sku);

@@ -41,7 +41,6 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/PurchaseLineEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/validation/groups/UserAddress.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/CategoryService.java
-/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Code.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AddressEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/UserService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AccountEJB.java
