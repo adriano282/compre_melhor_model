@@ -19,9 +19,6 @@ public class StockDao extends AbstractDao<Stock>{
 		if (st != null) {
 			st.getSkuPartner().getPartner().getName();
 			st.getSkuPartner().getSku().getName();
-			if (st.getSkuPartner().getSku().getCategories() != null) {
-				st.getSkuPartner().getSku().getCategories().size();
-			}
 		}
 		
 		return st;

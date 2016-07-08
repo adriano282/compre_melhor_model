@@ -55,11 +55,13 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>5.1.0.Final</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
 			<version>1.0.1.Final</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -76,6 +78,11 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
 		</dependency>
     </dependencies>
 	<profiles>
@@ -144,13 +151,13 @@
                     </execution>
                 </executions>
             </plugin>
-           <plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-surefire-plugin</artifactId>
-			  <configuration>
-			    <skipTests>true</skipTests>
-			  </configuration>
-			</plugin>
+<!--            <plugin> -->
+<!-- 			  <groupId>org.apache.maven.plugins</groupId> -->
+<!-- 			  <artifactId>maven-surefire-plugin</artifactId> -->
+<!-- 			  <configuration> -->
+<!-- 			    <skipTests>true</skipTests> -->
+<!-- 			  </configuration> -->
+<!-- 			</plugin> -->
 		</plugins>
   	</build>
 </project>

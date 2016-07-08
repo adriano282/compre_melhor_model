@@ -24,10 +24,6 @@ public class CategoryService extends AbstractService<Category>{
 		return categoryDao.findCategoryBySkuId(skuId);
 	}
 	
-	public List<Category> findCategoriesBySkuId(int skuId) {
-		return categoryDao.findCategoriesBySkuId(skuId);
-	}
-	
 	public Category findCategoryByName(String name) {
 		return categoryDao.findCategoryByName(name);
 	}

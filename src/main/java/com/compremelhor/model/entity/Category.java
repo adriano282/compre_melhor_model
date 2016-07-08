@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -18,7 +18,7 @@ public class Category extends EntityModel implements Serializable{
 	@NotNull @Size(max=45)
 	private String name;
 	
-	@ManyToMany(mappedBy = "categories")
+	@OneToMany(mappedBy = "category")
 	private Set<Sku> skus;
 	
 	public String getName() {

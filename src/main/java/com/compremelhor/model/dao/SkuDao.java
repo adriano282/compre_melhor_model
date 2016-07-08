@@ -1,16 +1,10 @@
 package com.compremelhor.model.dao;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.PersistenceUnitUtil;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import com.compremelhor.model.entity.Sku;
 
@@ -19,8 +13,6 @@ public class SkuDao extends AbstractDao<Sku> {
 	@Override
 	public Sku find(int id, Set<String> fetches) {
 		Sku s = super.find(id);		
-		if (fetches.contains("categories") && s.getCategories() != null)
-			s.getCategories().size();		
 		return s;
 	}
 	
@@ -53,16 +45,6 @@ public class SkuDao extends AbstractDao<Sku> {
 		getEntityManager().flush();
 	}
 	
-	public void removeSkuCategory(int skuId, int categoryId) {
-		getEntityManager().createNativeQuery(
-				"delete from sku_category where sku_id = 1? "
-				+ "and category_id = 2?")
-				.setParameter(1, skuId)
-				.setParameter(2, categoryId).executeUpdate();
-		getEntityManager().flush();
-	}
-	
-	
 	@Override
 	public Sku find(Map<String, Object> params) {
 		Sku u = super.find(params);
@@ -70,9 +52,6 @@ public class SkuDao extends AbstractDao<Sku> {
 		if (u.getCode() != null) {
 			System.out.println("CODE : " +u.getCode());
 		}
-		
-		if (u.getCategories() != null)
-			u.getCategories().size();		
 		
 		if (u.getManufacturer() != null)
 			System.out.println("Manufacturer : " +u.getManufacturer());

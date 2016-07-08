@@ -1,9 +1,7 @@
 package com.compremelhor.model.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -11,10 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -39,11 +34,8 @@ public class Sku extends EntityModel implements Serializable{
 			message="O número de caracteres não deve ultrapassar 250")
 	private String description;
 	
-	@ManyToMany
-	@JoinTable(name = "sku_category",
-			joinColumns=@JoinColumn(name="sku_id"),
-			inverseJoinColumns=@JoinColumn(name="category_id"))
-	private Set<Category> categories;
+	@ManyToOne	
+	private Category category;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unit")
@@ -71,22 +63,8 @@ public class Sku extends EntityModel implements Serializable{
 	@Basic(fetch = FetchType.EAGER)
 	private Manufacturer manufacturer;
 	
-	public void setCategory(HashSet<Category> categories) {
-		if (this.categories == null) {
-			this.categories = categories;
-		} else if (categories != null) {
-			this.categories.addAll(categories);
-		} else {
-			this.categories = null;
-		}
-		
-	}
-	
-	public void addCategory(Category c) {
-		if (categories == null) {
-			categories = new HashSet<>();
-		}
-		categories.add(c);
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 	
 	public String getName() { return name; }
@@ -150,10 +128,10 @@ public class Sku extends EntityModel implements Serializable{
 
 	public void setPhoto(byte[] photo) { this.photo = photo; }
 
-	public Set<Category> getCategories() { return categories; }
+	public Category getCategory() { return category; }
 	
 	public enum UnitType { CX, KG, M, L, SC, UN, PCT; }
-	public enum Status { PUBLICADO, DESATIVADO }
+	public enum Status { PUBLICADO, DELETADO }
 	public Status getStatus() {
 		return status;
 	}

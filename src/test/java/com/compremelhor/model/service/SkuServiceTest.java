@@ -5,10 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,56 +86,6 @@ public class SkuServiceTest {
 		Assert.assertEquals(sku.getCode(), "1234567891111");		
 	}
 	
-	@Test
-	public void additioningCategory() throws InvalidEntityException {
-		Set<String> fetches = new HashSet<String>();
-		fetches.add("categories");
-		sku = skuService.find(sku.getId(), fetches);
-		
-		int qtdeCa = sku.getCategories().size();
-		
-		Category c = new Category();
-		c.setName("OUTRA CATEGORIA - B");
-		sku.addCategory(c);
-		
-		sku = skuService.edit(sku);
-		
-		Assert.assertEquals(qtdeCa + 1, sku.getCategories().size());
-	}
-	
-	@Test
-	public void removingCategoryFromSku() throws InvalidEntityException {
-		
-		Set<String> fetches = new HashSet<String>();
-		fetches.add("categories");
-		
-		sku = skuService.find(sku.getId(), fetches);
-		
-		int qtdeCa = sku.getCategories().size();
-		
-		logger.log(Level.WARNING, "SIZE " + qtdeCa);
-		
-		Category category = new Category();		
-		category.setName("Alimentos Gelados");
-		
-		
-				
-		if (sku.getCategories().remove(category) ) {
-			logger.log(Level.WARNING, "REMOVED");
-		}
-		
-		sku.getCategories().stream().forEach(s -> System.out.println(s));
-		
-		sku = skuService.edit(sku);	
-		Assert.assertEquals(qtdeCa -1, sku.getCategories().size());
-		
-		Category cat = categoryService.findCategoryByName(category.getName());
-		
-		categoryService.remove(cat);
-		Assert.assertNull(categoryService.findCategoryByName(category.getName()));
-		
-	}
-	
 	private void searching() {
 		logger.log(Level.INFO, "Category found: " + categoryService.findCategoryBySkuId(sku.getId()).getName());
 		
@@ -166,22 +112,15 @@ public class SkuServiceTest {
 		
 		assertNotEquals(0, sku.getId());
 		
-		Optional<List<Category>> categories = Optional.ofNullable(cs.findCategoriesBySkuId(sku.getId()));
-		categories.ifPresent(list -> {
-				list.stream().forEach(c -> {
-					service.removeSkuCategory(sku.getId(), c.getId());
-				});
-			});
-			
+		if (sku.getCategory() != null) {
+			cs.remove(sku.getCategory());
+		}
 				
 		service.remove(sku);
 		assertNull(findSku(service, sku.getId()));
 		
 		manufacturerService.remove(m);
 		assertNull(manufacturerService.find(m.getId()));
-		
-		categories.ifPresent(list -> list.stream().forEach(c -> cs.remove(c)));
-
 	}
 	
 	public Sku findSku(SkuService service, int id) {
@@ -213,7 +152,7 @@ public class SkuServiceTest {
 		sku.setManufacturer(manufacturer);
 		sku.setUnit(UnitType.UN);
 		
-		sku.addCategory(category);
+		sku.setCategory(category);
 		
 			
 		service.create(sku);

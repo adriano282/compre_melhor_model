@@ -63,21 +63,12 @@ public class CategoryDao extends AbstractDao<Category> {
 		return result.get(0);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<Category> findCategoriesBySkuId(int skuId) {
-		return (List<Category>) getEntityManager().createNativeQuery(
-				"select c.id, c.name, c.date_created, c.last_updated from sku_category sc "
-						+ "inner join category c on c.id = sc.category_id "
-						+ "where sc.sku_id = ?1", Category.class)
-						.setParameter(1, skuId).getResultList();
-	}
-	
 	public Category findCategoryBySkuId(int skuId) {
 		@SuppressWarnings("unchecked")
 		List<Category> result = (List<Category>) getEntityManager().createNativeQuery(
-				"select c.id, c.name, c.date_created, c.last_updated from sku_category sc "
-				+ "inner join category c on c.id = sc.category_id "
-				+ "where sc.sku_id = ?1", Category.class)
+				"select c.id, c.name, c.date_created, c.last_updated from category c "
+				+ "inner join sku s on s.category_id = c.id " 
+				+ "where s.id = ?1", Category.class)
 				.setParameter(1, skuId).getResultList();
 		
 		if (result != null && result.size() > 0) {
