@@ -2,6 +2,7 @@ package com.compremelhor.model.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
@@ -20,8 +21,8 @@ import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 
 @Stateless
-public class SkuService extends AbstractService<Sku>{
-	
+public class SkuService extends AbstractService<Sku> implements Serializable{
+	private static final long serialVersionUID = 1L;
 	@Inject	private SkuDao skuDao;
 	@Inject private CategoryService categoryService; 
 	@Inject private CategoryDao categoryDao;

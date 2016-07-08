@@ -1,12 +1,12 @@
 package com.compremelhor.model.service;
 
-import java.util.List;
-
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.entity.Category;
 
+@Stateless
 public class CategoryService extends AbstractService<Category>{
 	
 	@Inject	private CategoryDao categoryDao;

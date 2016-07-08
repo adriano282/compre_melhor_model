@@ -1,5 +1,6 @@
 package com.compremelhor.model.service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +19,9 @@ import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
 
-public abstract class AbstractService<T extends EntityModel> {
+public abstract class AbstractService<T extends EntityModel> implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Inject 
 	private Validator validator;	
 

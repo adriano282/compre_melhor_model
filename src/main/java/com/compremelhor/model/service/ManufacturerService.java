@@ -8,7 +8,7 @@ import com.compremelhor.model.entity.Manufacturer;
 
 @Stateless
 public class ManufacturerService extends AbstractService<Manufacturer>{
-	
+	private static final long serialVersionUID = 1L;
 	@Inject	private ManufacturerDao manufacturerDao;
 	
 	protected void setDao() { super.dao = manufacturerDao; }

@@ -112,13 +112,12 @@ public class SkuServiceTest {
 		
 		assertNotEquals(0, sku.getId());
 		
-		if (sku.getCategory() != null) {
-			cs.remove(sku.getCategory());
-		}
-				
 		service.remove(sku);
 		assertNull(findSku(service, sku.getId()));
 		
+		if (sku.getCategory() != null) {
+			cs.remove(sku.getCategory());
+		}
 		manufacturerService.remove(m);
 		assertNull(manufacturerService.find(m.getId()));
 	}
