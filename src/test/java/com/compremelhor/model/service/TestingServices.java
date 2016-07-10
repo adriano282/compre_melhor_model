@@ -8,5 +8,4 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ ManufacturerServiceTest.class, CategoryServiceTest.class, SkuServiceTest.class,
 		UserServiceTest.class, PartnerServiceTest.class, StockServiceTest.class, PurchaseServiceTest.class, AccountServiceTest.class })
 public class TestingServices {
-
 }

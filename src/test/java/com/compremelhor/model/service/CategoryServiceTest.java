@@ -54,7 +54,7 @@ public class CategoryServiceTest {
 	@Before
 	public void setup() throws InvalidEntityException {
 		category = new Category();
-		category.setName("BEBIDAS");
+		category.setName("Teste BEBIDAS");
 		category.setDateCreated(LocalDateTime.now());
 		category.setLastUpdated(LocalDateTime.now());
 		service.create(category);
@@ -64,11 +64,11 @@ public class CategoryServiceTest {
 	
 	@Test
 	public void edit() throws InvalidEntityException {
-		category.setName("CARNES");
+		category.setName("Teste CARNES");
 		service.edit(category);
 		
 		category = service.find(category.getId());
-		Assert.assertEquals("CARNES", category.getName());
+		Assert.assertEquals("Teste CARNES", category.getName());
 	}
 	
 	@After

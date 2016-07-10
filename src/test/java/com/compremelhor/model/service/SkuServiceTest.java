@@ -78,12 +78,12 @@ public class SkuServiceTest {
 		
 		sku = skuService.find(sku.getId());
 		
-		sku.setCode("1234567891111");
+		sku.setCode("1234567831111");
 		sku = skuService.edit(sku);
 		logger.log(Level.INFO, "Sku altered: " + sku);
 		sku = findSku(skuService, sku.getId());
 		assertNotNull(sku);
-		Assert.assertEquals(sku.getCode(), "1234567891111");		
+		Assert.assertEquals(sku.getCode(), "1234567831111");		
 	}
 	
 	private void searching() {
@@ -131,7 +131,7 @@ public class SkuServiceTest {
 		assertNotNull(service);
 						
 		Category category = new Category();		
-		category.setName("Alimentos Gelados");
+		category.setName("TAlimentos Gelados");
 		
 		categoryService.create(category);
 		
@@ -141,7 +141,7 @@ public class SkuServiceTest {
 		sku.setDescription("Maionese Hellmans. Qualidade garantida");
 		
 		Manufacturer manufacturer = new Manufacturer();
-		manufacturer.setName("HELLMANS");
+		manufacturer.setName("HELLMANSW");
 		manufacturer.setLastUpdated(LocalDateTime.now());
 		manufacturer.setDateCreated(LocalDateTime.now());
 		
