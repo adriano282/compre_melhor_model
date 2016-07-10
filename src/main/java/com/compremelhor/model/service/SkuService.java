@@ -8,12 +8,10 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.dao.SkuDao;
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Sku;
@@ -24,10 +22,6 @@ import com.compremelhor.model.exception.UnknownAttributeException;
 public class SkuService extends AbstractService<Sku> implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Inject	private SkuDao skuDao;
-	@Inject private CategoryService categoryService; 
-	@Inject private CategoryDao categoryDao;
-	@Inject private Logger logger;
-	
 	@Override
 	protected void setDao() { super.dao = this.skuDao;}
 	@Override 
