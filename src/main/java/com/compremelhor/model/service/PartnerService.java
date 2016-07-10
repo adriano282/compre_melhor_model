@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.AddressDao;
@@ -18,8 +19,9 @@ import com.compremelhor.model.exception.PartnerNotFoundException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
+@Stateless
 public class PartnerService extends AbstractService<Partner>{
-	
+	private static final long serialVersionUID = 1L;
 	@Inject	private PartnerDao dao;	
 	@Inject private AddressDao addressDao;
 	

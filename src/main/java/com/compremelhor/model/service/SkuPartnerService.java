@@ -1,13 +1,16 @@
 package com.compremelhor.model.service;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.SkuPartnerDao;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.SkuPartner;
 
+@Stateless
 public class SkuPartnerService extends AbstractService<SkuPartner>{
-	
+
+	private static final long serialVersionUID = 1L;
 	@Inject private SkuPartnerDao dao;
 		
 	@Override

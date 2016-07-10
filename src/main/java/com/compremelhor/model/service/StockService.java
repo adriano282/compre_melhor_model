@@ -23,6 +23,7 @@ import com.compremelhor.model.exception.UnknownAttributeException;
 
 @Stateless
 public class StockService extends AbstractService<Stock>{
+	private static final long serialVersionUID = 1L;
 	@Inject private StockDao stDao;
 	@Inject private SkuPartnerService skuPartnerService;
 	

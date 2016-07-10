@@ -8,7 +8,7 @@ import com.compremelhor.model.entity.Category;
 
 @Stateless
 public class CategoryService extends AbstractService<Category>{
-	
+	private static final long serialVersionUID = 1L;
 	@Inject	private CategoryDao categoryDao;
 	
 	@Override
