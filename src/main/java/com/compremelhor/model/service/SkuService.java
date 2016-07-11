@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -17,6 +19,8 @@ import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.sku.UniqueCodeStrategy;
 
 @Stateless
 public class SkuService extends AbstractService<Sku> implements Serializable{
@@ -25,7 +29,11 @@ public class SkuService extends AbstractService<Sku> implements Serializable{
 	@Override
 	protected void setDao() { super.dao = this.skuDao;}
 	@Override 
-	protected void setStrategies() {}
+	protected void setStrategies() {
+		List<Strategy<Sku>> strategies = new ArrayList<>();
+		strategies.add(new UniqueCodeStrategy(skuDao));
+		super.strategies = strategies;
+	}
 	
 	public void create(Sku s) throws InvalidEntityException {
 		validate(s);

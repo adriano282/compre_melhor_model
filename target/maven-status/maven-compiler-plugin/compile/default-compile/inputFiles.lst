@@ -50,6 +50,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Stock.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/PurchaseLineDao.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/PartnerService.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/sku/UniqueCodeStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/EJBRemote.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Account.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/ManufacturerService.java
