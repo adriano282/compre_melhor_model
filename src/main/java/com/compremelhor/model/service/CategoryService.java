@@ -1,5 +1,8 @@
 package com.compremelhor.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -26,6 +29,12 @@ public class CategoryService extends AbstractService<Category>{
 	
 	public Category findCategoryByName(String name) {
 		return categoryDao.findCategoryByName(name);
+	}
+	@Override
+	public Category find(String attributeName, String attributeValue) {
+		Map<String, Object> params = new HashMap<>();
+		params.put(attributeName, attributeValue);
+		return categoryDao.find(params);
 	}
 
 }

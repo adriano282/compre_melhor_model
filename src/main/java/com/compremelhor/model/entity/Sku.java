@@ -35,7 +35,13 @@ public class Sku extends EntityModel implements Serializable{
 	private String description;
 	
 	@ManyToOne	
+	@Basic(fetch = FetchType.EAGER)
 	private Category category;
+	
+	@ManyToOne
+	@NotNull
+	@Basic(fetch = FetchType.EAGER)
+	private Manufacturer manufacturer;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "unit")
@@ -57,11 +63,6 @@ public class Sku extends EntityModel implements Serializable{
 	
 	@OneToMany(mappedBy = "sku")
 	private List<SkuPartner> skuPartners;
-	
-	@ManyToOne
-	@NotNull
-	@Basic(fetch = FetchType.EAGER)
-	private Manufacturer manufacturer;
 	
 	public void setCategory(Category category) {
 		this.category = category;

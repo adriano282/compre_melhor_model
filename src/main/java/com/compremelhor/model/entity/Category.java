@@ -3,14 +3,15 @@ package com.compremelhor.model.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.google.gson.Gson;
 
 @Entity
 @Table(name = "category", uniqueConstraints=@UniqueConstraint(columnNames = {"name", "id"}))
@@ -19,11 +20,18 @@ public class Category extends EntityModel implements Serializable, Comparable<Ca
 
 	public Category() {}
 	
+	@JsonCreator
+	public Category(String json) {
+		Gson g = new Gson();
+		Category m = g.fromJson(json, Category.class);
+		this.name = m.getName();
+		this.id = m.getId();
+		this.dateCreated = m.getDateCreated();
+		this.lastUpdated = m.getLastUpdated();
+	}
+	
 	@NotNull @Size(max=45)
 	private String name;
-	
-	@OneToMany(mappedBy = "category")
-	private Set<Sku> skus;
 	
 	public String getName() {
 		return name;
@@ -44,12 +52,17 @@ public class Category extends EntityModel implements Serializable, Comparable<Ca
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Category && this.id == (((Category)obj).getId()))
+		
+		if (obj instanceof Category	
+				&& this.name != null 
+				&& ((Category)obj).getName() != null
+				&& this.name.equals((((Category)obj).getName())))
 			return true;
 		
 		return false;
 	}
 
+	
 	@Override
 	public int compareTo(Category m) {
 		if (m == null || m.getName() == null || this.name == null) return -1;
@@ -66,9 +79,24 @@ public class Category extends EntityModel implements Serializable, Comparable<Ca
 			m.setDateCreated(LocalDateTime.parse(attrs[2].split(" : ")[1], fmt));
 			m.setLastUpdated(LocalDateTime.parse(attrs[3].split(" : ")[1], fmt));
 		} catch (Exception e) { 
-			System.out.println(e.getMessage());
+			System.out.println("ERROR on Category ValueOF method: " + e.getMessage());
 		}
 		return m;
+	}
+	
+	public static Category fromName(String name) {
+		Category m = new Category();
+		m.setName(name);
+		return m;
+	}
+	
+	@Override
+	public int hashCode() {
+		if (this.name == null) return -1;
+		
+		int hashCode = 33;
+		hashCode = hashCode * 19 + (this.name.hashCode());
+		return hashCode;
 	}
 
 }
