@@ -44,6 +44,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AddressEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/UserService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AccountEJB.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/category/UniqueNameStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Address.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/user/UniqueDocumentStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/SkuEJB.java

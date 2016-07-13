@@ -1,5 +1,7 @@
 package com.compremelhor.model.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,9 @@ import javax.inject.Inject;
 
 import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.entity.Category;
+import com.compremelhor.model.exception.InvalidEntityException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.category.UniqueNameStrategy;
 
 @Stateless
 public class CategoryService extends AbstractService<Category>{
@@ -17,7 +22,10 @@ public class CategoryService extends AbstractService<Category>{
 	@Override
 	protected void setDao() { super.dao = categoryDao; }
 	@Override 
-	protected void setStrategies() {}
+	protected void setStrategies() {
+		this.strategies = new ArrayList<Strategy<Category>>();
+		this.strategies.add(new UniqueNameStrategy(categoryDao));
+	}
 	
 	public Category findCategory(Object id) {
 		return categoryDao.find(id);
@@ -35,6 +43,21 @@ public class CategoryService extends AbstractService<Category>{
 		Map<String, Object> params = new HashMap<>();
 		params.put(attributeName, attributeValue);
 		return categoryDao.find(params);
+	}
+	@Override
+	public void create(Category t) throws InvalidEntityException {
+		if (t != null) {
+			t.setDateCreated(LocalDateTime.now());
+			t.setLastUpdated(LocalDateTime.now());
+		}
+		super.create(t);
+	}
+	@Override
+	public Category edit(Category t) throws InvalidEntityException {
+		if (t != null) {
+			t.setLastUpdated(LocalDateTime.now());
+		}
+		return super.edit(t);
 	}
 
 }

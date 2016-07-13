@@ -131,7 +131,8 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 				Status status;
 				if ((status = s.validate(t)).hasErrors()) {
 					for (Map.Entry<String, String> pair : status.getErrors().entrySet()) {
-						errs.append(pair.getValue().concat("#"));
+						if (errs.length() > 0) errs.append("#");
+						errs.append(pair.getValue());
 					}
 				}
 			}

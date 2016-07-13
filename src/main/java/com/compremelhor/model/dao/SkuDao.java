@@ -49,12 +49,14 @@ public class SkuDao extends AbstractDao<Sku> {
 	public Sku find(Map<String, Object> params) {
 		Sku u = super.find(params);
 		
-		if (u.getCode() != null) {
-			System.out.println("CODE : " +u.getCode());
+		if (u != null) {
+			if (u.getCategory() != null) {
+				System.out.println("Category : " +u.getCategory());
+			}
+			
+			if (u.getManufacturer() != null)
+				System.out.println("Manufacturer : " +u.getManufacturer());
 		}
-		
-		if (u.getManufacturer() != null)
-			System.out.println("Manufacturer : " +u.getManufacturer());
 		
 		return u;
 	}
