@@ -23,6 +23,7 @@ import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.category.UniqueNameStrategy;
 import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
@@ -36,6 +37,7 @@ public class CategoryServiceTest {
 				.addPackage(Manufacturer.class.getPackage())
 				.addPackage(UserNotFoundException.class.getPackage())
 				.addPackage(Strategy.class.getPackage())
+				.addPackage(UniqueNameStrategy.class.getPackage())
 				.addPackage(UniqueUsernameStrategy.class.getPackage())
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(ManufacturerDao.class.getPackage())

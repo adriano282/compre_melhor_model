@@ -32,6 +32,7 @@ import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
 import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.category.UniqueNameStrategy;
 import com.compremelhor.model.strategy.sku.UniqueCodeStrategy;
 import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.LoggerProducer;
@@ -45,6 +46,8 @@ public class SkuServiceTest {
 		return ShrinkWrap.create(WebArchive.class)
 				.addPackage(User.class.getPackage())
 				.addPackage(UserNotFoundException.class.getPackage())
+				.addPackage(UniqueNameStrategy.class.getPackage())
+				.addPackage(com.compremelhor.model.strategy.manufacturer.UniqueNameStrategy.class.getPackage())				
 				.addPackage(LocalDateTimeAttributeConverter.class.getPackage())
 				.addPackage(UserDao.class.getPackage())
 				.addPackage(Strategy.class.getPackage())
