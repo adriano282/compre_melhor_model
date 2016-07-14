@@ -1,6 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -22,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "freight")
 @SecondaryTable(name = "freight_setup",
 		pkJoinColumns=@PrimaryKeyJoinColumn(name="freight_id"))
-public class Freight extends EntityModel implements Serializable {
+public class Freight extends EntityModel {
 	private static final long serialVersionUID = 1L;
 		
 	public Freight () {}

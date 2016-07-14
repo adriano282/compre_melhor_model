@@ -1,7 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "address")
-public class Address extends EntityModel implements Serializable {
+public class Address extends EntityModel {
 	private static final long serialVersionUID = 1L;
 	
 	public Address() {}

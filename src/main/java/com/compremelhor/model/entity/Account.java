@@ -1,6 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -14,7 +13,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "account")
-public class Account extends EntityModel implements Serializable {
+public class Account extends EntityModel {
 	private static final long serialVersionUID = 1L;
 
 	@NotNull(message = "Um username precisa ser definido.")

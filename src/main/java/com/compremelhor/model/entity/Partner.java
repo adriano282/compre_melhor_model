@@ -1,6 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "partner")
-public class Partner extends EntityModel implements Serializable {
+public class Partner extends EntityModel {
 	private static final long serialVersionUID = 1L;
 	
 	@NotNull @Size(max=45)

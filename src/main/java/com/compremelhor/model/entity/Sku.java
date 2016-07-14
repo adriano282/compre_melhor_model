@@ -1,6 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -24,7 +23,7 @@ import javax.validation.constraints.Size;
 		@PrimaryKeyJoinColumn(name="sku_id", 
 			referencedColumnName="id")
 )
-public class Sku extends EntityModel implements Serializable{
+public class Sku extends EntityModel {
 	private static final long serialVersionUID = 1L;
 	
 	@NotNull @Size(max= 45)

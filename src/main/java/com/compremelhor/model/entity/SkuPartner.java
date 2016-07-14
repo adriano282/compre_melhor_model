@@ -1,7 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -17,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "sku_partner")
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class SkuPartner extends EntityModel implements Serializable {	
+public class SkuPartner extends EntityModel {	
 	private static final long serialVersionUID = 1L;
 	
 	@JsonIgnore

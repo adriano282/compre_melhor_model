@@ -1,6 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table( name = "purchase")
-public class Purchase  extends EntityModel implements Serializable {
+public class Purchase extends EntityModel {
 	private static final long serialVersionUID = 1L;
 		
 	@JsonIgnore

@@ -1,6 +1,5 @@
 package com.compremelhor.model.entity;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -16,7 +15,7 @@ import com.google.gson.Gson;
 @Entity
 @Table(	name = "manufacturer",
 		uniqueConstraints = @UniqueConstraint(columnNames = {"id", "name"}))
-public class Manufacturer extends EntityModel implements Serializable, Comparable<Manufacturer> {
+public class Manufacturer extends EntityModel implements Comparable<Manufacturer> {
 	private static final long serialVersionUID = 1L;
 
 	public Manufacturer() {}
