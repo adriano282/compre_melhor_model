@@ -1,6 +1,7 @@
 package com.compremelhor.model.service;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,6 @@ import javax.validation.Validator;
 import com.compremelhor.model.dao.AbstractDao;
 import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.exception.InvalidEntityException;
-import com.compremelhor.model.exception.NotImplementedException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
@@ -37,13 +37,18 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 	protected abstract void setDao();
 	protected abstract void setStrategies();
 	
-	
-	public T find(Map<String, Object> params) throws UnknownAttributeException {
-		throw new NotImplementedException();
+	public T find(String attributeName, String attributeValue) {
+		if (attributeName == null || attributeValue == null)
+			return null;
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put(attributeName, attributeValue);
+		
+		return dao.find(params);
 	}
 	
-	public T find(String attributeName, String attributeValue) {
-		throw new NotImplementedException();
+	public T find(Map<String, Object> params) throws UnknownAttributeException {
+		return dao.find(params);
 	}
 	
 	public void create(T t) throws InvalidEntityException {
@@ -57,10 +62,12 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 	}
 	
 	public void remove(T t) {
-		dao.remove(t);
+		if (t != null)
+			dao.remove(t);
 	}
 	
 	public T find(int id) {
+		if (id == 0) return null;
 		return dao.find(id);
 	}
 	

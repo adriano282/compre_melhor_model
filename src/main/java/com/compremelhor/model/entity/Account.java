@@ -1,10 +1,12 @@
 package com.compremelhor.model.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,9 @@ public class Account extends EntityModel implements Serializable {
 	@NotNull(message = "Senha não informada.")
 	@Column(name = "password")
 	private String password;
+
+	@ManyToMany
+	private List<Role> roles;
 	
 	@ManyToOne
 	@NotNull
@@ -47,5 +52,11 @@ public class Account extends EntityModel implements Serializable {
 	}
 	public void setPartner(Partner partner) {
 		this.partner = partner;
+	}
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 }

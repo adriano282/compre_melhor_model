@@ -42,7 +42,6 @@ public class Manufacturer extends EntityModel implements Serializable, Comparabl
 	public boolean equals(Object m) {
 		if (m instanceof Manufacturer && this.id == ((Manufacturer)m).getId())
 			return true;
-		
 		return false;
 	}
 	
