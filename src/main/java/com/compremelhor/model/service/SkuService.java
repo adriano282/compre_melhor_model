@@ -2,7 +2,6 @@ package com.compremelhor.model.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +22,7 @@ import com.compremelhor.model.strategy.Strategy;
 import com.compremelhor.model.strategy.sku.UniqueCodeStrategy;
 
 @Stateless
-public class SkuService extends AbstractService<Sku> implements Serializable{
+public class SkuService extends AbstractService<Sku> {
 	private static final long serialVersionUID = 1L;
 	@Inject	private SkuDao skuDao;
 	@Override

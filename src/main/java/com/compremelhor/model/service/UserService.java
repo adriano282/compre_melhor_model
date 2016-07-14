@@ -30,6 +30,8 @@ import com.compremelhor.model.validation.groups.UserAddress;
 
 @Stateless
 public class UserService extends AbstractService<User>{
+	private static final long serialVersionUID = 1L;
+	
 	@Inject	private UserDao userDao;
 	@Inject private AddressService addressService;
 	

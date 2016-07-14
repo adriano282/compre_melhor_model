@@ -2,7 +2,6 @@ package com.compremelhor.model.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 
 @Stateless
-public class PurchaseService extends AbstractService<Purchase> implements Serializable {
+public class PurchaseService extends AbstractService<Purchase> {
 	private static final long serialVersionUID = 1L;
 	@Inject private PurchaseDao purchaseDao;
 	@Inject	private PurchaseLineDao purchaseLineDao;
