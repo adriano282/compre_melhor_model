@@ -101,7 +101,7 @@ public class UserServiceTest {
 			createUser(userService, addressService, user);
 		} catch (Exception e) {
 			Assert.assertTrue(e.getMessage()
-					.equals("user.document.already.registered.error.message#user.username.already.registered.error.message#"));
+					.equals("user.document.already.registered.error.message#user.username.already.registered.error.message"));
 		}
 	}
 	
