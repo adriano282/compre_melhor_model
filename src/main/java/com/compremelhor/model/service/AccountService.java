@@ -1,5 +1,6 @@
 package com.compremelhor.model.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.account.ChangeRoleAccountStrategy;
 import com.compremelhor.model.strategy.account.RemoveAccountStrategy;
 import com.compremelhor.model.strategy.account.UniqueUsernameStrategy;
+import com.compremelhor.model.util.GeneratorPasswordHash;
 
 @Stateless
 public class AccountService extends AbstractService<Account> {	
@@ -57,6 +59,7 @@ public class AccountService extends AbstractService<Account> {
 	
 	@Override
 	public void create(Account t) throws InvalidEntityException {
+		hashingPassword(t);
 		super.create(t);
 	}
 
@@ -69,5 +72,19 @@ public class AccountService extends AbstractService<Account> {
 			}
 		}
 		return ac;
+	}
+
+	@Override
+	public Account edit(Account t) throws InvalidEntityException {
+		hashingPassword(t);
+		return super.edit(t);
+	}
+	
+	private void hashingPassword(Account t) {
+		if (t != null && t.getPassword() != null && !t.getPassword().isEmpty()) {
+			try {
+				t.setPassword(GeneratorPasswordHash.getHash(t.getPassword()));
+			} catch (NoSuchAlgorithmException e) { System.out.println("Hash Algorithm not found: Not Possible hashing password");}
+		}
 	}
 }
