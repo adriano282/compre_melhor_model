@@ -24,7 +24,11 @@ public class User extends EntityModel {
 	private static final long serialVersionUID = 1L;
 	
 	public User() {}
-	
+
+	@Column
+	@NotNull @Size(max=45)
+	private String name;
+
 	@Column(nullable = false)
 	@NotNull @Size(max=45)
 	private String username;
@@ -83,5 +87,13 @@ public class User extends EntityModel {
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

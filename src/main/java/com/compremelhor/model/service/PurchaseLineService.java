@@ -8,6 +8,7 @@ import com.compremelhor.model.entity.PurchaseLine;
 
 @Stateless
 public class PurchaseLineService extends AbstractService<PurchaseLine>{
+	private static final long serialVersionUID = 1L;
 	
 	@Inject private PurchaseLineDao dao;
 	
@@ -15,4 +16,5 @@ public class PurchaseLineService extends AbstractService<PurchaseLine>{
 	protected void setDao() {super.dao = this.dao;}
 	@Override 
 	protected void setStrategies() {}
+
 }

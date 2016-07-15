@@ -1,6 +1,7 @@
 package com.compremelhor.model.service;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 	
 	public T edit(T t) throws InvalidEntityException {
 		validate(t);
+		if (t != null) t.setLastUpdated(LocalDateTime.now());
 		return dao.edit(t);
 	}
 	
@@ -67,7 +69,6 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 	}
 	
 	public T find(int id) {
-		if (id == 0) return null;
 		return dao.find(id);
 	}
 	

@@ -43,6 +43,22 @@ public class PurchaseService extends AbstractService<Purchase> {
 		return purchaseLineDao.findAllItensByPurchase(purchase);
 	}
 	
+	public List<PurchaseLine> findAllItensByPurchase(Purchase purchase, boolean skuEager) {
+		List<PurchaseLine> lines = purchaseLineDao.findAllItensByPurchase(purchase);
+		
+		if (lines != null && skuEager) {
+			for (PurchaseLine pl : lines) {
+				if (pl.getStock() != null &&
+						pl.getStock().getSkuPartner() != null &&
+						pl.getStock().getSkuPartner().getSku() != null) {
+					pl.getStock().getSkuPartner().getSku();
+				}
+			}
+		}
+		
+		return lines;
+	}
+	
 	public PurchaseLine findLine(int id) {
 		return purchaseLineDao.find(id);
 	}

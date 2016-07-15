@@ -78,7 +78,10 @@ public class Purchase extends EntityModel {
 	}
 
 	public enum Status {
-		OPENED, PENDING, READY, SHIPPED, CONCLUDED;
+		OPENED,					// When the purchase is opened on client virtual cart 
+		PAID, 					// When the purchase is closed and have already been paid
+		PURCHASE_SEPARED, 		// When the purchaes's items are separated for shipping 
+		SHIPPED 				// When the purchase is shipped for client address
 	}
 
 	public Freight getFreight() {
