@@ -2,6 +2,7 @@ package com.compremelhor.model.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.compremelhor.model.dao.PurchaseLineDao;
 import com.compremelhor.model.entity.Freight;
 import com.compremelhor.model.entity.Purchase;
 import com.compremelhor.model.entity.PurchaseLine;
+import com.compremelhor.model.entity.PurchaseLog;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
 
@@ -25,12 +27,14 @@ public class PurchaseService extends AbstractService<Purchase> {
 	@Inject private PurchaseDao purchaseDao;
 	@Inject	private PurchaseLineDao purchaseLineDao;
 	@Inject private FreightService freightService;
+	@Inject private PurchaseLogService purchaseLogService;
 	
 
 	@Override
 	protected void setDao() {super.dao = this.purchaseDao; }
 	@Override 
 	protected void setStrategies() {}
+		
 	
 	public void addItem(Purchase purchase, PurchaseLine line) throws InvalidEntityException {
 		verifyIfPurchaseExist(purchase);
@@ -121,6 +125,40 @@ public class PurchaseService extends AbstractService<Purchase> {
 			}
 		}
 		return purchaseDao.find(params);
+	}
+	
+	@Override
+	public void create(Purchase t) throws InvalidEntityException {
+		try {
+			super.create(t);
+			logHistory(t);
+			
+		} catch (InvalidEntityException e) {
+			throw e;
+		}
+	}
+	@Override
+	public Purchase edit(Purchase t) throws InvalidEntityException {
+		try {
+			Purchase p = super.edit(t);
+			logHistory(p);
+			return p;
+		} catch (InvalidEntityException e) {
+			throw e;
+		}
+	}
+	
+	private void logHistory(Purchase p) {
+		PurchaseLog log = new PurchaseLog();
+		log.setPurchaseId(p.getId());
+		log.setStatus(p.getStatus());
+		log.setLastUpdated(LocalDateTime.now());
+		log.setDateCreated(LocalDateTime.now());
+		try {
+			purchaseLogService.create(log);
+		} catch (InvalidEntityException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

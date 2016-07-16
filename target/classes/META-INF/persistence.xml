@@ -17,6 +17,7 @@
 		<class>com.compremelhor.model.entity.EntityModel</class>
 		<class>com.compremelhor.model.entity.Account</class>
 		<class>com.compremelhor.model.entity.Role</class>
+		<class>com.compremelhor.model.entity.PurchaseLog</class>
 							  		  
   		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

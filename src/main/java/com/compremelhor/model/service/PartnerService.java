@@ -24,7 +24,7 @@ public class PartnerService extends AbstractService<Partner>{
 	private static final long serialVersionUID = 1L;
 	@Inject	private PartnerDao dao;	
 	@Inject private AddressDao addressDao;
-	
+		
 	@Override
 	protected void setDao() { super.dao = this.dao; }
 	@Override 
