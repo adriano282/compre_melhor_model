@@ -14,19 +14,6 @@ import com.compremelhor.model.entity.Purchase;
 public class FreightDao extends AbstractDao<Freight> {
 	@Override
 	public Freight find(Map<String, Object> params) {
-		params.compute("type", (k, v) -> {
-			if (v == null) return null;
-			
-			boolean valid = false;
-			for (Freight.FreightType type : Freight.FreightType.values()) {
-				if (type.toString().equals(v.toString().trim().toUpperCase()));
-					valid = true;
-			}
-			
-			if (!valid) return null;
-			return Freight.FreightType.valueOf(v.toString().trim().toUpperCase());
-		});
-		
 		Freight freight = super.find(params);
 		
 		if (freight != null) {

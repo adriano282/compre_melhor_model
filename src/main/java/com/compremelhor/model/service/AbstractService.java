@@ -52,8 +52,16 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 		return dao.find(params);
 	}
 	
+	public List<T> findAll(Map<String, Object> params) throws UnknownAttributeException {
+		return dao.findAll(params);
+	}
+	
 	public void create(T t) throws InvalidEntityException {
 		validate(t);
+		if (t != null) {
+			t.setLastUpdated(LocalDateTime.now());
+			t.setDateCreated(LocalDateTime.now());
+		}
 		dao.persist(t);
 	}
 	

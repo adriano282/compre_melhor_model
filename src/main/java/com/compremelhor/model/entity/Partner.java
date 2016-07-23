@@ -12,6 +12,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "partner")
 public class Partner extends EntityModel {
@@ -26,7 +28,12 @@ public class Partner extends EntityModel {
 	@OneToMany(mappedBy = "partner", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@Valid
 	private List<Address> addresses;
-
+	
+	@OneToMany(mappedBy = "partner")
+	@Valid
+	@JsonIgnore
+	private List<FreightType> freightTypes;
+	
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
 
@@ -39,6 +46,12 @@ public class Partner extends EntityModel {
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
+	}
+	public List<FreightType> getFreightTypes() {
+		return freightTypes;
+	}
+	public void setFreightTypes(List<FreightType> freightTypes) {
+		this.freightTypes = freightTypes;
 	}
 	
 }

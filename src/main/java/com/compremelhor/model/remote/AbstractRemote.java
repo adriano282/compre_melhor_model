@@ -77,4 +77,10 @@ public abstract class AbstractRemote<T extends EntityModel> implements EJBRemote
 		throw new RuntimeException("NOT IMPLEMENTED YET");
 	}
 
+	@Override
+	public List<T> findAll(Map<String, Object> params)
+			throws UnknownAttributeException {
+		return service.findAll(params);
+	}
+
 }

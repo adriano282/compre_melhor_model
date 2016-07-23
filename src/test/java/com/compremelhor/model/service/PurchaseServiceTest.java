@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAmount;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +32,6 @@ import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.SkuPartner;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.entity.User;
-import com.compremelhor.model.entity.Freight.FreightType;
 import com.compremelhor.model.entity.converter.LocalDateTimeAttributeConverter;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UserNotFoundException;
@@ -172,7 +170,6 @@ public class PurchaseServiceTest {
 		freight.setDateCreated(LocalDateTime.now());
 		freight.setLastUpdated(LocalDateTime.now());
 		freight.setValueRide(20.00);
-		freight.setType(FreightType.SCHEDULED);
 		freight.setStartingDate(LocalDate.now().plusDays(2));
 		freight.setStartingTime(LocalTime.now().plusHours(2));
 		

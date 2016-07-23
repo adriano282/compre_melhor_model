@@ -45,6 +45,20 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 	}
 	
 	public T find(Map<String, Object> params) {
+		List<T> result = findByParams(params);
+		
+		if (result != null && result.size() > 1) {
+			throw new RuntimeException("This query has been returned more than one result.");
+		}
+		
+		if (result == null || result.size() == 0) {
+			return null;
+		}
+		T u = result.get(0);
+		return u;
+	}
+	
+	private List<T> findByParams(Map<String, Object> params) {
 		final CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
 		final CriteriaQuery<T> criteriaQuery = cb.createQuery(clazz);
 		
@@ -52,8 +66,7 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 		final List<Predicate> predicates = new ArrayList<>();
 		
 		params.forEach((k, v) -> {
-			
-			
+						
 			if (k.contains(".")) {
 				String segment = k.substring(0, k.indexOf("."));
 				String rest = k.substring(k.indexOf(".") + 1);
@@ -76,19 +89,12 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 			.where(predicates
 					.toArray(new Predicate[predicates.size()]));
 		
-		List<T> result = getEntityManager().createQuery(criteriaQuery).getResultList();
-		
-		if (result != null && result.size() > 1) {
-			throw new RuntimeException("This query has been returned more than one result.");
-		}
-		
-		if (result == null || result.size() == 0) {
-			return null;
-		}
-		T u = result.get(0);
-		return u;
+		return getEntityManager().createQuery(criteriaQuery).getResultList();
 	}
-
+	
+	public List<T> findAll(Map<String, Object> params) {
+		return findByParams(params);
+	}
 	
 	public List<T> findAll() {
 		final CriteriaQuery<T> criteriaQuery = 

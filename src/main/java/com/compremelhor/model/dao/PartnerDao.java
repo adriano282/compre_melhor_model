@@ -14,20 +14,19 @@ public class PartnerDao extends AbstractDao<Partner>{
 	
 	public Partner find(int id, Set<String> fetches) {
 		Partner p = find(id);
-		System.out.println("CHEGOU");
+		if (p == null) return p;
+		
 		if (fetches.contains("addresses")) {
-			System.out.println("CONTAINS ADDRESSES");
-			System.out.println(p.getAddresses());
-			if (p != null) {
-				System.out.println("PARTNER NOT NULL");
-				if (p.getAddresses() != null) {
-					System.out.println("ADDRESSES NOT NULL");
-					p.getAddresses().size();
-					System.out.println(p.getAddresses().size());
-				};
+			if (p.getAddresses() != null) {
+				p.getAddresses().size();
+			};
+		}
+		else if (fetches.contains("freightTypes")) {
+			if (p.getFreightTypes() != null) {
+				p.getFreightTypes().size();
 			}
 		}
-		System.out.println(p.getAddresses());
+		
 		return p;
 	}
 }

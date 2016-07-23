@@ -36,6 +36,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/CategoryEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/user/LimitAddressesByAnUserStrategy.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/UserDao.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/FreightType.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/SkuPartnerService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/ManufacturerEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Partner.java
@@ -47,6 +48,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/validation/groups/UserAddress.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/CategoryService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/account/ChangeRoleAccountStrategy.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/FreightTypeService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AddressEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/UserService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/AccountEJB.java
@@ -70,9 +72,11 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/service/SkuService.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/Manufacturer.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/PartnerDao.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/dao/FreightTypeDao.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/SkuPartner.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/converter/LocalDateAttributeConverter.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/strategy/UniqueTextFieldStrategy.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/remote/FreightTypeEJB.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/exception/UserNotFoundException.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/entity/PurchaseLine.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/main/java/com/compremelhor/model/exception/PartnerNotFoundException.java

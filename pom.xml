@@ -13,8 +13,6 @@
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
-			
-        
 		</dependencies>
 	</dependencyManagement>
     <dependencies>
@@ -102,7 +100,7 @@
 	      </profile>
 	  </profiles>
   <build>
-	<finalName>${project.artifactId}</finalName>
+	<finalName>${project.artifactId}-${project.version}</finalName>
 	<plugins>
 		<!-- WildFly	plugin	to	deploy	the	application	 -->
 		<plugin>
@@ -138,6 +136,46 @@
                     <attachClasses>true</attachClasses>
 	         </configuration>
          </plugin>
+          
+<!--     Plugin to copy the jar into repository folder and server folder -->
+		<plugin>
+			<groupId>com.github.goldin</groupId>
+			<artifactId>copy-maven-plugin</artifactId>
+			<version>0.2.5</version>
+			<executions>
+				<execution>
+					<id>deploy-business-model</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy</goal>
+					</goals>
+					<configuration>
+						<skipIdentical>false</skipIdentical>
+						<failIfNotFound>false</failIfNotFound>
+						<resources>
+							<resource>
+								<description>Copy artifact to repository folder</description>
+								<targetPath>/home/adriano/.m2/repository/compre_melhor_model/compre_melhor_model/0.0.1/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<includes>
+									<include>*.jar</include>
+								</includes>
+							</resource>
+							<resource>
+								<description>Copy artifact to server folder</description>
+								<targetPath>/home/adriano/Development/development-tools/downloads/wildfly-8.2.1.Final/standalone/deployments/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<includes>
+									<include>*.jar</include>
+								</includes>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		
+          
           
          <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>

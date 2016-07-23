@@ -5,8 +5,6 @@ import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -41,9 +39,10 @@ public class Freight extends EntityModel {
 	@JsonIgnore
 	private Purchase purchase;
 	
-	@Enumerated(EnumType.STRING)
+	@ManyToOne
+	@JoinColumn(name = "freight_type_id")
 	@NotNull(message = "freight.type.is.null.message.error")
-	private FreightType type;
+	private FreightType freightType;
 	
 	@Column(name = "starting_time", table = "freight_setup")
 	private LocalTime startingTime;
@@ -51,14 +50,6 @@ public class Freight extends EntityModel {
 	@Column(name = "starting_date", table = "freight_setup")
 	private LocalDate startingDate;
 	
-	public FreightType getType() {
-		return type;
-	}
-
-	public void setType(FreightType type) {
-		this.type = type;
-	}
-
 	public LocalTime getStartingTime() {
 		return startingTime;
 	}
@@ -98,8 +89,12 @@ public class Freight extends EntityModel {
 	public void setPurchase(Purchase purchase) {
 		this.purchase = purchase;
 	}
-	
-	public enum FreightType {
-		EXPRESS, SCHEDULED;
+
+	public FreightType getFreightType() {
+		return freightType;
+	}
+
+	public void setFreightType(FreightType freightType) {
+		this.freightType = freightType;
 	}
 }
