@@ -84,4 +84,12 @@ public class FreightType extends EntityModel {
 	public void setDelayWorkdays(int delayWorkdays) {
 		this.delayWorkdays = delayWorkdays;
 	}
+
+	public Integer getAvailabilityScheduleWorkDays() {
+		return availabilityScheduleWorkDays;
+	}
+
+	public void setAvailabilityScheduleWorkDays(Integer availabilityScheduleWorkDays) {
+		this.availabilityScheduleWorkDays = availabilityScheduleWorkDays;
+	}
 }

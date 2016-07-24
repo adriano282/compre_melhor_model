@@ -24,9 +24,9 @@ public class Freight extends EntityModel {
 		
 	public Freight () {}
 	
-	@Column(name = "value_ride")
-	@NotNull(message = "freight.valueride.is.null.message.error")
-	private Double valueRide;
+	@Column(name = "ride_value")
+	@NotNull(message = "freight.ridevalue.is.null.message.error")
+	private Double rideValue;
 	
 	@ManyToOne
 	@JoinColumn(name = "address_id") 
@@ -66,14 +66,6 @@ public class Freight extends EntityModel {
 		this.startingDate = startingDate;
 	}
 
-	public Double getValueRide() {
-		return valueRide;
-	}
-
-	public void setValueRide(Double valueRide) {
-		this.valueRide = valueRide;
-	}
-
 	public Address getShipAddress() {
 		return shipAddress;
 	}
@@ -96,5 +88,13 @@ public class Freight extends EntityModel {
 
 	public void setFreightType(FreightType freightType) {
 		this.freightType = freightType;
+	}
+
+	public Double getRideValue() {
+		return rideValue;
+	}
+
+	public void setRideValue(Double rideValue) {
+		this.rideValue = rideValue;
 	}
 }

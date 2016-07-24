@@ -169,7 +169,7 @@ public class PurchaseServiceTest {
 		freight = new Freight();
 		freight.setDateCreated(LocalDateTime.now());
 		freight.setLastUpdated(LocalDateTime.now());
-		freight.setValueRide(20.00);
+		freight.setRideValue(20.00);
 		freight.setStartingDate(LocalDate.now().plusDays(2));
 		freight.setStartingTime(LocalTime.now().plusHours(2));
 		
