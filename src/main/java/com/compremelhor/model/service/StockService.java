@@ -2,6 +2,7 @@ package com.compremelhor.model.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -14,24 +15,35 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.StockDao;
+import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.SkuPartner;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
+import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.stock.RemoveExpiredReservesStrategy;
+import com.compremelhor.model.strategy.stock.SafeStockChangeStrategy;
+
 
 @Stateless
-public class StockService extends AbstractService<Stock>{
+public class StockService extends AbstractService<Stock> {
 	private static final long serialVersionUID = 1L;
 	@Inject private StockDao stDao;
 	@Inject private SkuPartnerService skuPartnerService;
+	@Inject private StockReserveService reserveService;
 	
 	@Override
 	protected void setDao() {super.dao = this.stDao;}
 	
 	@Override 
-	protected void setStrategies() {}
+	protected void setStrategies() {
+		List<Strategy<? extends EntityModel>> strategies = new ArrayList<>();
+		strategies.add(new RemoveExpiredReservesStrategy(reserveService));
+		strategies.add(new SafeStockChangeStrategy(reserveService));
+		super.strategies = strategies;
+	}
 	
 	@Lock(LockType.WRITE)
 	public void create(Stock st) throws InvalidEntityException {

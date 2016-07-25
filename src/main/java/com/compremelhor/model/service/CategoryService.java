@@ -23,7 +23,7 @@ public class CategoryService extends AbstractService<Category>{
 	protected void setDao() { super.dao = categoryDao; }
 	@Override 
 	protected void setStrategies() {
-		this.strategies = new ArrayList<Strategy<Category>>();
+		this.strategies = new ArrayList<>();
 		this.strategies.add(new UniqueNameStrategy(categoryDao));
 	}
 	

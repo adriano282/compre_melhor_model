@@ -27,7 +27,7 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 	private Validator validator;	
 
 	protected AbstractDao<T> dao;
-	protected List<Strategy<T>> strategies;
+	protected List<Strategy<? extends EntityModel>> strategies;
 		
 	@PostConstruct
 	void init() {

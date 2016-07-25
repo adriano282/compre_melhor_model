@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.Address;
+import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
@@ -41,7 +42,7 @@ public class UserService extends AbstractService<User>{
 	
 	@Override 
 	protected void setStrategies() {
-		List<Strategy<User>> strategies = new ArrayList<>();
+		List<Strategy<? extends EntityModel>> strategies = new ArrayList<>();
 		strategies.add(new UniqueDocumentStrategy(userDao));
 		strategies.add(new UniqueUsernameStrategy(userDao));
 		strategies.add(new LimitAddressesByAnUserStrategy(userDao));

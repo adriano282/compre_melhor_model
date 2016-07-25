@@ -2,6 +2,7 @@
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/service/UserServiceTest.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/service/PurchaseServiceTest.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/service/PartnerServiceTest.java
+/home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/strategy/stock/RemoveExpiredReservedStocksStrategyTest.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/service/CategoryServiceTest.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/service/StockServiceTest.java
 /home/adriano/Development/workspace/eclipse_projects/compre_melhor_model/src/test/java/com/compremelhor/model/service/ManufacturerServiceTest.java

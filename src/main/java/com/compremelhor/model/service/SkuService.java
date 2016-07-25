@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import com.compremelhor.model.dao.SkuDao;
 import com.compremelhor.model.entity.Category;
+import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.UnknownAttributeException;
@@ -29,7 +30,7 @@ public class SkuService extends AbstractService<Sku> {
 	protected void setDao() { super.dao = this.skuDao;}
 	@Override 
 	protected void setStrategies() {
-		List<Strategy<Sku>> strategies = new ArrayList<>();
+		List<Strategy<? extends EntityModel>> strategies = new ArrayList<>();
 		strategies.add(new UniqueCodeStrategy(skuDao));
 		super.strategies = strategies;
 	}
