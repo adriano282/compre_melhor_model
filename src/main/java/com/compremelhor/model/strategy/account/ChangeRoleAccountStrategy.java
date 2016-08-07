@@ -9,7 +9,9 @@ import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.entity.Role;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.annotations.BeforeServiceAction;
 
+@BeforeServiceAction
 public class ChangeRoleAccountStrategy implements Strategy<Account> {
 	private AccountDao dao;
 	
@@ -18,7 +20,7 @@ public class ChangeRoleAccountStrategy implements Strategy<Account> {
 	}
 	
 	@Override
-	public Status validate(Account t) {
+	public Status process(Account t) {
 		Predicate<Role> isAdmin = role -> 
 		role.getRoleName().equals("admin");
 	

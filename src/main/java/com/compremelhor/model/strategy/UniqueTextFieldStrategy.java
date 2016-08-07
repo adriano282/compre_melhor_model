@@ -17,7 +17,7 @@ public abstract class UniqueTextFieldStrategy<T extends EntityModel> implements 
 	}
 	
 	@Override
-	public Status validate(T t) {
+	public Status process(T t) {
 		HashMap<String, String> errors = new HashMap<>();
 		
 		String methodName = resolveFieldNameToMethodName(lowerCaseFieldName);

@@ -2,6 +2,8 @@ package com.compremelhor.model.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +21,8 @@ public class SyncronizeMobile extends EntityModel {
 	private int mobileUserIdRef;
 	
 	@Column(name = "action")
-	private String action;
+	@Enumerated(EnumType.STRING)
+	private Action action;
 
 	public String getEntityName() {
 		return entityName;
@@ -44,12 +47,16 @@ public class SyncronizeMobile extends EntityModel {
 	public void setMobileUserIdRef(int mobileUserIdRef) {
 		this.mobileUserIdRef = mobileUserIdRef;
 	}
+	
+	public static enum Action {
+		REMOVED, EDITED, CREATED;
+	}
 
-	public String getAction() {
+	public Action getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
+	public void setAction(Action action) {
 		this.action = action;
 	}
 }

@@ -1,6 +1,5 @@
 package com.compremelhor.model.service;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,12 +11,11 @@ import javax.inject.Inject;
 import com.compremelhor.model.dao.AccountDao;
 import com.compremelhor.model.entity.Account;
 import com.compremelhor.model.entity.Role;
-import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.account.ChangeRoleAccountStrategy;
+import com.compremelhor.model.strategy.account.HashingPasswordStrategy;
 import com.compremelhor.model.strategy.account.RemoveAccountStrategy;
 import com.compremelhor.model.strategy.account.UniqueUsernameStrategy;
-import com.compremelhor.model.util.GeneratorPasswordHash;
 
 @Stateless
 public class AccountService extends AbstractService<Account> {	
@@ -32,6 +30,8 @@ public class AccountService extends AbstractService<Account> {
 		strategies = new ArrayList<>();
 		strategies.add(new UniqueUsernameStrategy(dao));
 		strategies.add(new ChangeRoleAccountStrategy(dao));
+		strategies.add(new HashingPasswordStrategy());
+		
 	}
 	
 	public List<Account> findAllByPartnerId(int id, boolean roleEager) {
@@ -51,16 +51,10 @@ public class AccountService extends AbstractService<Account> {
 		RemoveAccountStrategy strategy = new RemoveAccountStrategy(dao);
 
 		Status s = null;
-		if (!(s = strategy.validate(t)).hasErrors())
+		if (!(s = strategy.process(t)).hasErrors())
 			super.remove(t);
 		
 		System.out.println(s.getErrors());
-	}
-	
-	@Override
-	public void create(Account t) throws InvalidEntityException {
-		hashingPassword(t);
-		super.create(t);
 	}
 
 	@Override
@@ -72,19 +66,5 @@ public class AccountService extends AbstractService<Account> {
 			}
 		}
 		return ac;
-	}
-
-	@Override
-	public Account edit(Account t) throws InvalidEntityException {
-		hashingPassword(t);
-		return super.edit(t);
-	}
-	
-	private void hashingPassword(Account t) {
-		if (t != null && t.getPassword() != null && !t.getPassword().isEmpty()) {
-			try {
-				t.setPassword(GeneratorPasswordHash.getHash(t.getPassword()));
-			} catch (NoSuchAlgorithmException e) { System.out.println("Hash Algorithm not found: Not Possible hashing password");}
-		}
 	}
 }

@@ -15,7 +15,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.StockDao;
-import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.entity.Partner;
 import com.compremelhor.model.entity.Sku;
 import com.compremelhor.model.entity.SkuPartner;
@@ -39,7 +38,7 @@ public class StockService extends AbstractService<Stock> {
 	
 	@Override 
 	protected void setStrategies() {
-		List<Strategy<? extends EntityModel>> strategies = new ArrayList<>();
+		List<Strategy<Stock>> strategies = new ArrayList<>();
 		strategies.add(new RemoveExpiredReservesStrategy(reserveService));
 		strategies.add(new SafeStockChangeStrategy(reserveService));
 		super.strategies = strategies;

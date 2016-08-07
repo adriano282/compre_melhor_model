@@ -12,17 +12,20 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.StockReserveDao;
-import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.entity.StockReserve;
+import com.compremelhor.model.entity.SyncronizeMobile;
+import com.compremelhor.model.entity.SyncronizeMobile.Action;
+import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.strategy.Strategy;
-import com.compremelhor.model.strategy.stock.RemoveExpiredReservesStrategy;
-import com.compremelhor.model.strategy.stock.ReserveStockStrategy;
+import com.compremelhor.model.strategy.stockreserve.RemoveExpiredReservesStrategy;
+import com.compremelhor.model.strategy.stockreserve.ReserveStockStrategy;
 
 @Stateless
 public class StockReserveService extends AbstractService<StockReserve> {
 	private static final long serialVersionUID = 1L;
 	
+	@Inject private SyncronizeMobileService changeToSyncService;
 	@Inject private StockReserveDao dao;
 		
 	@Override
@@ -32,7 +35,7 @@ public class StockReserveService extends AbstractService<StockReserve> {
 
 	@Override
 	protected void setStrategies() {
-		List<Strategy<? extends EntityModel>> strategies = new ArrayList<>();
+		List<Strategy<StockReserve>> strategies = new ArrayList<>();
 		strategies.add(new ReserveStockStrategy(this));
 		strategies.add(new RemoveExpiredReservesStrategy(this));
 		super.strategies = strategies;
@@ -64,5 +67,50 @@ public class StockReserveService extends AbstractService<StockReserve> {
 		return stream
 				.mapToDouble(r -> r.getReservedQuantity())
 				.sum();
+	}
+
+	@Override
+	public void create(StockReserve t) throws InvalidEntityException {
+		try {
+//			registerChangeToSync(t, Action.CREATED);
+			super.create(t);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public StockReserve edit(StockReserve t) throws InvalidEntityException {
+		try {
+			registerChangeToSync(t, Action.EDITED);
+			return super.edit(t);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	@Override
+	public void remove(StockReserve t) {
+		try {
+			registerChangeToSync(t, Action.REMOVED);
+			super.remove(t);
+
+		} catch (Exception e) {
+			System.out.println("StockReserveService.remove(StockReserve): " + e.getMessage());
+		}
+		
+	}
+	
+	private void registerChangeToSync(StockReserve t, Action action) throws InvalidEntityException {
+		SyncronizeMobile changeEntry = new SyncronizeMobile();
+		changeEntry.setAction(action);
+		changeEntry.setEntityId(t.getId());
+		changeEntry.setEntityName("purchaseLine");
+		
+		if (t.getPurchase() != null
+				&& t.getPurchase().getUser() != null)
+		changeEntry.setMobileUserIdRef(t.getPurchase().getUser().getId());
+		
+		changeToSyncService.create(changeEntry);		
 	}
 }

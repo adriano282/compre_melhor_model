@@ -16,6 +16,7 @@ import com.compremelhor.model.exception.UnknownAttributeException;
 
 public class FreightService extends AbstractService<Freight>{
 	
+	private static final long serialVersionUID = 1L;
 	@Inject	private FreightDao freightDao;
 	
 	@Override

@@ -42,13 +42,13 @@ public class PartnerService extends AbstractService<Partner>{
 			throw new PartnerNotFoundException(partnerId);
 		}
 		address.setPartner(p);
-		validate(address, PartnerAddress.class);
+		process(address, PartnerAddress.class);
 		p.getAddresses().add(address);
 		edit(p);
 	}
 	
 	public Address editAddress(Address address) throws InvalidEntityException {
-		validate(address, PartnerAddress.class);
+		process(address, PartnerAddress.class);
 		return addressDao.edit(address);
 	}
 	

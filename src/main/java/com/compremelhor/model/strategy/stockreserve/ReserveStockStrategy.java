@@ -1,4 +1,4 @@
-package com.compremelhor.model.strategy.stock;
+package com.compremelhor.model.strategy.stockreserve;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,11 @@ import com.compremelhor.model.entity.StockReserve;
 import com.compremelhor.model.service.StockReserveService;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.annotations.OnCreateServiceAction;
+import com.compremelhor.model.strategy.annotations.OnEditServiceAction;
 
+@OnCreateServiceAction
+@OnEditServiceAction
 public class ReserveStockStrategy implements Strategy<StockReserve> {
 	
 	private StockReserveService reserveService;
@@ -17,7 +21,7 @@ public class ReserveStockStrategy implements Strategy<StockReserve> {
 	}
 	
 	@Override
-	public Status validate(StockReserve t) {
+	public Status process(StockReserve t) {
 		Status status = new Status();
 		
 		if (t == null) {

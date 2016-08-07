@@ -10,8 +10,7 @@ import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.User;
 
 public class AddressService extends AbstractService<Address>{
-	
-	
+	private static final long serialVersionUID = 1L;
 	@Inject private AddressDao dao;
 
 	@Override

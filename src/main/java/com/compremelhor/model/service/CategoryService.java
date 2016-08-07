@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import com.compremelhor.model.dao.CategoryDao;
 import com.compremelhor.model.entity.Category;
 import com.compremelhor.model.exception.InvalidEntityException;
-import com.compremelhor.model.strategy.Strategy;
 import com.compremelhor.model.strategy.category.UniqueNameStrategy;
 
 @Stateless

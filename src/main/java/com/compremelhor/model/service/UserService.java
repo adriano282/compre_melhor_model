@@ -12,11 +12,12 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import com.compremelhor.model.dao.UserDao;
 import com.compremelhor.model.entity.Address;
-import com.compremelhor.model.entity.EntityModel;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.exception.InvalidEntityException;
 import com.compremelhor.model.exception.LimitOfAddressesReachedException;
@@ -42,7 +43,7 @@ public class UserService extends AbstractService<User>{
 	
 	@Override 
 	protected void setStrategies() {
-		List<Strategy<? extends EntityModel>> strategies = new ArrayList<>();
+		List<Strategy<User>> strategies = new ArrayList<>();
 		strategies.add(new UniqueDocumentStrategy(userDao));
 		strategies.add(new UniqueUsernameStrategy(userDao));
 		strategies.add(new LimitAddressesByAnUserStrategy(userDao));
@@ -109,16 +110,16 @@ public class UserService extends AbstractService<User>{
 			throw new UserNotFoundException(userId);
 		}
 		
-		validate(u);
+		process(u);
 		
 		address.setUser(u);
-		validate(address, UserAddress.class);
+		process(address, UserAddress.class);
 		u.getAddresses().add(address);
 		edit(u);		
 	}
 	
 	public Address editAddress(Address address) throws InvalidEntityException {
-		validate(address, UserAddress.class);
+		process(address, UserAddress.class);
 		return addressService.edit(address);
 	}
 	

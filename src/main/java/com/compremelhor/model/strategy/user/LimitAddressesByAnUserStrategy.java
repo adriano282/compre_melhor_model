@@ -9,14 +9,18 @@ import com.compremelhor.model.entity.Address;
 import com.compremelhor.model.entity.User;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.annotations.OnCreateServiceAction;
+import com.compremelhor.model.strategy.annotations.OnEditServiceAction;
 
+@OnCreateServiceAction
+@OnEditServiceAction
 public class LimitAddressesByAnUserStrategy implements Strategy<User>{
 	private UserDao dao;
 	
 	public LimitAddressesByAnUserStrategy(UserDao dao) { this.dao = dao;}
 	
 	@Override
-	public Status validate(User t) {
+	public Status process(User t) {
 		User u = dao.find(t.getId());
 		
 		if (u == null) return new Status();

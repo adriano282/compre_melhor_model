@@ -7,7 +7,11 @@ import com.compremelhor.model.entity.Stock;
 import com.compremelhor.model.service.StockReserveService;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
+import com.compremelhor.model.strategy.annotations.OnCreateServiceAction;
+import com.compremelhor.model.strategy.annotations.OnEditServiceAction;
 
+@OnCreateServiceAction
+@OnEditServiceAction
 public class SafeStockChangeStrategy implements Strategy<Stock> {
 
 	private StockReserveService reserveService;
@@ -17,7 +21,7 @@ public class SafeStockChangeStrategy implements Strategy<Stock> {
 	}
 	
 	@Override
-	public Status validate(Stock t) {
+	public Status process(Stock t) {
 		Status status = new Status();
 		Map<String, Object> params = new HashMap<>();
 		params.put("stock.id", t.getId());

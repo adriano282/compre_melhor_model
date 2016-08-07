@@ -42,8 +42,15 @@ public class PurchaseLineService extends AbstractService<PurchaseLine>{
 	}
 	
 	private void unreserveStock(PurchaseLine t) {
+		if (t.getPurchase() == null) { 
+			throw new IllegalArgumentException("PurchaseLineService.unreserveStock(PurchaseLine): purchaseLine.getPurchase() returned null."); }
+
+		if (t.getStock() == null) { 
+			throw new IllegalArgumentException("PurchaseLineService.unreserveStock(PurchaseLine): purchaseLine.getStock() returned null."); }
+		
 		Map<String, Object> params = new HashMap<>();
 		params.put("purchase.id", t.getPurchase().getId());
+		params.put("stock.id", t.getStock().getId());
 		
 		StockReserve reserve = null;
 		
@@ -63,6 +70,7 @@ public class PurchaseLineService extends AbstractService<PurchaseLine>{
 	public PurchaseLine edit(PurchaseLine t) throws InvalidEntityException {
 		Map<String, Object> params = new HashMap<>();
 		params.put("purchase.id", t.getPurchase().getId());
+		params.put("stock.id", t.getStock().getId());
 		
 		StockReserve reserve = null;
 		try {
@@ -77,7 +85,6 @@ public class PurchaseLineService extends AbstractService<PurchaseLine>{
 	}
 	
 	@Override
-	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void remove(PurchaseLine t) {
 		unreserveStock(t);
 		super.remove(t);

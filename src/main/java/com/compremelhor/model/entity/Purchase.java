@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Purchase extends EntityModel {
 	private static final long serialVersionUID = 1L;
 		
-	@JsonIgnore
-	@Version private int version;
+//	@JsonIgnore
+//	@Version private int version;
 	
 	@Column(name = "total_value")
 	@NotNull
@@ -38,7 +37,7 @@ public class Purchase extends EntityModel {
 	@NotNull
 	private User user;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "purchase")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "purchase")
 	@JsonIgnore
 	private Set<PurchaseLine> lines;
 	
@@ -81,7 +80,9 @@ public class Purchase extends EntityModel {
 		OPENED,					// When the purchase is opened on client virtual cart 
 		PAID, 					// When the purchase is closed and have already been paid
 		PURCHASE_SEPARATED,		// When the purchaes's items are separated for shipping 
-		SHIPPED 				// When the purchase is shipped for client address
+		SHIPPED, 				// When the purchase is shipped for client address
+		
+		STARTED_TRANSACTION		// This status is for starting the process of closing purchase
 	}
 
 	public Freight getFreight() {
