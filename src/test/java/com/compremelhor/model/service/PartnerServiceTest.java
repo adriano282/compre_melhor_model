@@ -35,6 +35,7 @@ import com.compremelhor.model.strategy.user.UniqueUsernameStrategy;
 import com.compremelhor.model.util.LoggerProducer;
 import com.compremelhor.model.validation.groups.PartnerAddress;
 
+@SuppressWarnings("deprecation")
 @RunWith(Arquillian.class)
 public class PartnerServiceTest {
 	

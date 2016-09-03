@@ -54,7 +54,7 @@ public class RemoveExpiredReservedStocksStrategyTest extends RemoveExpiredReserv
 	@Test
 	public void test() {
 		System.out.println("Run @Test");
-		assertEquals(result, target.isExpired(date));
+		assertEquals(result, RemoveExpiredReservesStrategy.isExpired(date));
 	}
 
 }

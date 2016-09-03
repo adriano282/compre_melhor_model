@@ -124,27 +124,27 @@ public abstract class AbstractService<T extends EntityModel> implements Serializ
 		return dao.find(id, fetches);
 	}
 
-//	protected void process(Object t) throws InvalidEntityException {
-//		Set<ConstraintViolation<Object>> errors = validator.validate(t);
-//		if (errors.size() > 0) {
-//			throw new InvalidEntityException(
-//					errors.stream()
-//						.map(c -> c.getMessage().toString().concat("#"))
-//						.collect(Collectors.joining()));
-//		}
-//	}
+	protected void process(Object t) throws InvalidEntityException {
+		Set<ConstraintViolation<Object>> errors = validator.validate(t);
+		if (errors.size() > 0) {
+			throw new InvalidEntityException(
+					errors.stream()
+						.map(c -> c.getMessage().toString().concat("#"))
+						.collect(Collectors.joining()));
+		}
+	}
 	
 	@SuppressWarnings("unchecked")
 	protected void process(T t, Class<? extends Annotation> ... annotations) throws InvalidEntityException {
 		
-//		Set<ConstraintViolation<T>> errors = validator.validate(t);
-//		if (errors.size() > 0) {
-//			throw new InvalidEntityException(
-//					errors.stream()
-//						.map(c -> c.getMessage().toString().concat("#"))
-//						.collect(Collectors.joining()));
-//		}
-//		
+		Set<ConstraintViolation<T>> errors = validator.validate(t);
+		if (errors.size() > 0) {
+			throw new InvalidEntityException(
+					errors.stream()
+						.map(c -> c.getMessage().toString().concat("#"))
+						.collect(Collectors.joining()));
+		}
+		
 		runOverStrategies(t, annotations);
 	}
 	

@@ -49,7 +49,7 @@ public class StockReserveService extends AbstractService<StockReserve> {
 			throw new IllegalArgumentException("StockReserveService.getAvailableStockQuantity(Stock): Stock Quantity mustn't be null.");
 		
 		Map<String, Object> params = new HashMap<>();
-		params.put("id", stock.getId());
+		params.put("stock.id", stock.getId());
 
 		double sumReservedStock = getSum(dao.findAll(params).stream(), reserveIdsToIgnore);
 		

@@ -21,7 +21,6 @@ public class Account extends EntityModel {
 	@Column(name = "username")
 	private String username;
 	
-	@Size(max = 20)
 	@NotNull(message = "Senha não informada.")
 	@Column(name = "password")
 	private String password;

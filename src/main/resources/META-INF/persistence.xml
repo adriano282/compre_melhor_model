@@ -20,7 +20,7 @@
 		<class>com.compremelhor.model.entity.PurchaseLog</class>
 		<class>com.compremelhor.model.entity.FreightType</class>
 		<class>com.compremelhor.model.entity.SyncronizeMobile</class>
-		<class>com.compremelhor.model.entity.StockReserve</class>		
+		<class>com.compremelhor.model.entity.StockReserve</class>	
 							  		  
   		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

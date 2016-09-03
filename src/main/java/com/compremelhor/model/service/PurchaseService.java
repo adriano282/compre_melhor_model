@@ -45,7 +45,7 @@ public class PurchaseService extends AbstractService<Purchase> {
 	protected void setStrategies() {
 		List<Strategy<Purchase>> strategies = new ArrayList<>();
 		strategies.add(new RegisterPurchaseLogStrategy(purchaseLogService));
-		strategies.add(new RemoveAllExpiredReservesStrategy(stockReserveService, purchaseService, purchaseLineService));
+		strategies.add(new RemoveAllExpiredReservesStrategy(stockReserveService, purchaseLineService));
 		strategies.add(new ComputeItemsWithReservesStrategy(stockReserveService, purchaseService, syncronizeMobileService));
 		strategies.add(new ComputeStocksWithReserves(stockReserveService, stockService, reserveDao, purchaseService));
 		

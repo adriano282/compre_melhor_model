@@ -26,9 +26,7 @@ public class SafeStockChangeStrategy implements Strategy<Stock> {
 		Map<String, Object> params = new HashMap<>();
 		params.put("stock.id", t.getId());
 		
-		Double sumReservedStock = reserveService.getAvailableStockQuantity(t);
-		
-		if (t.getQuantity() < sumReservedStock) {
+		if (reserveService.getAvailableStockQuantity(t) < 0) {
 			Map<String, String> errors = new HashMap<>();
 			errors.put("quantity", "stock.quantity.not.enough.for.reserves");
 			status.setErrors(errors);

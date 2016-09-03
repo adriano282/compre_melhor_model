@@ -70,6 +70,7 @@ public abstract class AbstractDao<T extends Serializable> implements Serializabl
 			if (k.contains(".")) {
 				String segment = k.substring(0, k.indexOf("."));
 				String rest = k.substring(k.indexOf(".") + 1);
+				@SuppressWarnings("rawtypes")
 				Path path = usr.get(segment);
 				
 				do {

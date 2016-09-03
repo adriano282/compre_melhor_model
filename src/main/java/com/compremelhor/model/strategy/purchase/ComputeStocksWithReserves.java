@@ -51,7 +51,7 @@ public class ComputeStocksWithReserves implements Strategy<Purchase> {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public Status process(Purchase p) {
 		if (p == null) return status;
-		
+
 		if (p.getStatus() != Purchase.Status.PAID)
 			return status;
 		
@@ -60,14 +60,16 @@ public class ComputeStocksWithReserves implements Strategy<Purchase> {
 			
 			
 			Stream<PurchaseLine> lines = purchaseService.getPurchaseLinesStream(p);
-			if (reserves != null && 
-					lines != null)
-			if (reserves.size() < lines.count()) {
+			if (reserves != null 
+					&&	lines != null 
+					&& reserves.size() < lines.count()) {
 				errors.put("purchase", "purchase.expired.items");
 				status.setErrors(errors);
 				System.out.println(this.getClass().getSimpleName() + ".validate(Purchase): purchase.expired.items");
 				return status;
 			}
+			
+
 			
 			for (StockReserve reserve : reserves) {
 				Stock st = stockService.find(reserve.getStock().getId());
@@ -87,7 +89,7 @@ public class ComputeStocksWithReserves implements Strategy<Purchase> {
 			
 		} catch (InvalidEntityException e) {
 			System.out.println(this.getClass().getSimpleName() + ".validate(Purchase): Error while trying upgrade stocks");
-			errors.put("purchase", "internal.server.error");
+			errors.put("purchase", e.getMessage());
 			status.setErrors(errors);
 		}
 		System.out.println("COMPUTE STOCKS WITH RESERVES");

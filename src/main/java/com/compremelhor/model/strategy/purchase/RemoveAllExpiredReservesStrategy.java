@@ -12,7 +12,6 @@ import com.compremelhor.model.entity.PurchaseLine;
 import com.compremelhor.model.entity.StockReserve;
 import com.compremelhor.model.exception.UnknownAttributeException;
 import com.compremelhor.model.service.PurchaseLineService;
-import com.compremelhor.model.service.PurchaseService;
 import com.compremelhor.model.service.StockReserveService;
 import com.compremelhor.model.strategy.Status;
 import com.compremelhor.model.strategy.Strategy;
@@ -25,12 +24,10 @@ import com.compremelhor.model.strategy.stock.AbstractRemoveExpiredReservesStrate
 public class RemoveAllExpiredReservesStrategy implements Strategy<Purchase>{
 
 	private StockReserveService reserveService;
-	private PurchaseService purchaseService;
 	private PurchaseLineService lineService;
 	
-	public RemoveAllExpiredReservesStrategy(StockReserveService reserveService, PurchaseService purchaseService, PurchaseLineService purchaseLineService) {
+	public RemoveAllExpiredReservesStrategy(StockReserveService reserveService, PurchaseLineService purchaseLineService) {
 		this.reserveService = reserveService;
-		this.purchaseService = purchaseService;
 		this.lineService = purchaseLineService;
 	}
 
