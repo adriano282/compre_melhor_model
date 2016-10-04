@@ -61,7 +61,6 @@ public class RemoveAllExpiredReservesStrategy implements Strategy<Purchase>{
 					for (StockReserve s : stockReserves) {
 						if (AbstractRemoveExpiredReservesStrategy.isExpired(s.getDateCreated())) {
 							reserveService.remove(s);
-							System.out.println("Removed Reserve: " + s);
 						}
 					}
 				}
@@ -71,7 +70,6 @@ public class RemoveAllExpiredReservesStrategy implements Strategy<Purchase>{
 				e.printStackTrace();
 			}
 		}
-		System.out.println("REMOVED ALL EXPIRED");
 		return new Status();
 	}
 }
