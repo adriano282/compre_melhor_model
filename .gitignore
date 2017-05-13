@@ -4,5 +4,5 @@
 *.rar
 *.gzip
 *.properties
-
-/target/
+*.gitignore
+*/target/*
