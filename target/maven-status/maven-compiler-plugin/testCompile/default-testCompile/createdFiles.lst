@@ -1,9 +1,0 @@
-com/compremelhor/model/service/TestingServices.class
-com/compremelhor/model/service/StockServiceTest.class
-com/compremelhor/model/util/ArquillianWarnUtils.class
-com/compremelhor/model/service/AccountServiceTest.class
-com/compremelhor/model/service/PartnerServiceTest.class
-com/compremelhor/model/service/PurchaseServiceTest.class
-com/compremelhor/model/service/ManufacturerServiceTest.class
-com/compremelhor/model/service/SkuServiceTest.class
-com/compremelhor/model/service/UserServiceTest.class
